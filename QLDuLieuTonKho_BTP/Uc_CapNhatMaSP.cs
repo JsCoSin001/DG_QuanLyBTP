@@ -6,10 +6,11 @@ using System.Data;
 using System.Diagnostics;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static QLDuLieuTonKho_BTP.Helper;
 
 namespace QLDuLieuTonKho_BTP
 {
-    public partial class Uc_CapNhatMaSP : UserControl
+    public partial class Uc_CapNhatMaSP : UserControl, ICustomUserControl
     {
 
         public string URL;
@@ -26,6 +27,8 @@ namespace QLDuLieuTonKho_BTP
             URL = url;
             DatabaseHelper.SetDatabasePath(url);
         }
+
+        public Uc_CapNhatMaSP(){}
 
 
         private void Form1_Load(object sender, EventArgs e)

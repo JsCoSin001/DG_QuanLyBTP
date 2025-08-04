@@ -20,5 +20,6 @@ namespace QLDuLieuTonKho_BTP
         {
             grDataViewer.DataSource = dt;
         }
+        
     }
 }

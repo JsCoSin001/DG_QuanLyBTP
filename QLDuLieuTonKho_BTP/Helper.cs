@@ -255,29 +255,33 @@ namespace QLDuLieuTonKho_BTP
             Helper.FillKhoiLuongVaIDBen(resultTable, idBen, klTruocBoc);
         }
 
-
-        public static Form ShowLoading(UserControl uc)
+        public static Uc_ShowData LoadUserControlsWithData<T>(
+            Panel pnLeft,
+            Panel pnRight,
+            out T leftControl,
+            Action<DataTable> onDataReadyCallback,
+            params object[] constructorArgs
+        ) where T : UserControl, ICustomUserControl
         {
-            Form f = new Form
-            {
-                FormBorderStyle = FormBorderStyle.None,
-                StartPosition = FormStartPosition.CenterScreen,
-                ShowInTaskbar = false,
-                ControlBox = false,
-                TopMost = true,
-                Width = uc.Width,
-                Height = uc.Height
-            };
+            leftControl = (T)Activator.CreateInstance(typeof(T), constructorArgs);
+            var rightControl = new Uc_ShowData();
 
-            f.Controls.Add(uc);
-            uc.Dock = DockStyle.Fill;
+            pnLeft.Width = leftControl.Width;
+            pnLeft.Height = leftControl.Height;
 
-            // Chạy ShowDialog trên thread mới
-            Task.Run(() => f.ShowDialog());
+            leftControl.OnDataReady += onDataReadyCallback;
 
-            return f; // Trả về để sau này có thể gọi Close() khi xử lý xong
+            LoadUserControl(leftControl, pnLeft);
+            LoadUserControl(rightControl, pnRight);
+
+            return rightControl;
         }
 
+
+        public interface ICustomUserControl
+        {
+            event Action<DataTable> OnDataReady;
+        }
 
 
 

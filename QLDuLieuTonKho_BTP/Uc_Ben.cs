@@ -1,4 +1,7 @@
-﻿using System;
+﻿using QLDuLieuTonKho_BTP.Data;
+using QLDuLieuTonKho_BTP.Models;
+using QLDuLieuTonKho_BTP.Validate;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -10,17 +13,17 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using QLDuLieuTonKho_BTP.Data;
-using QLDuLieuTonKho_BTP.Models;
-using QLDuLieuTonKho_BTP.Validate;
+using static QLDuLieuTonKho_BTP.Helper;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace QLDuLieuTonKho_BTP
 {
 
-    public partial class Uc_Ben : UserControl
+    public partial class Uc_Ben : UserControl, ICustomUserControl
     {
         private string _url;
+
+        public event Action<DataTable> OnDataReady;
 
         public Uc_Ben(string url)
         {
@@ -32,6 +35,16 @@ namespace QLDuLieuTonKho_BTP
 
             // Cấu hình timer
             timer1.Interval = 300;
+        }
+
+
+        public Uc_Ben() { }
+
+
+        public void LoadDanhSachMay(string[] dsMay)
+        {
+            may.Items.Clear();
+            may.Items.AddRange(dsMay);
         }
 
 
@@ -112,6 +125,7 @@ namespace QLDuLieuTonKho_BTP
             }
         }
 
+
         private void ResetController()
         {
             ngay.Value = DateTime.Now;
@@ -138,9 +152,8 @@ namespace QLDuLieuTonKho_BTP
         private void Ben_Load(object sender, EventArgs e)
         {
             _url = Properties.Settings.Default.URL;
-            //URL.CheckFile(_url, this);
-            url.Text = _url;
             dateReport.Value = DateTime.Now;
+
         }
 
         // Sự kiện khi người dùng thay đổi URL
@@ -165,7 +178,7 @@ namespace QLDuLieuTonKho_BTP
                 tenSP.Items.Clear();
                 return;
             }
-            string query = "SELECT ID, Ma, Ten FROM DanhSachMaSP WHERE KieuSP = 'BTP' AND Ten LIKE '%' || @search || '%' LIMIT 20";
+            string query = "SELECT ID, Ma, Ten FROM DanhSachMaSP WHERE KieuSP = '"+ TypeOfProduct +"' AND Ten LIKE '%' || @search || '%' LIMIT 20";
 
             List<ProductModel> names = DatabaseHelper.GetProductNamesAndPartNumber(query, keyword);
 
@@ -177,6 +190,7 @@ namespace QLDuLieuTonKho_BTP
             timer1.Stop();
             timer1.Start();
         }
+        public string TypeOfProduct { get; set; }
 
         private void tbShowDL_Click(object sender, EventArgs e)
         {
@@ -233,38 +247,6 @@ namespace QLDuLieuTonKho_BTP
 
         }
 
-        private void showReport_Click(object sender, EventArgs e)
-        {
-            string dateRP = dateReport.Value.Date.ToString("yyyy-MM");
-
-            string query = @"
-                SELECT 
-                    DL_CD_Ben.ID,
-                    DL_CD_Ben.Ngay,
-                    TonKho.Lot as LOT,
-                    DL_CD_Ben.Ca,
-                    DL_CD_Ben.NguoiLam,
-                    DanhSachMaSP.Ma,
-                    DanhSachMaSP.Ten,
-                    TonKho.KhoiLuongDauVao,
-                    TonKho.KhoiLuongConLai,
-                    TonKho.HanNoi,
-                    TonKho.ChieuDai,
-                    DL_CD_Ben.SoMay,
-                    DL_CD_Ben.GhiChu
-                FROM DL_CD_Ben
-                JOIN TonKho ON DL_CD_Ben.TonKho_ID = TonKho.ID
-                JOIN DanhSachMaSP ON TonKho.MaSP_ID = DanhSachMaSP.ID
-                WHERE strftime('%Y-%m', DL_CD_Ben.Ngay) = @Ngay
-                ORDER BY DL_CD_Ben.Ngay DESC;
-            ";
-
-
-            Helper.LoadDlCdBenByDate(showData, dateRP, query);
-
-
-        }
-
 
         private void may_SelectedIndexChanged(object sender, EventArgs e)
         {
@@ -294,6 +276,38 @@ namespace QLDuLieuTonKho_BTP
         private void btnNhapLai_Click(object sender, EventArgs e)
         {
             ResetController();
+        }
+
+        private void showReport_Click(object sender, EventArgs e)
+        {
+            string dateRP = dateReport.Value.Date.ToString("yyyy-MM");
+
+            string query = @"
+                    SELECT 
+                        DL_CD_Ben.ID,
+                        DL_CD_Ben.Ngay,
+                        TonKho.Lot as LOT,
+                        DL_CD_Ben.Ca,
+                        DL_CD_Ben.NguoiLam,
+                        DanhSachMaSP.Ma,
+                        DanhSachMaSP.Ten,
+                        TonKho.KhoiLuongDauVao,
+                        TonKho.KhoiLuongConLai,
+                        TonKho.HanNoi,
+                        TonKho.ChieuDai,
+                        DL_CD_Ben.SoMay,
+                        DL_CD_Ben.GhiChu
+                    FROM DL_CD_Ben
+                    JOIN TonKho ON DL_CD_Ben.TonKho_ID = TonKho.ID
+                    JOIN DanhSachMaSP ON TonKho.MaSP_ID = DanhSachMaSP.ID
+                    WHERE strftime('%Y-%m', DL_CD_Ben.Ngay) = @Ngay
+                    ORDER BY DL_CD_Ben.Ngay DESC;
+                ";
+
+
+            DataTable table = DatabaseHelper.GetDataByDate(dateRP, query);            
+
+            OnDataReady?.Invoke(table);
         }
     }
 }

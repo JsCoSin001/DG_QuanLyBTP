@@ -14,7 +14,9 @@ namespace QLDuLieuTonKho_BTP
     public partial class Main : Form
     {
         private string _url;
-        private string _sign = "Designed and developed by Linh";
+        private string _sign = "© 2025 - Made by Linh";
+
+        private Uc_ShowData ucShowData;
         public Main()
         {
             InitializeComponent();
@@ -47,31 +49,97 @@ namespace QLDuLieuTonKho_BTP
             Application.Restart();
         }
 
-        private void btnBen_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private Uc_CapNhatMaSP ucCapNhatMaSP;
-        private Uc_ShowData ucShowData;
-
         private void btnCapNhatMaSP_Click(object sender, EventArgs e)
         {
 
-            ucCapNhatMaSP = new Uc_CapNhatMaSP(_url);
-            ucShowData = new Uc_ShowData();
 
-            // Đăng ký sự kiện: khi UserControl1 gửi dữ liệu → chuyển cho UserControl2
-            ucCapNhatMaSP.OnDataReady += UcCapNhatMaSP_OnDataReady;
+            ucShowData = Helper.LoadUserControlsWithData<Uc_CapNhatMaSP>(
+                pnLeft,
+                pnRight,
+                out var ucCapNhatMaSP,
+                dt => ucShowData.SetData(dt),
+                _url
+            );
+        }
 
-            // Hiển thị
-            Helper.LoadUserControl(ucCapNhatMaSP, pnLeft);
-            Helper.LoadUserControl(ucShowData, pnRight);
+        private void btnBen_Click(object sender, EventArgs e)
+        {
+            string[] dsMay = new[]
+            {
+                "B1", "B2", "B3", "B4", "B5", "B6", "B7", "B8", "B9", "B10",
+                "B11", "B12", "B13", "B14", "B15", "B16",
+                "R6", "R10", "R12"
+            };
+
+            ucShowData = Helper.LoadUserControlsWithData<Uc_Ben>(
+                pnLeft,
+                pnRight,
+                out var ucBen,
+                dt => ucShowData.SetData(dt),
+                _url
+            );
+
+            ucBen.LoadDanhSachMay(dsMay);
+            ucBen.TypeOfProduct = "BTP";
+        }
+
+
+        private void btnBocMach_Click(object sender, EventArgs e)
+        {
+            string[] dsMay = new[]
+            {
+                "E1", "E2", "E3", "E4", "E5", "E6", "E7", "E8", "E9", "E10",
+                "E11", "E12", "E13", "E14", "E15"
+            };
+
+            ucShowData = Helper.LoadUserControlsWithData<Uc_Boc>(
+                pnLeft,
+                pnRight,
+                out var ucBoc,
+                dt => ucShowData.SetData(dt),
+                _url, dsMay
+            );
+            ucBoc.LoadDanhSachMay(dsMay);
+            ucBoc.TypeOfProduct = "BTP";
+        }
+
+        private void btnQuanMica_Click(object sender, EventArgs e)
+        {
+            string[] dsMay = new[]
+            {
+                "T3", "T4", "T5", "T6"
+            };
+
+            ucShowData = Helper.LoadUserControlsWithData<Uc_Boc>(
+                pnLeft,
+                pnRight,
+                out var ucBoc,
+                dt => ucShowData.SetData(dt),
+                _url, dsMay
+            );
+            ucBoc.LoadDanhSachMay(dsMay);
+            ucBoc.TypeOfProduct = "BTP";
 
         }
-        private void UcCapNhatMaSP_OnDataReady(DataTable dt)
+
+        private void btnBocVo_Click(object sender, EventArgs e)
         {
-            ucShowData.SetData(dt);
+            
+            string[] dsMay = new[]
+            {
+                "E1", "E2", "E3", "E4", "E5", "E6", "E7", "E8", "E9", "E10",
+                "E11", "E12", "E13", "E14", "E15"
+            };
+
+            ucShowData = Helper.LoadUserControlsWithData<Uc_Boc>(
+                pnLeft,
+                pnRight,
+                out var ucBoc,
+                dt => ucShowData.SetData(dt),
+                _url, dsMay
+            );
+            ucBoc.LoadDanhSachMay(dsMay);
+            ucBoc.TypeOfProduct = "TP";
         }
     }
 }

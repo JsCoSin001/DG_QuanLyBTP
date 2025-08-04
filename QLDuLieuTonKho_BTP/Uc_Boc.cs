@@ -14,30 +14,45 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static QLDuLieuTonKho_BTP.Helper;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.Menu;
 
 namespace QLDuLieuTonKho_BTP
 {
 
-    public partial class Uc_Boc : UserControl
+    public partial class Uc_Boc : UserControl, ICustomUserControl
     {
 
         private string _url;
         bool isProgrammaticChange = true;
+        private string[] _dsMay;
 
-        public Uc_Boc(string url)
+        public event Action<DataTable> OnDataReady;
+
+        public Uc_Boc(string url, string[] dsMay)
         {
 
             InitializeComponent();
 
             _url = url;
+            _dsMay = dsMay;
+
             DatabaseHelper.SetDatabasePath(url);
 
             // Cấu hình timer
             timer1.Interval = 300;
         }
 
+        public Uc_Boc() { }
+
+        public void LoadDanhSachMay(string[] dsMay)
+        {
+            may.Items.Clear();
+            may.Items.AddRange(dsMay);
+        }
+
+        public string TypeOfProduct { get; set; }
 
         private void tbLuu_Click(object sender, EventArgs e)
         {
@@ -172,25 +187,17 @@ namespace QLDuLieuTonKho_BTP
             stt.Value = 0;
         }
 
-        private void Ben_Load(object sender, EventArgs e)
+        private void Boc_Load(object sender, EventArgs e)
         {
-            _url = Properties.Settings.Default.URL;
-            //URL.CheckFile(_url, this);
-            url.Text = _url;
             dateReport.Value = DateTime.Now;
         }
 
-        // Sự kiện khi người dùng thay đổi URL
         private void timer1_Tick(object sender, EventArgs e)
         {
             timer1.Stop(); // Ngừng timer để tránh gọi lại liên tục            
             LoadAutoCompleteData(tenSP.Text);
         }
 
-        /// <summary>
-        /// Hàm này sẽ tải dữ liệu tự động hoàn thành cho ComboBox tenSP dựa trên từ khóa nhập vào.
-        /// </summary>
-        /// <param name="keyword"></param>
         private void LoadAutoCompleteData(string keyword)
         {
             // check empty keyword
@@ -212,10 +219,7 @@ namespace QLDuLieuTonKho_BTP
                 return;
             }
 
-            string typeOfProduct = congDoan.SelectedIndex == 2 ? "TP" : "BTP";
-
-
-            string query = "SELECT ID, Ma, Ten FROM DanhSachMaSP WHERE KieuSP = '" + typeOfProduct + "' AND Ten LIKE '%' || @search || '%' LIMIT 20";
+            string query = "SELECT ID, Ma, Ten FROM DanhSachMaSP WHERE KieuSP = '" + TypeOfProduct + "' AND Ten LIKE '%' || @search || '%' LIMIT 20";
 
             List<ProductModel> names = DatabaseHelper.GetProductNamesAndPartNumber(query, keyword);
 
@@ -294,43 +298,7 @@ namespace QLDuLieuTonKho_BTP
             idBen.Value = Convert.ToDecimal(dataRow["cd_ben_id"]);
 
             isProgrammaticChange = true;
-        }
-
-        private void showReport_Click(object sender, EventArgs e)
-        {
-            string dateRP = dateReport.Value.Date.ToString("yyyy-MM");
-
-            string query = @"
-                SELECT 
-                    DL_CD_Boc.ID,
-                    DL_CD_Boc.Ngay,
-                    DL_CD_Boc.NguoiLam,
-                    DanhSachMaSP.Ten as TenSP,
-                    DL_CD_Boc.TenCongDoan as CongDoan,
-                    DL_CD_Boc.Ca,
-                    DL_CD_Boc.SoMay,
-                    DL_CD_Boc.KhoiLuongTruocBoc,
-                    TonKho_Ben.KhoiLuongConLai,
-                    TonKho.ChieuDai,
-                    DL_CD_Boc.KhoiLuongPhe,
-                    DL_CD_Boc.GhiChu
-               FROM 
-                    DL_CD_Boc
-                INNER JOIN 
-                    TonKho ON DL_CD_Boc.TonKho_ID = TonKho.ID
-                INNER JOIN 
-                    DanhSachMaSP ON TonKho.MaSP_ID = DanhSachMaSP.ID
-                LEFT JOIN 
-                    DL_CD_Ben ON DL_CD_Boc.CD_Ben_ID = DL_CD_Ben.ID
-                LEFT JOIN 
-                    TonKho AS TonKho_Ben ON DL_CD_Ben.TonKho_ID = TonKho_Ben.ID
-                WHERE strftime('%Y-%m', DL_CD_Boc.Ngay) = @Ngay
-                ORDER BY DL_CD_Boc.Ngay DESC;
-            ";
-
-            Helper.LoadDlCdBenByDate(showData, dateRP, query);
-        }
-
+        }                
 
         private void may_SelectedIndexChanged(object sender, EventArgs e)
         {
@@ -363,6 +331,44 @@ namespace QLDuLieuTonKho_BTP
         private void button1_Click(object sender, EventArgs e)
         {
             ResetController();
+        }
+
+        private void showReport_Click_1(object sender, EventArgs e)
+        {
+            string dateRP = dateReport.Value.Date.ToString("yyyy-MM");
+
+            string query = @"
+                SELECT 
+                    DL_CD_Boc.ID,
+                    DL_CD_Boc.Ngay,
+                    DL_CD_Boc.NguoiLam,
+                    DanhSachMaSP.Ten as TenSP,
+                    DL_CD_Boc.TenCongDoan as CongDoan,
+                    DL_CD_Boc.Ca,
+                    DL_CD_Boc.SoMay,
+                    DL_CD_Boc.KhoiLuongTruocBoc,
+                    TonKho_Ben.KhoiLuongConLai,
+                    TonKho.ChieuDai,
+                    DL_CD_Boc.KhoiLuongPhe,
+                    DL_CD_Boc.GhiChu
+               FROM 
+                    DL_CD_Boc
+                INNER JOIN 
+                    TonKho ON DL_CD_Boc.TonKho_ID = TonKho.ID
+                INNER JOIN 
+                    DanhSachMaSP ON TonKho.MaSP_ID = DanhSachMaSP.ID
+                LEFT JOIN 
+                    DL_CD_Ben ON DL_CD_Boc.CD_Ben_ID = DL_CD_Ben.ID
+                LEFT JOIN 
+                    TonKho AS TonKho_Ben ON DL_CD_Ben.TonKho_ID = TonKho_Ben.ID
+                WHERE strftime('%Y-%m', DL_CD_Boc.Ngay) = @Ngay
+                ORDER BY DL_CD_Boc.Ngay DESC;
+            ";
+
+
+            DataTable table = DatabaseHelper.GetDataByDate(dateRP, query);
+
+            OnDataReady?.Invoke(table);
         }
     }
 }

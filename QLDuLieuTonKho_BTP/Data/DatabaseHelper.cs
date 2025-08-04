@@ -227,7 +227,6 @@ namespace QLDuLieuTonKho_BTP.Data
             return affectedRows != 0;
         }
 
-
         private static int GetTonKhoIDFromID(SQLiteConnection connection, int id, string table = "Ben")
         {
             using (var command = new SQLiteCommand("SELECT TonKho_ID FROM DL_CD_"+ table +" WHERE ID = @ID", connection))
@@ -341,8 +340,6 @@ namespace QLDuLieuTonKho_BTP.Data
             return results;
         }
 
-
-        //= ==========================================================================
 
         // Lấy danh sách mã sp
         public static DataTable GetDanhSachMaSP( string query)
