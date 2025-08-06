@@ -32,54 +32,7 @@ namespace QLDuLieuTonKho_BTP
 
             return parts[0].ToUpper();
         }
-
-        public static void UpdateComboBox( List<ProductModel> items, ComboBox tbTenSP, TextBox tbMaSP, NumericUpDown idMaSP)
-        {
-            //tbTenSP.DroppedDown = false;
-            tbTenSP.SelectedIndexChanged -= (s, e) => OnComboBoxSelectionChanged(tbTenSP, tbMaSP, idMaSP);
-
-            string currentText = tbTenSP.Text;
-
-            tbTenSP.DataSource = null; // Xóa nguồn dữ liệu cũ (nếu có)
-
-            if (items.Count == 0)
-            {
-                items = new List<ProductModel>
-                        {
-                            new ProductModel { Ma = "Error", Ten="Không tìm thấy" }
-                        };
-
-                tbTenSP.DataSource = items;
-                tbTenSP.DisplayMember = "Ten";      // Hiển thị "Dữ liệu không hợp lệ"
-                tbTenSP.ValueMember = "Ma";         // Value là "Error"
-
-                tbTenSP.SelectedIndex = 0;
-
-                // Gán các giá trị khác nếu cần
-                idMaSP.Value = 0;
-                tbMaSP.Text = "";
-                return;
-
-            }
-
-
-            tbTenSP.DisplayMember = "Ten"; // Hiển thị tên trong ComboBox
-            tbTenSP.ValueMember = "Ma";    // Giá trị bên trong ComboBox là mã (nếu cần dùng)
-            tbTenSP.DataSource = items;
-            tbTenSP.SelectedIndex = -1;
-
-
-            tbTenSP.Text = currentText;
-            tbTenSP.SelectionStart = tbTenSP.Text.Length;
-            tbTenSP.SelectionLength = 0;
-
-            tbTenSP.DroppedDown = true;
-            
-
-            tbTenSP.SelectedIndexChanged += (s, e) => OnComboBoxSelectionChanged(tbTenSP, tbMaSP, idMaSP);
-
-        }
-
+                
         public static string GenerateRandomString(string congDoan, int length = 20)
         {
             const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
@@ -92,16 +45,7 @@ namespace QLDuLieuTonKho_BTP
 
             return DateTime.Now + "-" + congDoan + result;
         }
-
-        private static void OnComboBoxSelectionChanged(ComboBox comboBox, TextBox tbMaSP, NumericUpDown idMaSP)
-        {
-            if (comboBox.SelectedItem is ProductModel selectedProduct)
-            {
-                tbMaSP.Text = selectedProduct.Ma;
-                idMaSP.Text = selectedProduct.ID.ToString();
-            }
-        }
-                
+         
         public static string GetURLDatabase()
         {
             string result = "";
@@ -160,40 +104,6 @@ namespace QLDuLieuTonKho_BTP
             return parts;
 
         }
-
-        //public static void LoadDlCdBenByDate(DataGridView showdata, string ngay, string connectionString)
-        //{
-        //    if (showdata == null) throw new ArgumentNullException(nameof(showdata));
-        //    if (string.IsNullOrWhiteSpace(ngay)) throw new ArgumentException("Giá trị ngày không hợp lệ.", nameof(ngay));
-        //    if (string.IsNullOrWhiteSpace(connectionString)) throw new ArgumentException("Chuỗi kết nối không hợp lệ.", nameof(connectionString));
-
-        //    try
-        //    {
-        //        //var db =  DatabaseHelper (connectionString);
-        //        DataTable dt = DatabaseHelper.GetDataByDate(ngay, connectionString);
-
-        //        void bind()
-        //        {
-        //            showdata.AutoGenerateColumns = true;
-        //            showdata.DataSource = dt;
-
-        //            // Tuỳ chọn hiển thị
-        //            showdata.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
-        //            showdata.ReadOnly = true;
-        //            showdata.AllowUserToAddRows = false;
-        //            showdata.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-        //        }
-
-        //        if (showdata.InvokeRequired)
-        //            showdata.Invoke((Action)bind);
-        //        else
-        //            bind();
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        MessageBox.Show($"Lỗi khi tải dữ liệu: {ex.Message}", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
-        //    }
-        //}
 
         public static DataTable GetKLTruocSX(ComboBox may, NumericUpDown maHT, ComboBox sttCongDoan, NumericUpDown sttBin, NumericUpDown soBin, TextBox lotNumber)
         {
@@ -281,13 +191,7 @@ namespace QLDuLieuTonKho_BTP
             Helper.FillKhoiLuongVaIDBen(resultTable, idBen, klTruocBoc);
         }
 
-        public static Uc_ShowData LoadUserControlsWithData<T>(
-            Panel pnLeft,
-            Panel pnRight,
-            out T leftControl,
-            Action<DataTable> onDataReadyCallback,
-            params object[] constructorArgs
-        ) where T : UserControl, ICustomUserControl
+        public static Uc_ShowData LoadUserControlsWithData<T>(Panel pnLeft,  Panel pnRight, out T leftControl,  Action<DataTable> onDataReadyCallback, params object[] constructorArgs) where T : UserControl, ICustomUserControl
         {
             leftControl = (T)Activator.CreateInstance(typeof(T), constructorArgs);
             var rightControl = new Uc_ShowData();
@@ -303,16 +207,9 @@ namespace QLDuLieuTonKho_BTP
             return rightControl;
         }
 
-
         public interface ICustomUserControl
         {
             event Action<DataTable> OnDataReady;
         }
-
-
-
-
-
-
     }
 }

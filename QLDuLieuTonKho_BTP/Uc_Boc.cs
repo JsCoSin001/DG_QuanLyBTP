@@ -32,6 +32,8 @@ namespace QLDuLieuTonKho_BTP
         private string _callTimer;
 
 
+
+
         public event Action<DataTable> OnDataReady;
 
         public Uc_Boc(string url, string[] dsMay, int sttCongDoan)
@@ -44,8 +46,7 @@ namespace QLDuLieuTonKho_BTP
             congDoan.SelectedIndex = sttCongDoan;
 
             DatabaseHelper.SetDatabasePath(url);
-
-
+            lblTitleForm.Text = ("BÁO cáo công đoạn " + congDoan.Items[sttCongDoan].ToString()).ToUpper();
 
             // Cấu hình timer
             timer1.Interval = 500;
@@ -201,6 +202,22 @@ namespace QLDuLieuTonKho_BTP
             tenSP.Text = "";
         }
 
+        private void ResetController_TimLOT()
+        {
+            may.SelectedIndex = -1;
+            maHT.Value = 0;
+            STTCD.SelectedIndex = -1;
+            sttBin.Value = 0;
+            soBin.Value = 0;
+        }
+
+        private void ResetController_TimTenSP()
+        {            
+            maSP.Text = "";
+            idTenSP.Value = 0;
+            tenSP.Text = "";
+        }
+
         private void Boc_Load(object sender, EventArgs e)
         {
             dateReport.Value = DateTime.Now;
@@ -224,7 +241,7 @@ namespace QLDuLieuTonKho_BTP
 
             if (string.IsNullOrWhiteSpace(keyword))
             {
-                ResetAllController();
+                ResetController_TimLOT();
                 cbTimLot.DroppedDown = false;
                 return;
             }
@@ -259,7 +276,7 @@ namespace QLDuLieuTonKho_BTP
 
         private void cbTimLot_SelectionChangeCommitted(object sender, EventArgs e)
         {
-            ResetAllController();
+            ResetController_TimLOT();
             decimal klcl = 0;
 
 
@@ -309,12 +326,8 @@ namespace QLDuLieuTonKho_BTP
             // check empty keyword
             if (string.IsNullOrWhiteSpace(keyword))
             {
-                idTenSP.Value = 0;
-                maSP.Text = "";
-                congDoan.Text = "";
+                ResetController_TimTenSP();
                 tenSP.DroppedDown = false;
-                //tenSP.DataSource = null;
-                //tenSP.Items.Clear();
                 return;
             }
 
@@ -324,15 +337,12 @@ namespace QLDuLieuTonKho_BTP
 
             int idCongDoan = congDoan.SelectedIndex;
 
-            if (idCongDoan == 0)
-            {
-                query += " AND (Ten LIKE 'CM%') ";
-            }
-            else
-            {
+            if (idCongDoan == 0)            
+                query += " AND (Ten LIKE 'CM%') ";            
+            else            
                 query += " AND (Ten LIKE 'CE%' OR Ten LIKE 'CV%') ";
-
-            }
+            
+            query += " LIMIT 20";
 
             DataTable dslot = DatabaseHelper.GetData(keyword, query, para);
 
@@ -359,7 +369,7 @@ namespace QLDuLieuTonKho_BTP
 
         private void tenSP_SelectionChangeCommitted(object sender, EventArgs e)
         {
-            ResetAllController();
+            ResetController_TimTenSP();
 
             if (tenSP.SelectedItem == null || !(tenSP.SelectedItem is DataRowView)) return;
 
@@ -535,29 +545,7 @@ namespace QLDuLieuTonKho_BTP
             timer1.Start();
         }
 
-        private void tenSP_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            System.Windows.Forms.ComboBox comboBox = sender as System.Windows.Forms.ComboBox;
 
-            if (comboBox?.SelectedItem is ProductModel selectedProduct)
-            {
-                maSP.Text = selectedProduct.Ma;
-                idTenSP.Value = selectedProduct.ID;
-            }
-            else
-            {
-                maSP.Clear();
-                idTenSP.Value = 0;
-            }
-        }
-
-        private void tenSP_TextChanged(object sender, EventArgs e)
-        {
-            Console.WriteLine("tenSP_TextChanged Run ");
-            if (!isTextChangedEvent) return;
-
-            Console.WriteLine("tenSP_TextChanged End ");
-        }
 
         private void cbTimLot_TextUpdate(object sender, EventArgs e)
         {

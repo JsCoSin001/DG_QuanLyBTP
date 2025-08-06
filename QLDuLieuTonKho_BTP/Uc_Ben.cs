@@ -22,8 +22,22 @@ namespace QLDuLieuTonKho_BTP
     public partial class Uc_Ben : UserControl, ICustomUserControl
     {
         private string _url;
+        private string _titleForm;
 
         public event Action<DataTable> OnDataReady;
+
+        public string TypeOfProduct { get; set; }
+        //public string TitleForm { get; set; }
+
+        public string TitleForm
+        {
+            get => _titleForm;
+            set
+            {
+                _titleForm = value;
+                lblTitleForm.Text = value.ToUpper(); // cập nhật label khi gán
+            }
+        }
 
         public Uc_Ben(string url)
         {
@@ -32,6 +46,7 @@ namespace QLDuLieuTonKho_BTP
 
             _url = url;
             DatabaseHelper.SetDatabasePath(url);
+            lblTitleForm.Text = _titleForm;
 
             // Cấu hình timer
             timer1.Interval = 300;
@@ -157,14 +172,14 @@ namespace QLDuLieuTonKho_BTP
         private void timer1_Tick(object sender, EventArgs e)
         {
             timer1.Stop(); // Ngừng timer để tránh gọi lại liên tục            
-            LoadAutoCompleteData(tenSP.Text);
+            LoadAutoCompleteTenSP(tenSP.Text);
         }
 
         /// <summary>
         /// Hàm này sẽ tải dữ liệu tự động hoàn thành cho ComboBox tenSP dựa trên từ khóa nhập vào.
         /// </summary>
         /// <param name="keyword"></param>
-        private void LoadAutoCompleteData(string keyword)
+        private void LoadAutoCompleteTenSP(string keyword)
         {
             // check empty keyword
             if (string.IsNullOrWhiteSpace(keyword))
@@ -229,7 +244,7 @@ namespace QLDuLieuTonKho_BTP
             timer1.Stop();
             timer1.Start();
         }
-        public string TypeOfProduct { get; set; }
+      
 
         private void tbShowDL_Click(object sender, EventArgs e)
         {
@@ -357,5 +372,6 @@ namespace QLDuLieuTonKho_BTP
 
            
         }
+
     }
 }

@@ -116,8 +116,6 @@ namespace QLDuLieuTonKho_BTP.Data
             }
         }
 
-
-
         //=================================================================
         // Cập nhật dữ liệu trong bảng DL_CongDoan và cập nhật lượng TonKho theo ID
         public static Boolean UpdateDL_CDBoc(int bocID, TonKho tonKho, DL_CD_Boc dl)
@@ -413,22 +411,7 @@ namespace QLDuLieuTonKho_BTP.Data
         }
 
         // =================================================================
-        public static string PartNumber_IsRealy(string ma)
-        {
-            string query = $"SELECT ten FROM DanhSachMaSP WHERE Ma = @ma";
-
-            using (var conn = new SQLiteConnection(connStr))
-            {
-                conn.Open();
-                using (var cmd = new SQLiteCommand(query, conn))
-                {
-                    cmd.Parameters.AddWithValue("@ma", ma);
-                    object result = cmd.ExecuteScalar();
-                    return result != null ? result.ToString() : null;
-                }
-            }
-        }
-               
+            
         public static string KtraMaSP(string ma)
         {
             int dotIndex = ma.IndexOf('.');
@@ -443,24 +426,6 @@ namespace QLDuLieuTonKho_BTP.Data
 
             }
             return typeProduct;
-        }
-
-        public static void ShowMessageForSeconds(string message, Label lblMessage, int timeInterval = 5000)
-        {
-            lblMessage.Text = message;
-            lblMessage.Visible = true;
-
-            var timer = new System.Windows.Forms.Timer();
-            timer.Interval = timeInterval;
-
-            timer.Tick += (s, e) =>
-            {
-                lblMessage.Visible = false;
-                timer.Stop();
-                timer.Dispose();
-            };
-
-            timer.Start();
         }
 
 

@@ -79,6 +79,7 @@ namespace QLDuLieuTonKho_BTP
 
             ucBen.LoadDanhSachMay(dsMay);
             ucBen.TypeOfProduct = "BTP";
+            ucBen.TitleForm = "BÁO CÁO CÔNG ĐOẠN BỆN";
         }
 
 
@@ -101,7 +102,7 @@ namespace QLDuLieuTonKho_BTP
             );
             ucBoc.LoadDanhSachMay(dsMay);
             ucBoc.TypeOfProduct = "BTP";
-            //ucBoc.TenCongDoan = tenCongDoan;
+            
         }
 
         private void btnQuanMica_Click(object sender, EventArgs e)

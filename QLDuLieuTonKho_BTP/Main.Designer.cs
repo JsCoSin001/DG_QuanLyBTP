@@ -45,14 +45,14 @@
             this.btnQuanMica = new System.Windows.Forms.Button();
             this.btnBocVo = new System.Windows.Forms.Button();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.btnGopBin = new System.Windows.Forms.Button();
+            this.panel2 = new System.Windows.Forms.Panel();
             this.pnLogo = new System.Windows.Forms.Panel();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.label1 = new System.Windows.Forms.Label();
             this.pnRight = new System.Windows.Forms.Panel();
             this.pnLeft = new System.Windows.Forms.Panel();
-            this.btnGopBin = new System.Windows.Forms.Button();
-            this.panel2 = new System.Windows.Forms.Panel();
             this.pnMainControl.SuspendLayout();
             this.pnCauHinh.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -248,6 +248,27 @@
             this.panel1.Size = new System.Drawing.Size(200, 1);
             this.panel1.TabIndex = 4;
             // 
+            // btnGopBin
+            // 
+            this.btnGopBin.AutoSize = true;
+            this.btnGopBin.Font = new System.Drawing.Font("Tahoma", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnGopBin.Location = new System.Drawing.Point(0, 253);
+            this.btnGopBin.Margin = new System.Windows.Forms.Padding(0, 10, 0, 10);
+            this.btnGopBin.Name = "btnGopBin";
+            this.btnGopBin.Size = new System.Drawing.Size(199, 49);
+            this.btnGopBin.TabIndex = 5;
+            this.btnGopBin.Text = "Công Đoạn Gộp Bin";
+            this.btnGopBin.UseVisualStyleBackColor = true;
+            // 
+            // panel2
+            // 
+            this.panel2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel2.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
+            this.panel2.Location = new System.Drawing.Point(3, 315);
+            this.panel2.Name = "panel2";
+            this.panel2.Size = new System.Drawing.Size(200, 1);
+            this.panel2.TabIndex = 6;
+            // 
             // pnLogo
             // 
             this.pnLogo.Controls.Add(this.tableLayoutPanel1);
@@ -287,7 +308,7 @@
             // label1
             // 
             this.label1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label1.Font = new System.Drawing.Font("Tahoma", 21.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.Font = new System.Drawing.Font("Tahoma", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             this.label1.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.label1.Location = new System.Drawing.Point(58, 0);
@@ -314,27 +335,6 @@
             this.pnLeft.Padding = new System.Windows.Forms.Padding(0, 0, 10, 0);
             this.pnLeft.Size = new System.Drawing.Size(192, 775);
             this.pnLeft.TabIndex = 1;
-            // 
-            // btnGopBin
-            // 
-            this.btnGopBin.AutoSize = true;
-            this.btnGopBin.Font = new System.Drawing.Font("Tahoma", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnGopBin.Location = new System.Drawing.Point(0, 253);
-            this.btnGopBin.Margin = new System.Windows.Forms.Padding(0, 10, 0, 10);
-            this.btnGopBin.Name = "btnGopBin";
-            this.btnGopBin.Size = new System.Drawing.Size(199, 49);
-            this.btnGopBin.TabIndex = 5;
-            this.btnGopBin.Text = "Công Đoạn Gộp Bin";
-            this.btnGopBin.UseVisualStyleBackColor = true;
-            // 
-            // panel2
-            // 
-            this.panel2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.panel2.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.panel2.Location = new System.Drawing.Point(3, 315);
-            this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(200, 1);
-            this.panel2.TabIndex = 6;
             // 
             // Main
             // 
