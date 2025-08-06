@@ -13,11 +13,50 @@ namespace QLDuLieuTonKho_BTP.Data
     public static class DatabaseHelper
     {
         private static string connStr;
+
+        //==========================================================
+        // Thiết lập đường dẫn đến cơ sở dữ liệu SQLite
         public static void SetDatabasePath(string path)
         {
             connStr = $"Data Source={path};Version=3;";
         }
- 
+
+        // Kiểm tra và thêm dữ liệu vào DanhSachMaSP nếu chưa tồn tại
+        public static Boolean InsertSP(string ma, string ten)
+        {
+
+            string typeProduct = KtraMaSP(ma);
+
+            if (typeProduct == "") return false;
+
+            string insertQuery = "INSERT INTO DanhSachMaSP" +
+                         " (Ma, Ten, KieuSP ,DateInsert) VALUES (@ma, @ten, @typeProduct, strftime('%Y-%m-%d', 'now', 'localtime'));";
+            try
+
+            {
+                using (SQLiteConnection conn = new SQLiteConnection(connStr))
+                {
+                    conn.Open();
+                    using (SQLiteCommand cmd = new SQLiteCommand(insertQuery, conn))
+                    {
+                        cmd.Parameters.AddWithValue("@ma", ma);
+                        cmd.Parameters.AddWithValue("@ten", ten);
+                        cmd.Parameters.AddWithValue("@typeProduct", typeProduct);
+                        cmd.ExecuteNonQuery();
+                    }
+                }
+
+                MessageBox.Show("Đã thêm sản phẩm thành công!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return true;
+            }
+            catch (SQLiteException ex)
+            {
+                MessageBox.Show("Lỗi khi ghi vào database:\n" + ex.Message, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return false;
+            }
+        }
+
+        // Thực hiện chèn dữ liệu vào bảng DL_CongDoan và bảng TonKho
         public static Boolean InsertSanPhamTonKhoDL<TTonKho, TDLCongDoan>(TTonKho tonKho, TDLCongDoan dlModel, string table)
         where TTonKho : class
         where TDLCongDoan : class
@@ -52,6 +91,7 @@ namespace QLDuLieuTonKho_BTP.Data
 
         }
 
+        // Thêm dữ liệu vào bảng với tên bảng và mô hình đã cho
         public static void InsertModelToDatabase<T>(T model, string tableName, SQLiteConnection connection, SQLiteTransaction transaction)
         {
             var properties = typeof(T).GetProperties()
@@ -76,6 +116,10 @@ namespace QLDuLieuTonKho_BTP.Data
             }
         }
 
+
+
+        //=================================================================
+        // Cập nhật dữ liệu trong bảng DL_CongDoan và cập nhật lượng TonKho theo ID
         public static Boolean UpdateDL_CDBoc(int bocID, TonKho tonKho, DL_CD_Boc dl)
         {
             Boolean result = false;
@@ -109,6 +153,7 @@ namespace QLDuLieuTonKho_BTP.Data
             return result;
         }
 
+        // Cập nhật dữ liệu trong bảng DL_CD_Ben và cập nhật lượng TonKho theo ID
         public static Boolean UpdateDL_CDBen( int benID, TonKho tonKho, DL_CD_Ben ben)
         {
             Boolean result = true;
@@ -142,6 +187,7 @@ namespace QLDuLieuTonKho_BTP.Data
             return result;
         }
 
+        // Cập nhật dữ liệu trong bảng với tên bảng và mô hình đã cho
         private static Boolean UpdateModelInDatabase<T>(T model, string tableName, string keyColumn, object keyValue, SQLiteConnection connection, SQLiteTransaction transaction)
         {
             try
@@ -174,6 +220,7 @@ namespace QLDuLieuTonKho_BTP.Data
             }            
         }
 
+        // Cập nhật số lượng còn lại thực tế trong bảng TonKho
         public static Boolean UpdateTonKho_SLConLaiThucTe(TonKho tk)
         {
             Boolean result = true;
@@ -202,6 +249,7 @@ namespace QLDuLieuTonKho_BTP.Data
             return result;
         }
 
+        // Cập nhật một bảng với câu lệnh SQL và tham số
         public static bool UpdateATable(string sql, Dictionary<string, object> parameters)
         {
             int affectedRows = 0;
@@ -227,6 +275,10 @@ namespace QLDuLieuTonKho_BTP.Data
             return affectedRows != 0;
         }
 
+
+        // =================================================================
+
+        // Lấy TonKho_ID từ ID trong bảng DL_CD_Boc hoặc DL_CD_Ben
         private static int GetTonKhoIDFromID(SQLiteConnection connection, int id, string table = "Ben")
         {
             using (var command = new SQLiteCommand("SELECT TonKho_ID FROM DL_CD_"+ table +" WHERE ID = @ID", connection))
@@ -241,6 +293,7 @@ namespace QLDuLieuTonKho_BTP.Data
             }
         }
 
+        // Lấy dữ liệu từ bảng theo ngày
         public static DataTable GetDataByDate(string ngay, string query)
         {
             using (SQLiteConnection conn = new SQLiteConnection(connStr))
@@ -261,7 +314,8 @@ namespace QLDuLieuTonKho_BTP.Data
             }
         }
 
-        public static DataTable GetTonKho(string lot, string query)
+        // Lấy dữ liệu từ bảng theo Lot
+        public static DataTable GetData(string lot, string query, string para)
         {
             using (SQLiteConnection conn = new SQLiteConnection(connStr))
             {
@@ -269,7 +323,7 @@ namespace QLDuLieuTonKho_BTP.Data
 
                 using (SQLiteCommand cmd = new SQLiteCommand(query, conn))
                 {
-                    cmd.Parameters.AddWithValue("@Lot", lot);
+                    cmd.Parameters.AddWithValue("@"+ para, lot);
 
                     using (SQLiteDataAdapter adapter = new SQLiteDataAdapter(cmd))
                     {
@@ -281,6 +335,7 @@ namespace QLDuLieuTonKho_BTP.Data
             }
         }
 
+        // Lấy dữ liệu từ bảng DL_CD_Boc theo ID
         public static DataTable GetDL_CDBenByID(int id, string query)
         {
             DataTable resultTable = new DataTable();
@@ -303,12 +358,10 @@ namespace QLDuLieuTonKho_BTP.Data
             return resultTable;
         }
 
+        // Lấy tên sản phẩm và mã từ bảng DanhSachMaSP
         public static List<ProductModel> GetProductNamesAndPartNumber(string query, string keyword)
         {
             List<ProductModel> results = new List<ProductModel>();
-
-            //string connStr = $"Data Source={dbPath};Version=3;";
-
             try
             {
                 using (SQLiteConnection conn = new SQLiteConnection(connStr))
@@ -340,9 +393,8 @@ namespace QLDuLieuTonKho_BTP.Data
             return results;
         }
 
-
-        // Lấy danh sách mã sp
-        public static DataTable GetDanhSachMaSP( string query)
+        // Lấy dữ liệu của bảng dựa trên câu truy vấn
+        public static DataTable GetDataFromSQL( string query)
         {
 
             using (SQLiteConnection conn = new SQLiteConnection(connStr))
@@ -359,7 +411,8 @@ namespace QLDuLieuTonKho_BTP.Data
                 }
             }
         }
-                
+
+        // =================================================================
         public static string PartNumber_IsRealy(string ma)
         {
             string query = $"SELECT ten FROM DanhSachMaSP WHERE Ma = @ma";
@@ -375,41 +428,7 @@ namespace QLDuLieuTonKho_BTP.Data
                 }
             }
         }
-
-        public static Boolean InsertSP( string ma, string ten)
-        {
-
-            string typeProduct = KtraMaSP(ma);
-
-            if (typeProduct == "") return false;
-
-            string insertQuery = "INSERT INTO DanhSachMaSP"+
-                         " (Ma, Ten, KieuSP ,DateInsert) VALUES (@ma, @ten, @typeProduct, strftime('%Y-%m-%d', 'now', 'localtime'));";
-            try
-
-            {
-                using (SQLiteConnection conn = new SQLiteConnection(connStr))
-                {
-                    conn.Open();
-                    using (SQLiteCommand cmd = new SQLiteCommand(insertQuery, conn))
-                    {
-                        cmd.Parameters.AddWithValue("@ma", ma);
-                        cmd.Parameters.AddWithValue("@ten", ten);
-                        cmd.Parameters.AddWithValue("@typeProduct", typeProduct);
-                        cmd.ExecuteNonQuery();
-                    }
-                }
-
-                MessageBox.Show("Đã thêm sản phẩm thành công!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                return true;
-            }
-            catch (SQLiteException ex)
-            {
-                MessageBox.Show("Lỗi khi ghi vào database:\n" + ex.Message, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return false;
-            }
-        }
-
+               
         public static string KtraMaSP(string ma)
         {
             int dotIndex = ma.IndexOf('.');

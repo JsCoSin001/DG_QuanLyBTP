@@ -12,6 +12,8 @@ namespace QLDuLieuTonKho_BTP.Models
         public string Ma { get; set; }
         public string Ten { get; set; }
 
+        public ProductModel() { }
+
         public ProductModel(int id, string ma, string ten)
         {
             ID = id;

@@ -1,4 +1,5 @@
-﻿using QLDuLieuTonKho_BTP.Data;
+﻿using DocumentFormat.OpenXml.Spreadsheet;
+using QLDuLieuTonKho_BTP.Data;
 using QLDuLieuTonKho_BTP.Models;
 using QLDuLieuTonKho_BTP.Validate;
 using System;
@@ -26,33 +27,40 @@ namespace QLDuLieuTonKho_BTP
 
         private string _url;
         bool isProgrammaticChange = true;
+        bool isTextChangedEvent = true;
         private string[] _dsMay;
+        private string _callTimer;
+
 
         public event Action<DataTable> OnDataReady;
 
-        public Uc_Boc(string url, string[] dsMay)
+        public Uc_Boc(string url, string[] dsMay, int sttCongDoan)
         {
 
             InitializeComponent();
 
             _url = url;
             _dsMay = dsMay;
+            congDoan.SelectedIndex = sttCongDoan;
 
             DatabaseHelper.SetDatabasePath(url);
 
+
+
             // Cấu hình timer
-            timer1.Interval = 300;
+            timer1.Interval = 500;
         }
 
         public Uc_Boc() { }
 
         public void LoadDanhSachMay(string[] dsMay)
         {
-            may.Items.Clear();
-            may.Items.AddRange(dsMay);
+            maySX.Items.Clear();
+            maySX.Items.AddRange(dsMay);
         }
 
         public string TypeOfProduct { get; set; }
+        public string TenCongDoan { get; set; }
 
         private void tbLuu_Click(object sender, EventArgs e)
         {
@@ -150,7 +158,7 @@ namespace QLDuLieuTonKho_BTP
                     result = DatabaseHelper.UpdateDL_CDBoc(sttB, tonKhoMoi, dL_CD_Boc);
                 }
 
-                ResetController();
+                ResetAllController();
                 if (result) MessageBox.Show("THAO TÁC THÀNH CÔNG", "THÔNG BÁO", MessageBoxButtons.OK, MessageBoxIcon.Warning);
 
 
@@ -161,7 +169,7 @@ namespace QLDuLieuTonKho_BTP
             }
         }
 
-        private void ResetController()
+        private void ResetAllController()
         {
             ngay.Value = DateTime.Now;
             ca.SelectedIndex = -1;
@@ -185,6 +193,12 @@ namespace QLDuLieuTonKho_BTP
             nguoiLam.Text = "";
             ghiChu.Text = "";
             stt.Value = 0;
+
+            //cbTimLot.DataSource = null;
+            cbTimLot.Text = "";
+
+            //tenSP.DataSource = null;
+            tenSP.Text = "";
         }
 
         private void Boc_Load(object sender, EventArgs e)
@@ -194,42 +208,171 @@ namespace QLDuLieuTonKho_BTP
 
         private void timer1_Tick(object sender, EventArgs e)
         {
-            timer1.Stop(); // Ngừng timer để tránh gọi lại liên tục            
-            LoadAutoCompleteData(tenSP.Text);
+            timer1.Stop();   
+
+            if (_callTimer == "cbTimLot")
+            {
+                LoadAutoCompleteLot(cbTimLot.Text);
+                return;
+            }
+
+            LoadAutoCompleteTenSP(tenSP.Text);
         }
 
-        private void LoadAutoCompleteData(string keyword)
+        private void LoadAutoCompleteLot(string keyword)
         {
+
+            if (string.IsNullOrWhiteSpace(keyword))
+            {
+                ResetAllController();
+                cbTimLot.DroppedDown = false;
+                return;
+            }
+            string para = "Lot";
+            string query = @"
+                SELECT Lot, KhoiLuongConLai
+                FROM TonKho
+                WHERE Lot LIKE '%' || @" + para+ " || '%' AND KhoiLuongConLai <> 0;";
+
+            DataTable tonKho = DatabaseHelper.GetData( keyword, query,para);
+
+            cbTimLot.DroppedDown = false;
+
+            cbTimLot.SelectionChangeCommitted -= cbTimLot_SelectionChangeCommitted; // tránh trùng event
+            // check data return
+            if (tonKho.Rows.Count != 0)
+            {
+                cbTimLot.DataSource = tonKho;
+                cbTimLot.DisplayMember = "Lot";
+
+                string currentText = keyword;
+
+                cbTimLot.DroppedDown = true;
+                cbTimLot.Text = currentText;
+                cbTimLot.SelectionStart = cbTimLot.Text.Length;
+                cbTimLot.SelectionLength = 0;
+
+                cbTimLot.SelectionChangeCommitted += cbTimLot_SelectionChangeCommitted;
+            }            
+
+        }
+
+        private void cbTimLot_SelectionChangeCommitted(object sender, EventArgs e)
+        {
+            ResetAllController();
+            decimal klcl = 0;
+
+
+            if (cbTimLot.SelectedItem == null || !(cbTimLot.SelectedItem is DataRowView)) return;
+
+            DataRowView row = (DataRowView)cbTimLot.SelectedItem;
+
+            klcl = Convert.ToDecimal(row["KhoiLuongConLai"]);
+
+            if (klcl == 0)
+            {
+                MessageBox.Show("Lot đã hết hàng, vui lòng kiểm tra lại!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
+
+            string selectedLot =  row["Lot"].ToString();
+
+            string[] result = Helper.PhanTachLot(selectedLot);
+
+            cbTimLot.DataSource = null;
+            cbTimLot.Text = "";
+
+            if (result.Length < 5)
+            {
+                MessageBox.Show("Lot không hợp lệ, vui lòng kiểm tra lại!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
+
+            may.Text = result[0];
+            maHT.Text = result[1];
+            STTCD.Text = result[2];
+            sttBin.Value = Convert.ToDecimal(result[3]);
+            soBin.Value = Convert.ToDecimal(result[4]);
+            lot.Text = selectedLot;
+
+            klTruocBoc.Value = klcl;
+
+
+            cbTimLot.Text = "";
+
+
+        }
+
+        private void LoadAutoCompleteTenSP(string keyword)
+        {
+
             // check empty keyword
             if (string.IsNullOrWhiteSpace(keyword))
             {
                 idTenSP.Value = 0;
                 maSP.Text = "";
                 congDoan.Text = "";
-                tenSP.DataSource = null;
-                tenSP.Items.Clear();
+                tenSP.DroppedDown = false;
+                //tenSP.DataSource = null;
+                //tenSP.Items.Clear();
                 return;
             }
 
-            if (congDoan.SelectedIndex < 0)
+            
+            string para = "search";
+            string query = "SELECT ID, Ma, Ten FROM DanhSachMaSP WHERE  KieuSP = '" + TypeOfProduct + "' AND Ten LIKE '%' || @"+para+" || '%' ";
+
+            int idCongDoan = congDoan.SelectedIndex;
+
+            if (idCongDoan == 0)
             {
-                string error = "Cần lựa chọn Tên Công Đoạn trước!";
-                MessageBox.Show(error, "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                tenSP.Text = "";
-                return;
+                query += " AND (Ten LIKE 'CM%') ";
+            }
+            else
+            {
+                query += " AND (Ten LIKE 'CE%' OR Ten LIKE 'CV%') ";
+
             }
 
-            string query = "SELECT ID, Ma, Ten FROM DanhSachMaSP WHERE KieuSP = '" + TypeOfProduct + "' AND Ten LIKE '%' || @search || '%' LIMIT 20";
+            DataTable dslot = DatabaseHelper.GetData(keyword, query, para);
 
-            List<ProductModel> names = DatabaseHelper.GetProductNamesAndPartNumber(query, keyword);
+            tenSP.DroppedDown = false;
 
-            Helper.UpdateComboBox(names, tenSP, maSP, idTenSP);
+            tenSP.SelectionChangeCommitted -= tenSP_SelectionChangeCommitted; 
+            
+            if (dslot.Rows.Count != 0)
+            {
+                tenSP.DataSource = dslot;
+                tenSP.DisplayMember = "Ten";
+
+                string currentText = keyword;
+
+                tenSP.DroppedDown = true;
+                tenSP.Text = currentText;
+                tenSP.SelectionStart = tenSP.Text.Length;
+                tenSP.SelectionLength = 0;
+
+                tenSP.SelectionChangeCommitted += tenSP_SelectionChangeCommitted;
+            }
         }
 
-        private void tenSP_KeyDown(object sender, KeyEventArgs e)
+
+        private void tenSP_SelectionChangeCommitted(object sender, EventArgs e)
         {
-            timer1.Stop();
-            timer1.Start();
+            ResetAllController();
+
+            if (tenSP.SelectedItem == null || !(tenSP.SelectedItem is DataRowView)) return;
+
+            DataRowView row = (DataRowView)tenSP.SelectedItem;
+
+            string ten = row["Ten"].ToString();
+            string ma = row["Ma"].ToString();
+            decimal id = Convert.ToDecimal(row["ID"]);
+
+            tenSP.Text = ten;
+            maSP.Text = ma;
+            idTenSP.Value = id;
+
         }
 
         private void tbShowDL_Click(object sender, EventArgs e)
@@ -298,7 +441,7 @@ namespace QLDuLieuTonKho_BTP
             idBen.Value = Convert.ToDecimal(dataRow["cd_ben_id"]);
 
             isProgrammaticChange = true;
-        }                
+        }
 
         private void may_SelectedIndexChanged(object sender, EventArgs e)
         {
@@ -330,10 +473,10 @@ namespace QLDuLieuTonKho_BTP
 
         private void button1_Click(object sender, EventArgs e)
         {
-            ResetController();
+            ResetAllController();
         }
 
-        private void showReport_Click_1(object sender, EventArgs e)
+        private async void showReport_Click_1(object sender, EventArgs e)
         {
             string dateRP = dateReport.Value.Date.ToString("yyyy-MM");
 
@@ -368,7 +511,59 @@ namespace QLDuLieuTonKho_BTP
 
             DataTable table = DatabaseHelper.GetDataByDate(dateRP, query);
 
-            OnDataReady?.Invoke(table);
+            if (!cbXuatExcel.Checked)
+            {
+                OnDataReady?.Invoke(table);
+                return;
+            }
+
+            string tenCD = "";
+
+            if (congDoan.SelectedIndex != -1)
+            {
+                tenCD = congDoan.Text;
+            }
+
+            string fileName = $"BC Tháng {dateRP} - CĐ {tenCD}.xlsx";
+            await ExcelHelper.ExportWithLoading(table, fileName);
+        }
+
+        private void tenSP_TextUpdate(object sender, EventArgs e)
+        {
+            _callTimer = "tenSP";
+            timer1.Stop();
+            timer1.Start();
+        }
+
+        private void tenSP_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            System.Windows.Forms.ComboBox comboBox = sender as System.Windows.Forms.ComboBox;
+
+            if (comboBox?.SelectedItem is ProductModel selectedProduct)
+            {
+                maSP.Text = selectedProduct.Ma;
+                idTenSP.Value = selectedProduct.ID;
+            }
+            else
+            {
+                maSP.Clear();
+                idTenSP.Value = 0;
+            }
+        }
+
+        private void tenSP_TextChanged(object sender, EventArgs e)
+        {
+            Console.WriteLine("tenSP_TextChanged Run ");
+            if (!isTextChangedEvent) return;
+
+            Console.WriteLine("tenSP_TextChanged End ");
+        }
+
+        private void cbTimLot_TextUpdate(object sender, EventArgs e)
+        {
+            _callTimer = "cbTimLot";
+            timer1.Stop();
+            timer1.Start();
         }
     }
 }

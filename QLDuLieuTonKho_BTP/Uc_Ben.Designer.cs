@@ -67,6 +67,7 @@
             this.panel1 = new System.Windows.Forms.Panel();
             this.pnTimeRequest = new System.Windows.Forms.Panel();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.cbXuatExcel = new System.Windows.Forms.CheckBox();
             this.dateReport = new System.Windows.Forms.DateTimePicker();
             this.showReport = new System.Windows.Forms.Button();
             this.label12 = new System.Windows.Forms.Label();
@@ -154,8 +155,6 @@
             // 
             // lot
             // 
-            this.lot.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
             this.lot.Enabled = false;
             this.lot.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lot.Location = new System.Drawing.Point(126, 160);
@@ -185,15 +184,6 @@
             // 
             // tenSP
             // 
-            this.tenSP.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.tenSP.AutoCompleteCustomSource.AddRange(new string[] {
-            "ab",
-            "aab",
-            "bbc",
-            "c",
-            "ccc",
-            "davc"});
             this.tenSP.Font = new System.Drawing.Font("Microsoft Sans Serif", 12.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tenSP.FormattingEnabled = true;
             this.tenSP.Location = new System.Drawing.Point(126, 276);
@@ -589,11 +579,12 @@
             this.pnTimeRequest.Location = new System.Drawing.Point(0, 757);
             this.pnTimeRequest.Name = "pnTimeRequest";
             this.pnTimeRequest.Padding = new System.Windows.Forms.Padding(0, 10, 0, 0);
-            this.pnTimeRequest.Size = new System.Drawing.Size(509, 106);
+            this.pnTimeRequest.Size = new System.Drawing.Size(509, 136);
             this.pnTimeRequest.TabIndex = 2;
             // 
             // groupBox2
             // 
+            this.groupBox2.Controls.Add(this.cbXuatExcel);
             this.groupBox2.Controls.Add(this.dateReport);
             this.groupBox2.Controls.Add(this.showReport);
             this.groupBox2.Controls.Add(this.label12);
@@ -601,24 +592,34 @@
             this.groupBox2.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.groupBox2.Location = new System.Drawing.Point(0, 10);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(509, 96);
+            this.groupBox2.Size = new System.Drawing.Size(509, 126);
             this.groupBox2.TabIndex = 6;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Báo Cáo";
+            // 
+            // cbXuatExcel
+            // 
+            this.cbXuatExcel.AutoSize = true;
+            this.cbXuatExcel.Location = new System.Drawing.Point(400, 21);
+            this.cbXuatExcel.Name = "cbXuatExcel";
+            this.cbXuatExcel.Size = new System.Drawing.Size(88, 20);
+            this.cbXuatExcel.TabIndex = 6;
+            this.cbXuatExcel.Text = "Xuất Excel";
+            this.cbXuatExcel.UseVisualStyleBackColor = true;
             // 
             // dateReport
             // 
             this.dateReport.CustomFormat = "MM/yyyy";
             this.dateReport.Font = new System.Drawing.Font("Microsoft Sans Serif", 12.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.dateReport.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.dateReport.Location = new System.Drawing.Point(145, 38);
+            this.dateReport.Location = new System.Drawing.Point(145, 61);
             this.dateReport.Name = "dateReport";
             this.dateReport.Size = new System.Drawing.Size(235, 27);
             this.dateReport.TabIndex = 4;
             // 
             // showReport
             // 
-            this.showReport.Location = new System.Drawing.Point(397, 37);
+            this.showReport.Location = new System.Drawing.Point(397, 60);
             this.showReport.Name = "showReport";
             this.showReport.Size = new System.Drawing.Size(95, 34);
             this.showReport.TabIndex = 5;
@@ -630,7 +631,7 @@
             // 
             this.label12.AutoSize = true;
             this.label12.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label12.Location = new System.Drawing.Point(14, 43);
+            this.label12.Location = new System.Drawing.Point(14, 66);
             this.label12.Name = "label12";
             this.label12.Size = new System.Drawing.Size(106, 20);
             this.label12.TabIndex = 3;
@@ -792,6 +793,7 @@
         private System.Windows.Forms.DateTimePicker dateReport;
         private System.Windows.Forms.Button showReport;
         private System.Windows.Forms.Label label12;
+        private System.Windows.Forms.CheckBox cbXuatExcel;
     }
 }
 

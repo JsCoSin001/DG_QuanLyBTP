@@ -106,6 +106,24 @@
     <Compile Include="Data\DatabaseHelper.cs" />
     <Compile Include="Data\ExcelHelper.cs" />
     <Compile Include="Helper.cs" />
+    <Compile Include="Uc_BcTonKho.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Uc_BcTonKho.Designer.cs">
+      <DependentUpon>Uc_BcTonKho.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Uc_DsGhepBin.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Uc_DsGhepBin.Designer.cs">
+      <DependentUpon>Uc_DsGhepBin.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Uc_GopBin.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Uc_GopBin.Designer.cs">
+      <DependentUpon>Uc_GopBin.cs</DependentUpon>
+    </Compile>
     <Compile Include="Uc_LoadingForm.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -151,6 +169,15 @@
     </Compile>
     <Compile Include="Validate\URL.cs" />
     <Compile Include="Validate\ValidateInput.cs" />
+    <EmbeddedResource Include="Uc_BcTonKho.resx">
+      <DependentUpon>Uc_BcTonKho.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Uc_DsGhepBin.resx">
+      <DependentUpon>Uc_DsGhepBin.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Uc_GopBin.resx">
+      <DependentUpon>Uc_GopBin.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Uc_LoadingForm.resx">
       <DependentUpon>Uc_LoadingForm.cs</DependentUpon>
     </EmbeddedResource>

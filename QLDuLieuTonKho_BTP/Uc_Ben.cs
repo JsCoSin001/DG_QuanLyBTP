@@ -73,10 +73,8 @@ namespace QLDuLieuTonKho_BTP
                 return;
             }
 
-
             try
             {
-
                 TonKho tonKho = new TonKho
                 {
                     Lot = maBin,
@@ -115,7 +113,7 @@ namespace QLDuLieuTonKho_BTP
                     result = DatabaseHelper.UpdateDL_CDBen(sttBen, tonKho, dL_CD_Ben);
                 }
 
-                ResetController();
+                ResetAllController();
 
                 if (result) MessageBox.Show("THAO TÁC THÀNH CÔNG", "THÔNG BÁO", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
@@ -125,8 +123,7 @@ namespace QLDuLieuTonKho_BTP
             }
         }
 
-
-        private void ResetController()
+        private void ResetAllController()
         {
             ngay.Value = DateTime.Now;
             ca.SelectedIndex = -1;
@@ -151,7 +148,7 @@ namespace QLDuLieuTonKho_BTP
 
         private void Ben_Load(object sender, EventArgs e)
         {
-            _url = Properties.Settings.Default.URL;
+            //_url = Properties.Settings.Default.URL;
             dateReport.Value = DateTime.Now;
 
         }
@@ -173,16 +170,58 @@ namespace QLDuLieuTonKho_BTP
             if (string.IsNullOrWhiteSpace(keyword))
             {
                 idTenSP.Value = 0;
+                tenSP.DroppedDown = false;
                 maSP.Text = "";
-                tenSP.DataSource = null;
-                tenSP.Items.Clear();
                 return;
             }
-            string query = "SELECT ID, Ma, Ten FROM DanhSachMaSP WHERE KieuSP = '"+ TypeOfProduct +"' AND Ten LIKE '%' || @search || '%' LIMIT 20";
+            string para = "search";
 
-            List<ProductModel> names = DatabaseHelper.GetProductNamesAndPartNumber(query, keyword);
+            
+            string query = "SELECT ID, Ma, Ten FROM DanhSachMaSP " +
+               "WHERE KieuSP = '" + TypeOfProduct + "' " +
+               "AND Ten LIKE '%' || @" + para + " || '%' " +
+               "AND Ten NOT LIKE '%/T' " +
+               "LIMIT 20";
 
-            Helper.UpdateComboBox(names, tenSP, maSP, idTenSP);
+            DataTable dslot = DatabaseHelper.GetData(keyword, query, para);
+
+            tenSP.DroppedDown = false;
+
+            tenSP.SelectionChangeCommitted -= tenSP_SelectionChangeCommitted;
+
+            if (dslot.Rows.Count != 0)
+            {
+                tenSP.DataSource = dslot;
+                tenSP.DisplayMember = "Ten";
+
+                string currentText = keyword;
+
+                tenSP.DroppedDown = true;
+                tenSP.Text = currentText;
+                tenSP.SelectionStart = tenSP.Text.Length;
+                tenSP.SelectionLength = 0;
+
+                tenSP.SelectionChangeCommitted += tenSP_SelectionChangeCommitted;
+            }
+        }
+
+
+        private void tenSP_SelectionChangeCommitted(object sender, EventArgs e)
+        {
+            ResetAllController();
+
+            if (tenSP.SelectedItem == null || !(tenSP.SelectedItem is DataRowView)) return;
+
+            DataRowView row = (DataRowView)tenSP.SelectedItem;
+
+            string ten = row["Ten"].ToString();
+            string ma = row["Ma"].ToString();
+            decimal id = Convert.ToDecimal(row["ID"]);
+
+            tenSP.Text = ten;
+            maSP.Text = ma;
+            idTenSP.Value = id;
+
         }
 
         private void tenSP_KeyDown(object sender, KeyEventArgs e)
@@ -247,7 +286,6 @@ namespace QLDuLieuTonKho_BTP
 
         }
 
-
         private void may_SelectedIndexChanged(object sender, EventArgs e)
         {
             lot.Text = Helper.LOTGenerated(may, maHT, STTCD, sttBin, soBin);
@@ -275,10 +313,10 @@ namespace QLDuLieuTonKho_BTP
 
         private void btnNhapLai_Click(object sender, EventArgs e)
         {
-            ResetController();
+            ResetAllController();
         }
 
-        private void showReport_Click(object sender, EventArgs e)
+        private async void showReport_Click(object sender, EventArgs e)
         {
             string dateRP = dateReport.Value.Date.ToString("yyyy-MM");
 
@@ -304,10 +342,20 @@ namespace QLDuLieuTonKho_BTP
                     ORDER BY DL_CD_Ben.Ngay DESC;
                 ";
 
+            DataTable table = DatabaseHelper.GetDataByDate(dateRP, query);
 
-            DataTable table = DatabaseHelper.GetDataByDate(dateRP, query);            
+            if (!cbXuatExcel.Checked)
+            {
+                OnDataReady?.Invoke(table);
+                return;
+            }
 
-            OnDataReady?.Invoke(table);
+            string fileName = $"BC Tháng {dateRP} - {DateTime.Now:yyyy-MM-dd HH_mm}.xlsx";
+            await ExcelHelper.ExportWithLoading(table, fileName);
+
+
+
+           
         }
     }
 }

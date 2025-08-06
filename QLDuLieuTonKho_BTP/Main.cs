@@ -51,8 +51,6 @@ namespace QLDuLieuTonKho_BTP
 
         private void btnCapNhatMaSP_Click(object sender, EventArgs e)
         {
-
-
             ucShowData = Helper.LoadUserControlsWithData<Uc_CapNhatMaSP>(
                 pnLeft,
                 pnRight,
@@ -92,15 +90,18 @@ namespace QLDuLieuTonKho_BTP
                 "E11", "E12", "E13", "E14", "E15"
             };
 
+            int tenCongDoan = 1;
+
             ucShowData = Helper.LoadUserControlsWithData<Uc_Boc>(
                 pnLeft,
                 pnRight,
                 out var ucBoc,
                 dt => ucShowData.SetData(dt),
-                _url, dsMay
+                _url, dsMay, tenCongDoan
             );
             ucBoc.LoadDanhSachMay(dsMay);
             ucBoc.TypeOfProduct = "BTP";
+            //ucBoc.TenCongDoan = tenCongDoan;
         }
 
         private void btnQuanMica_Click(object sender, EventArgs e)
@@ -110,12 +111,14 @@ namespace QLDuLieuTonKho_BTP
                 "T3", "T4", "T5", "T6"
             };
 
+            int tenCongDoan = 0;
+
             ucShowData = Helper.LoadUserControlsWithData<Uc_Boc>(
                 pnLeft,
                 pnRight,
                 out var ucBoc,
                 dt => ucShowData.SetData(dt),
-                _url, dsMay
+                _url, dsMay, tenCongDoan
             );
             ucBoc.LoadDanhSachMay(dsMay);
             ucBoc.TypeOfProduct = "BTP";
@@ -131,15 +134,28 @@ namespace QLDuLieuTonKho_BTP
                 "E11", "E12", "E13", "E14", "E15"
             };
 
+            int tenCongDoan = 2;
+
             ucShowData = Helper.LoadUserControlsWithData<Uc_Boc>(
                 pnLeft,
                 pnRight,
                 out var ucBoc,
                 dt => ucShowData.SetData(dt),
-                _url, dsMay
+                _url, dsMay, tenCongDoan
             );
             ucBoc.LoadDanhSachMay(dsMay);
             ucBoc.TypeOfProduct = "TP";
+        }
+
+        private void btnBaoCao_Click(object sender, EventArgs e)
+        {
+            ucShowData = Helper.LoadUserControlsWithData<Uc_BcTonKho>(
+                pnLeft,
+                pnRight,
+                out var ucBcTonKho,
+                dt => ucShowData.SetData(dt),
+                _url
+            );
         }
     }
 }

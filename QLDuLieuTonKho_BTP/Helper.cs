@@ -1,4 +1,5 @@
-﻿using QLDuLieuTonKho_BTP.Data;
+﻿using DocumentFormat.OpenXml.Wordprocessing;
+using QLDuLieuTonKho_BTP.Data;
 using QLDuLieuTonKho_BTP.Models;
 using System;
 using System.Collections;
@@ -7,17 +8,20 @@ using System.ComponentModel.DataAnnotations;
 using System.Data;
 using System.Data.Entity;
 using System.Data.SQLite;
+using System.Drawing;
 using System.Linq;
 using System.Net.NetworkInformation;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
+using ComboBox = System.Windows.Forms.ComboBox;
+using TextBox = System.Windows.Forms.TextBox;
 
 namespace QLDuLieuTonKho_BTP
 {
     public static class Helper
     {
-
         private static readonly Random _random = new Random();
 
         public static string LayKieuSP(string maSP)
@@ -31,23 +35,46 @@ namespace QLDuLieuTonKho_BTP
 
         public static void UpdateComboBox( List<ProductModel> items, ComboBox tbTenSP, TextBox tbMaSP, NumericUpDown idMaSP)
         {
-            tbTenSP.DroppedDown = false;
+            //tbTenSP.DroppedDown = false;
             tbTenSP.SelectedIndexChanged -= (s, e) => OnComboBoxSelectionChanged(tbTenSP, tbMaSP, idMaSP);
 
-
-            // check items count = 0
-            if (items == null || items.Count == 0) return;
             string currentText = tbTenSP.Text;
 
             tbTenSP.DataSource = null; // Xóa nguồn dữ liệu cũ (nếu có)
-            tbTenSP.DataSource = items;
+
+            if (items.Count == 0)
+            {
+                items = new List<ProductModel>
+                        {
+                            new ProductModel { Ma = "Error", Ten="Không tìm thấy" }
+                        };
+
+                tbTenSP.DataSource = items;
+                tbTenSP.DisplayMember = "Ten";      // Hiển thị "Dữ liệu không hợp lệ"
+                tbTenSP.ValueMember = "Ma";         // Value là "Error"
+
+                tbTenSP.SelectedIndex = 0;
+
+                // Gán các giá trị khác nếu cần
+                idMaSP.Value = 0;
+                tbMaSP.Text = "";
+                return;
+
+            }
+
+
             tbTenSP.DisplayMember = "Ten"; // Hiển thị tên trong ComboBox
             tbTenSP.ValueMember = "Ma";    // Giá trị bên trong ComboBox là mã (nếu cần dùng)
+            tbTenSP.DataSource = items;
+            tbTenSP.SelectedIndex = -1;
 
-            tbTenSP.DroppedDown  = true;
+
             tbTenSP.Text = currentText;
             tbTenSP.SelectionStart = tbTenSP.Text.Length;
             tbTenSP.SelectionLength = 0;
+
+            tbTenSP.DroppedDown = true;
+            
 
             tbTenSP.SelectedIndexChanged += (s, e) => OnComboBoxSelectionChanged(tbTenSP, tbMaSP, idMaSP);
 
@@ -134,39 +161,39 @@ namespace QLDuLieuTonKho_BTP
 
         }
 
-        public static void LoadDlCdBenByDate(DataGridView showdata, string ngay, string connectionString)
-        {
-            if (showdata == null) throw new ArgumentNullException(nameof(showdata));
-            if (string.IsNullOrWhiteSpace(ngay)) throw new ArgumentException("Giá trị ngày không hợp lệ.", nameof(ngay));
-            if (string.IsNullOrWhiteSpace(connectionString)) throw new ArgumentException("Chuỗi kết nối không hợp lệ.", nameof(connectionString));
+        //public static void LoadDlCdBenByDate(DataGridView showdata, string ngay, string connectionString)
+        //{
+        //    if (showdata == null) throw new ArgumentNullException(nameof(showdata));
+        //    if (string.IsNullOrWhiteSpace(ngay)) throw new ArgumentException("Giá trị ngày không hợp lệ.", nameof(ngay));
+        //    if (string.IsNullOrWhiteSpace(connectionString)) throw new ArgumentException("Chuỗi kết nối không hợp lệ.", nameof(connectionString));
 
-            try
-            {
-                //var db =  DatabaseHelper (connectionString);
-                DataTable dt = DatabaseHelper.GetDataByDate(ngay, connectionString);
+        //    try
+        //    {
+        //        //var db =  DatabaseHelper (connectionString);
+        //        DataTable dt = DatabaseHelper.GetDataByDate(ngay, connectionString);
 
-                void bind()
-                {
-                    showdata.AutoGenerateColumns = true;
-                    showdata.DataSource = dt;
+        //        void bind()
+        //        {
+        //            showdata.AutoGenerateColumns = true;
+        //            showdata.DataSource = dt;
 
-                    // Tuỳ chọn hiển thị
-                    showdata.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
-                    showdata.ReadOnly = true;
-                    showdata.AllowUserToAddRows = false;
-                    showdata.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-                }
+        //            // Tuỳ chọn hiển thị
+        //            showdata.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
+        //            showdata.ReadOnly = true;
+        //            showdata.AllowUserToAddRows = false;
+        //            showdata.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+        //        }
 
-                if (showdata.InvokeRequired)
-                    showdata.Invoke((Action)bind);
-                else
-                    bind();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Lỗi khi tải dữ liệu: {ex.Message}", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-        }
+        //        if (showdata.InvokeRequired)
+        //            showdata.Invoke((Action)bind);
+        //        else
+        //            bind();
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        MessageBox.Show($"Lỗi khi tải dữ liệu: {ex.Message}", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+        //    }
+        //}
 
         public static DataTable GetKLTruocSX(ComboBox may, NumericUpDown maHT, ComboBox sttCongDoan, NumericUpDown sttBin, NumericUpDown soBin, TextBox lotNumber)
         {
@@ -178,8 +205,8 @@ namespace QLDuLieuTonKho_BTP
 
             lotNumber.Text = lot;
 
-            //const string query = "SELECT id, KhoiLuongConLai FROM TonKho WHERE Lot = @Lot COLLATE NOCASE";
-            const string query = @"
+            string para = "Lot";
+            string query = @"
                 SELECT 
                     DL_CD_Ben.ID  as id,
                     TonKho.KhoiLuongConLai as KhoiLuongConLai
@@ -188,10 +215,9 @@ namespace QLDuLieuTonKho_BTP
                 JOIN 
                     TonKho ON DL_CD_Ben.TonKho_ID = TonKho.ID
                 WHERE 
-                    TonKho.Lot = @Lot;
-                ";
+                    TonKho.Lot = @" + para + ";";
 
-            resultTable = DatabaseHelper.GetTonKho(lot, query);
+            resultTable = DatabaseHelper.GetData(lot, query,para);
 
             return resultTable;
         }

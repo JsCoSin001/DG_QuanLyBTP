@@ -127,7 +127,7 @@ namespace QLDuLieuTonKho_BTP
         {
             string sql = getSQL();
 
-            var table = DatabaseHelper.GetDanhSachMaSP(sql);
+            var table = DatabaseHelper.GetDataFromSQL(sql);
             OnDataReady?.Invoke(table);
 
         }
@@ -145,7 +145,7 @@ namespace QLDuLieuTonKho_BTP
         {
             string sql = getSQL();
 
-            var table = DatabaseHelper.GetDanhSachMaSP(sql);
+            var table = DatabaseHelper.GetDataFromSQL(sql);
 
             if (table.Rows.Count == 0)
             {
@@ -153,55 +153,11 @@ namespace QLDuLieuTonKho_BTP
                 return;
             }
 
-            using (SaveFileDialog sfd = new SaveFileDialog()
-            {
-                Filter = "Excel Workbook|*.xlsx",
-                FileName = "DanhSachMaSP.xlsx"
-            })
-            {
-                if (sfd.ShowDialog() == DialogResult.OK)
-                {
-                    string mes = "Đang xuất Excel, Xin hãy chờ ...";
-                    var loadingControl = new Uc_LoadingForm(mes);
 
-                    // 1. Tạo Form chứa UserControl (loading form)
-                    Form loadingForm = new Form
-                    {
-                        FormBorderStyle = FormBorderStyle.None,
-                        StartPosition = FormStartPosition.CenterScreen,
-                        Size = loadingControl.Size,
-                        ControlBox = false,
-                        TopMost = true,
-                        ShowInTaskbar = false
-                    };
-                    loadingControl.Dock = DockStyle.Fill;
-                    loadingForm.Controls.Add(loadingControl);
 
-                    // 2. Hiển thị loading form không chặn UI (trên UI thread)
-                    loadingForm.Show();
+            string fileName = $"DanhSachMaSP - {DateTime.Now:yyyy-MM-dd HH_mm}.xlsx";
+            await ExcelHelper.ExportWithLoading(table, fileName);
 
-                    // 3. Chạy export ở luồng nền
-                    await Task.Run(() =>
-                    {
-                        var exporter = new ExcelHelper();
-                        exporter.ExportToExcel(table, sfd.FileName);
-                    });
-
-                    // 4. Đóng loading form an toàn trên UI thread
-                    if (loadingForm.InvokeRequired)
-                    {
-                        loadingForm.Invoke(new Action(() => loadingForm.Close()));
-                    }
-                    else
-                    {
-                        loadingForm.Close();
-                    }
-
-                    // 5. Thông báo kết quả
-                    MessageBox.Show("Xuất Excel thành công!", "Thành công", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                }
-
-            }
         }
 
         // Import dữ liệu từ Excel
