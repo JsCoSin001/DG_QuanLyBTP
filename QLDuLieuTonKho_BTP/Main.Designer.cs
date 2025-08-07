@@ -45,6 +45,7 @@
             this.btnQuanMica = new System.Windows.Forms.Button();
             this.btnBocVo = new System.Windows.Forms.Button();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.btnBoSungKL = new System.Windows.Forms.Button();
             this.btnGopBin = new System.Windows.Forms.Button();
             this.panel2 = new System.Windows.Forms.Panel();
             this.pnLogo = new System.Windows.Forms.Panel();
@@ -94,7 +95,7 @@
             // 
             this.pnCauHinh.Controls.Add(this.groupBox1);
             this.pnCauHinh.Dock = System.Windows.Forms.DockStyle.Top;
-            this.pnCauHinh.Location = new System.Drawing.Point(10, 599);
+            this.pnCauHinh.Location = new System.Drawing.Point(10, 688);
             this.pnCauHinh.Name = "pnCauHinh";
             this.pnCauHinh.Size = new System.Drawing.Size(202, 144);
             this.pnCauHinh.TabIndex = 2;
@@ -136,7 +137,7 @@
             // 
             this.pnQuanLy.Controls.Add(this.flowLayoutPanel1);
             this.pnQuanLy.Dock = System.Windows.Forms.DockStyle.Top;
-            this.pnQuanLy.Location = new System.Drawing.Point(10, 430);
+            this.pnQuanLy.Location = new System.Drawing.Point(10, 519);
             this.pnQuanLy.Name = "pnQuanLy";
             this.pnQuanLy.Size = new System.Drawing.Size(202, 169);
             this.pnQuanLy.TabIndex = 2;
@@ -181,12 +182,13 @@
             this.dsChucNang.Controls.Add(this.btnQuanMica);
             this.dsChucNang.Controls.Add(this.btnBocVo);
             this.dsChucNang.Controls.Add(this.panel1);
+            this.dsChucNang.Controls.Add(this.btnBoSungKL);
             this.dsChucNang.Controls.Add(this.btnGopBin);
             this.dsChucNang.Controls.Add(this.panel2);
             this.dsChucNang.Dock = System.Windows.Forms.DockStyle.Top;
             this.dsChucNang.Location = new System.Drawing.Point(10, 110);
             this.dsChucNang.Name = "dsChucNang";
-            this.dsChucNang.Size = new System.Drawing.Size(202, 320);
+            this.dsChucNang.Size = new System.Drawing.Size(202, 409);
             this.dsChucNang.TabIndex = 3;
             // 
             // btnBen
@@ -248,15 +250,28 @@
             this.panel1.Size = new System.Drawing.Size(200, 1);
             this.panel1.TabIndex = 4;
             // 
+            // btnBoSungKL
+            // 
+            this.btnBoSungKL.AutoSize = true;
+            this.btnBoSungKL.Font = new System.Drawing.Font("Tahoma", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnBoSungKL.Location = new System.Drawing.Point(0, 253);
+            this.btnBoSungKL.Margin = new System.Windows.Forms.Padding(0, 10, 0, 10);
+            this.btnBoSungKL.Name = "btnBoSungKL";
+            this.btnBoSungKL.Size = new System.Drawing.Size(199, 49);
+            this.btnBoSungKL.TabIndex = 5;
+            this.btnBoSungKL.Text = "Bổ Sung Khối Lượng";
+            this.btnBoSungKL.UseVisualStyleBackColor = true;
+            this.btnBoSungKL.Click += new System.EventHandler(this.btnBoSungKL_Click);
+            // 
             // btnGopBin
             // 
             this.btnGopBin.AutoSize = true;
             this.btnGopBin.Font = new System.Drawing.Font("Tahoma", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnGopBin.Location = new System.Drawing.Point(0, 253);
+            this.btnGopBin.Location = new System.Drawing.Point(0, 322);
             this.btnGopBin.Margin = new System.Windows.Forms.Padding(0, 10, 0, 10);
             this.btnGopBin.Name = "btnGopBin";
             this.btnGopBin.Size = new System.Drawing.Size(199, 49);
-            this.btnGopBin.TabIndex = 5;
+            this.btnGopBin.TabIndex = 7;
             this.btnGopBin.Text = "Công Đoạn Gộp Bin";
             this.btnGopBin.UseVisualStyleBackColor = true;
             // 
@@ -264,7 +279,7 @@
             // 
             this.panel2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.panel2.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.panel2.Location = new System.Drawing.Point(3, 315);
+            this.panel2.Location = new System.Drawing.Point(3, 384);
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(200, 1);
             this.panel2.TabIndex = 6;
@@ -308,7 +323,7 @@
             // label1
             // 
             this.label1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label1.Font = new System.Drawing.Font("Tahoma", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.Font = new System.Drawing.Font("Tahoma", 21.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             this.label1.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.label1.Location = new System.Drawing.Point(58, 0);
@@ -387,7 +402,8 @@
         private System.Windows.Forms.Button btnBaoCao;
         private System.Windows.Forms.Button btnCapNhatMaSP;
         private System.Windows.Forms.Panel panel1;
-        private System.Windows.Forms.Button btnGopBin;
+        private System.Windows.Forms.Button btnBoSungKL;
         private System.Windows.Forms.Panel panel2;
+        private System.Windows.Forms.Button btnGopBin;
     }
 }

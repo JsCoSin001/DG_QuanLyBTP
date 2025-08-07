@@ -25,9 +25,7 @@ namespace QLDuLieuTonKho_BTP
         private string _titleForm;
 
         public event Action<DataTable> OnDataReady;
-
         public string TypeOfProduct { get; set; }
-        //public string TitleForm { get; set; }
 
         public string TitleForm
         {

@@ -158,5 +158,17 @@ namespace QLDuLieuTonKho_BTP
                 _url
             );
         }
+
+        private void btnBoSungKL_Click(object sender, EventArgs e)
+        {
+            ucShowData = Helper.LoadUserControlsWithData<Uc_BoSungKL>(
+               pnLeft,
+               pnRight,
+               out var Uc_BoSungKL,
+               dt => ucShowData.SetData(dt),
+               _url
+           );
+        }
+
     }
 }

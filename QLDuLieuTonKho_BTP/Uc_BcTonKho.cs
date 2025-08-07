@@ -61,55 +61,6 @@ namespace QLDuLieuTonKho_BTP
             string fileName = $"BC Ton Kho - {DateTime.Now:yyyy-MM-dd HH_mm}.xlsx";
             await ExcelHelper.ExportWithLoading(table, fileName);
 
-
-
-
-            //using (SaveFileDialog sfd = new SaveFileDialog()
-            //{
-            //    Filter = "Excel Workbook|*.xlsx",
-            //    FileName = "BC Ton Kho - "+ DateTime.Now.ToString("yyyy-MM-dd hh_mm") +".xlsx"
-            //})
-            //{
-            //    if (sfd.ShowDialog() == DialogResult.OK)
-            //    {
-            //        string mes = "Đang xuất Excel, Xin hãy chờ ...";
-            //        var loadingControl = new Uc_LoadingForm(mes);
-
-            //        // 1. Tạo Form chứa UserControl (loading form)
-            //        Form loadingForm = new Form
-            //        {
-            //            FormBorderStyle = FormBorderStyle.None,
-            //            StartPosition = FormStartPosition.CenterScreen,
-            //            Size = loadingControl.Size,
-            //            ControlBox = false,
-            //            TopMost = true,
-            //            ShowInTaskbar = false
-            //        };
-            //        loadingControl.Dock = DockStyle.Fill;
-            //        loadingForm.Controls.Add(loadingControl);
-
-            //        // 2. Hiển thị loading form không chặn UI (trên UI thread)
-            //        loadingForm.Show();
-
-            //        // 3. Chạy export ở luồng nền
-            //        await Task.Run(() =>
-            //        {
-            //            //var exporter = new ExcelHelper();
-            //            ExcelHelper.ExportToExcel(table, sfd.FileName);
-            //        });
-
-            //        // 4. Đóng loading form an toàn trên UI thread
-            //        if (loadingForm.InvokeRequired)
-            //        {
-            //            loadingForm.Invoke(new Action(() => loadingForm.Close()));
-            //        }
-            //        else
-            //        {
-            //            loadingForm.Close();
-            //        }
-            //    }
-
-            //}
         }
     }
 }

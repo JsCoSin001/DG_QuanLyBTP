@@ -148,7 +148,7 @@
             // btnNhapLai
             // 
             this.btnNhapLai.BackColor = System.Drawing.Color.Crimson;
-            this.btnNhapLai.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnNhapLai.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnNhapLai.ForeColor = System.Drawing.SystemColors.ControlLight;
             this.btnNhapLai.Location = new System.Drawing.Point(223, 563);
             this.btnNhapLai.Name = "btnNhapLai";

@@ -366,7 +366,6 @@ namespace QLDuLieuTonKho_BTP
             }
         }
 
-
         private void tenSP_SelectionChangeCommitted(object sender, EventArgs e)
         {
             ResetController_TimTenSP();

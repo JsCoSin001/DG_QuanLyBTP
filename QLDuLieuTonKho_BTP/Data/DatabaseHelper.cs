@@ -273,6 +273,56 @@ namespace QLDuLieuTonKho_BTP.Data
             return affectedRows != 0;
         }
 
+        public static bool UpdateKhoiLuongVaBin(string id, decimal khoiLuongDauVao, string tenBin, decimal khoiLuongBin)
+        {
+            using (SQLiteConnection conn = new SQLiteConnection(connStr))
+            {
+                conn.Open();
+                using (SQLiteTransaction transaction = conn.BeginTransaction())
+                {
+                    try
+                    {
+                        // Cập nhật TonKho
+                        string updateTonKhoQuery = "UPDATE TonKho SET KhoiLuongDauVao = @KhoiLuongDauVao WHERE ID = @ID";
+                        using (SQLiteCommand cmd1 = new SQLiteCommand(updateTonKhoQuery, conn, transaction))
+                        {
+                            cmd1.Parameters.AddWithValue("@KhoiLuongDauVao", khoiLuongDauVao);
+                            cmd1.Parameters.AddWithValue("@ID", id);
+                            int rowsAffected = cmd1.ExecuteNonQuery();
+                            if (rowsAffected == 0)
+                            {
+                                throw new Exception("Không tìm thấy bản ghi trong cơ sở dữ liệu để cập nhật.");
+                            }
+                        }
+
+                        // Cập nhật hoặc thêm mới vào DanhSachBin
+                        string upsertBinQuery = @"
+                            INSERT INTO DanhSachBin (TenBin, KhoiLuongBin)
+                            VALUES (@TenBin, @KhoiLuongBin)
+                            ON CONFLICT(TenBin)
+                            DO UPDATE SET KhoiLuongBin = excluded.KhoiLuongBin;
+                        ";
+                        using (SQLiteCommand cmd2 = new SQLiteCommand(upsertBinQuery, conn, transaction))
+                        {
+                            cmd2.Parameters.AddWithValue("@TenBin", tenBin);
+                            cmd2.Parameters.AddWithValue("@KhoiLuongBin", khoiLuongBin);
+                            cmd2.ExecuteNonQuery();
+                        }
+
+                        transaction.Commit();
+                        return true;
+                    }
+                    catch (Exception ex)
+                    {
+                        transaction.Rollback();
+                        MessageBox.Show("Lỗi: " + ex.Message, "THÔNG BÁO", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return false;
+                    }
+                }
+            }
+        }
+
+
 
         // =================================================================
 
@@ -312,8 +362,8 @@ namespace QLDuLieuTonKho_BTP.Data
             }
         }
 
-        // Lấy dữ liệu từ bảng theo Lot
-        public static DataTable GetData(string lot, string query, string para)
+        // Lấy dữ liệu từ bảng theo khoá - key
+        public static DataTable GetData(string key, string query, string para)
         {
             using (SQLiteConnection conn = new SQLiteConnection(connStr))
             {
@@ -321,7 +371,7 @@ namespace QLDuLieuTonKho_BTP.Data
 
                 using (SQLiteCommand cmd = new SQLiteCommand(query, conn))
                 {
-                    cmd.Parameters.AddWithValue("@"+ para, lot);
+                    cmd.Parameters.AddWithValue("@"+ para, key);
 
                     using (SQLiteDataAdapter adapter = new SQLiteDataAdapter(cmd))
                     {
