@@ -1,4 +1,7 @@
-﻿using QLDuLieuTonKho_BTP.Data;
+﻿using DocumentFormat.OpenXml;
+using DocumentFormat.OpenXml.Spreadsheet;
+using QLDuLieuTonKho_BTP.Data;
+using QLDuLieuTonKho_BTP.Models;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -8,32 +11,137 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static QLDuLieuTonKho_BTP.Helper;
 
 namespace QLDuLieuTonKho_BTP
 {
-    public partial class Uc_GopBin : UserControl
+    public partial class Uc_GopBin : UserControl, ICustomUserControl
     {
-        public Uc_GopBin()
+        public event Action<DataTable> OnDataReady;
+        private string _url;
+        private string _callTimer;
+
+        public Uc_GopBin(string url)
         {
             InitializeComponent();
+            _url = url;
+            timer1.Interval = 500;
+            DatabaseHelper.SetDatabasePath(_url);
+
+            dgDsLot.Columns.Add("ID", "ID");
+            dgDsLot.Columns.Add("lot", "Lô");
+            dgDsLot.Columns.Add("kl", "Khối lượng");
+            dgDsLot.Columns.Add("ten", "Tên sản phẩm");
+            dgDsLot.Columns["ten"].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+            dgDsLot.Columns["ID"].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+            dgDsLot.Columns["lot"].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+
+            // ===== Thêm cột nút Xóa =====
+            DataGridViewButtonColumn btnDelete = new DataGridViewButtonColumn();
+            btnDelete.Name = "btnDelete";
+            btnDelete.HeaderText = "Xóa";
+            btnDelete.Text = "X";
+            btnDelete.UseColumnTextForButtonValue = true;
+            btnDelete.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+            
+            dgDsLot.Columns.Add(btnDelete);
+            dgDsLot.AllowUserToAddRows = false;
+            //dgDsLot.CellContentClick += dgDsLot_CellContentClick; // sự kiện cho nút
+            dgDsLot.CellClick += dgDsLot_CellClick;               // tùy chọn: nếu muốn bắt click cả ô
+        }
+
+        private void Uc_GopBin_Load(object sender, EventArgs e)
+        {
+            
+
         }
 
         private void cbLot_TextUpdate(object sender, EventArgs e)
         {
+            _callTimer = "cbLot";
             timer1.Stop();
             timer1.Start();
-        }
-
-        private void btnLuu_Click(object sender, EventArgs e)
-        {
-
         }
 
         private void timer1_Tick(object sender, EventArgs e)
         {
             timer1.Stop();
 
-            LoadAutoCompleteLot(cbLot.Text);
+            switch (_callTimer)
+            {
+                case "cbTenSP":
+                    LoadAutoCompleteTenSP(cbTenSP.Text);
+                    break;
+                    case "cbLot":
+                        LoadAutoCompleteLot(cbLot.Text);
+                        break;
+                default:
+                    Console.WriteLine("Lỗi tại function Timer1_tick");
+                    break;
+            }
+
+        }
+
+
+        private void dgDsLot_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex >= 0 && dgDsLot.Columns[e.ColumnIndex].Name == "btnDelete")
+            {
+                var confirm = MessageBox.Show("Bạn có chắc muốn xóa dòng này?",
+                                              "Xác nhận xóa",
+                                              MessageBoxButtons.YesNo,MessageBoxIcon.Question);
+                if (confirm == DialogResult.Yes)
+                {
+                    dgDsLot.Rows.RemoveAt(e.RowIndex);
+                }
+            }
+        }
+
+        private void LoadAutoCompleteTenSP(string keyword)
+        {
+            if (string.IsNullOrWhiteSpace(keyword))
+            {
+                //ResetController_TimTenSP();
+                cbTenSP.DroppedDown = false;
+                return;
+            }
+            string para = "TenSP";
+            string query = @"
+            SELECT
+                DanhSachMaSP.ID AS ID,
+                DanhSachMaSP.Ten as ten,
+                DanhSachMaSP.Ma as ma
+            FROM
+                DanhSachMaSP
+            WHERE
+                DanhSachMaSP.Ten LIKE '%' || @" + para + " || '%'";
+            DataTable dsMaSP = DatabaseHelper.GetData(keyword, query, para);
+            cbTenSP.DroppedDown = false;
+            cbTenSP.SelectionChangeCommitted -= cbTenSP_SelectionChangeCommitted; // tránh trùng event
+            // check data return
+            if (dsMaSP.Rows.Count != 0)
+            {
+                cbTenSP.DataSource = dsMaSP;
+                cbTenSP.DisplayMember = "ten";
+                string currentText = keyword;
+                cbTenSP.DroppedDown = true;
+                cbTenSP.Text = currentText;
+                cbTenSP.SelectionStart = cbTenSP.Text.Length;
+                cbTenSP.SelectionLength = 0;
+                cbTenSP.SelectionChangeCommitted += cbTenSP_SelectionChangeCommitted;
+            }
+        }
+
+        private void cbTenSP_SelectionChangeCommitted(object sender, EventArgs e)
+        {
+            //ResetController_TimTenSP();
+            if (cbTenSP.SelectedItem == null || !(cbTenSP.SelectedItem is DataRowView)) return;
+            DataRowView row = (DataRowView)cbTenSP.SelectedItem;
+            //string tenSP = row["ten"].ToString();
+            //string maSP = row["ma"].ToString();
+            string id = row["ID"].ToString();
+
+            nmIDTenSP.Value = Convert.ToInt32(id);
         }
 
         private void LoadAutoCompleteLot(string keyword)
@@ -48,9 +156,19 @@ namespace QLDuLieuTonKho_BTP
 
             string para = "Lot";
             string query = @"
-                SELECT Lot, KhoiLuongConLai
-                FROM TonKho
-                WHERE Lot LIKE '%' || @" + para + " || '%' AND KhoiLuongConLai <> 0;";
+            SELECT
+                TonKho.ID AS ID,
+                TonKho.Lot as lot,
+                TonKho.KhoiLuongConLai as kl,
+                DanhSachMaSP.Ten as ten
+            FROM
+                TonKho
+            INNER JOIN
+                DanhSachMaSP ON TonKho.MaSP_ID = DanhSachMaSP.ID
+            WHERE
+                TonKho.KhoiLuongConLai > 0
+                AND TonKho.Lot LIKE '%' || @" + para + " || '%'";
+
 
             DataTable tonKho = DatabaseHelper.GetData(keyword, query, para);
 
@@ -78,48 +196,152 @@ namespace QLDuLieuTonKho_BTP
         private void cbLot_SelectionChangeCommitted(object sender, EventArgs e)
         {
             //ResetController_TimLOT(); 
-            decimal klcl = 0;
-
+            decimal kl = 0;
 
             if (cbLot.SelectedItem == null || !(cbLot.SelectedItem is DataRowView)) return;
+            //cbTenSP.Enabled = false;
 
             DataRowView row = (DataRowView)cbLot.SelectedItem;
+            string lotValue = row["Lot"].ToString();
 
-            klcl = Convert.ToDecimal(row["KhoiLuongConLai"]);
-
-            if (klcl == 0)
-            {
-                MessageBox.Show("Lot đã hết hàng, vui lòng kiểm tra lại!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                return;
-            }
-
+            kl = Convert.ToDecimal(row["kl"]);
             string selectedLot = row["Lot"].ToString();
+            string id = row["ID"].ToString();
+            string tenSP = row["ten"].ToString();
 
-            string[] result = Helper.PhanTachLot(selectedLot);
+            nmKl.Value = kl;
+            lblTenSP.Text = tenSP;
 
-            cbLot.DataSource = null;
-            cbLot.Text = "";
+            DataRowView dong = (DataRowView)row;
 
-            if (result.Length < 5)
+            bool isDuplicate = dgDsLot.Rows.Cast<DataGridViewRow>()
+                .Any(r => r.Cells["ID"].Value?.ToString() == id);
+
+            if (!isDuplicate)
             {
-                MessageBox.Show("Lot không hợp lệ, vui lòng kiểm tra lại!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                return;
+                object[] values = row.Row.ItemArray;
+                dgDsLot.Rows.Add(values);
             }
-
-            //may.Text = result[0];
-            //maHT.Text = result[1];
-            //STTCD.Text = result[2];
-            //sttBin.Value = Convert.ToDecimal(result[3]);
-            //soBin.Value = Convert.ToDecimal(result[4]);
-            //lot.Text = selectedLot;
-
-            //klTruocBoc.Value = klcl;
-
-
-            cbLot.Text = "";
-
-
+            else
+            {
+                MessageBox.Show("Lô này đã được thêm vào danh sách.");
+            }
         }
 
+        private void may_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            lblLot.Text = Helper.LOTGenerated(may, maHT, STTCD, sttBin, soBin);
+        }
+
+        private void maHT_ValueChanged(object sender, EventArgs e)
+        {
+            lblLot.Text = Helper.LOTGenerated(may, maHT, STTCD, sttBin, soBin);
+        }
+
+        private void STTCD_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            lblLot.Text = Helper.LOTGenerated(may, maHT, STTCD, sttBin, soBin);
+        }
+
+        private void sttBin_ValueChanged(object sender, EventArgs e)
+        {
+            lblLot.Text = Helper.LOTGenerated(may, maHT, STTCD, sttBin, soBin);
+        }
+
+        private void soBin_ValueChanged(object sender, EventArgs e)
+        {
+            lblLot.Text = Helper.LOTGenerated(may, maHT, STTCD, sttBin, soBin);
+        }
+
+        private void cbTenSP_TextUpdate(object sender, EventArgs e)
+        {
+            _callTimer = "cbTenSP";
+            timer1.Stop();
+            timer1.Start();
+        }
+
+        private void btnGop_Click(object sender, EventArgs e)
+        {
+            var ids = dgDsLot.Rows
+               .Cast<DataGridViewRow>()
+               .Where(r => !r.IsNewRow && r.Cells["ID"].Value != null)
+               .Select(r => Convert.ToInt64(r.Cells["ID"].Value))
+               .ToList();
+
+            if (lblLot.Text == "")
+            {
+                MessageBox.Show("LOT chưa hợp lệ.", "THÔNG BÁO", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            if (ids.Count == 0 || nmIDTenSP.Value == 0)
+            {
+                MessageBox.Show("Kiểm tra lại danh sách LOT hoặc Tên Sản Phẩm", "THÔNG BÁO", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+
+            TonKho tonKhoNew = new TonKho
+            {
+                MaSP_ID = Convert.ToInt32(nmIDTenSP.Value),
+                Lot = lblLot.Text,
+                KhoiLuongConLai = Convert.ToDouble(nmKLSP.Value),
+                KhoiLuongDauVao = Convert.ToDouble(nmKLSP.Value),
+                HanNoi = 0,
+                ChieuDai = 0
+            };
+
+            DL_CD_Boc hanNoiNew = new DL_CD_Boc{
+                Ngay = DateTime.Now.ToString("yyyy-MM-dd"),
+                Ca = "Hàn nối",
+                NguoiLam = "Hàn nối",
+                SoMay = "Hàn nối",
+                MaSP_ID = Convert.ToInt32(nmIDTenSP.Value),
+                KhoiLuongTruocBoc = Convert.ToDouble(nmKLSP.Value),
+                TenCongDoan = "Hàn nối",
+            };
+
+           
+
+            bool isUpdateSuccess = DatabaseHelper.InsertVaUpdateTonKho_HanNoi(tonKhoNew, hanNoiNew, ids);
+
+            if (isUpdateSuccess)
+            {
+                MessageBox.Show("Gộp bin thành công!","THÔNG BÁO",MessageBoxButtons.OK,MessageBoxIcon.Warning);
+                ResetAllController();
+            }
+            else
+            {
+                MessageBox.Show("Gộp bin thất bại. Vui lòng kiểm tra lại dữ liệu.", "THÔNG BÁO", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void ResetAllController()
+        {
+            may.SelectedIndex = -1;
+            maHT.Value = 0;
+            STTCD.SelectedIndex = -1;
+            sttBin.Value = 0;
+            soBin.Value = 0;
+            lblLot.Text = "";
+            nmIDTenSP.Value = 0;
+            cbTenSP.Text = "";
+            nmKLSP.Value = 0;
+            dgDsLot.Rows.Clear();
+            lblTenSP.Text = "";
+            nmKl.Value = 0;
+            lblLot.Text = "";
+            cbLot.Text = "";
+        }
+
+        private void btnCancel_Click(object sender, EventArgs e)
+        {
+            ResetAllController();
+        }
+
+        private void btnDsGopBin_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }

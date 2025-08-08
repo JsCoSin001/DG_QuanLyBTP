@@ -14,7 +14,7 @@ namespace QLDuLieuTonKho_BTP
     public partial class Main : Form
     {
         private string _url;
-        private string _sign = "© 2025 - Made by Linh";
+        private string _sign = "Make by Linh - v01.2025 @";
 
         private Uc_ShowData ucShowData;
         public Main()
@@ -170,5 +170,15 @@ namespace QLDuLieuTonKho_BTP
            );
         }
 
+        private void btnGopBin_Click(object sender, EventArgs e)
+        {
+            ucShowData = Helper.LoadUserControlsWithData<Uc_GopBin>(
+               pnLeft,
+               pnRight,
+               out var Uc_GopBin,
+               dt => ucShowData.SetData(dt),
+               _url
+           );
+        }
     }
 }

@@ -69,12 +69,12 @@
             // 
             this.mySign.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.mySign.Font = new System.Drawing.Font("Tahoma", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.mySign.Location = new System.Drawing.Point(10, 740);
+            this.mySign.Location = new System.Drawing.Point(10, 825);
             this.mySign.Name = "mySign";
             this.mySign.Size = new System.Drawing.Size(202, 25);
             this.mySign.TabIndex = 0;
             this.mySign.Text = "label1";
-            this.mySign.TextAlign = System.Drawing.ContentAlignment.BottomRight;
+            this.mySign.TextAlign = System.Drawing.ContentAlignment.BottomLeft;
             // 
             // pnMainControl
             // 
@@ -88,7 +88,7 @@
             this.pnMainControl.Location = new System.Drawing.Point(0, 0);
             this.pnMainControl.Name = "pnMainControl";
             this.pnMainControl.Padding = new System.Windows.Forms.Padding(10);
-            this.pnMainControl.Size = new System.Drawing.Size(222, 775);
+            this.pnMainControl.Size = new System.Drawing.Size(222, 860);
             this.pnMainControl.TabIndex = 0;
             // 
             // pnCauHinh
@@ -274,6 +274,7 @@
             this.btnGopBin.TabIndex = 7;
             this.btnGopBin.Text = "Công Đoạn Gộp Bin";
             this.btnGopBin.UseVisualStyleBackColor = true;
+            this.btnGopBin.Click += new System.EventHandler(this.btnGopBin_Click);
             // 
             // panel2
             // 
@@ -338,7 +339,7 @@
             this.pnRight.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pnRight.Location = new System.Drawing.Point(414, 0);
             this.pnRight.Name = "pnRight";
-            this.pnRight.Size = new System.Drawing.Size(729, 775);
+            this.pnRight.Size = new System.Drawing.Size(729, 860);
             this.pnRight.TabIndex = 2;
             // 
             // pnLeft
@@ -348,14 +349,14 @@
             this.pnLeft.Margin = new System.Windows.Forms.Padding(3, 3, 10, 3);
             this.pnLeft.Name = "pnLeft";
             this.pnLeft.Padding = new System.Windows.Forms.Padding(0, 0, 10, 0);
-            this.pnLeft.Size = new System.Drawing.Size(192, 775);
+            this.pnLeft.Size = new System.Drawing.Size(192, 860);
             this.pnLeft.TabIndex = 1;
             // 
             // Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1143, 775);
+            this.ClientSize = new System.Drawing.Size(1143, 860);
             this.Controls.Add(this.pnRight);
             this.Controls.Add(this.pnLeft);
             this.Controls.Add(this.pnMainControl);

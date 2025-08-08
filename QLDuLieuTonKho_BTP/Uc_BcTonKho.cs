@@ -40,7 +40,9 @@ namespace QLDuLieuTonKho_BTP
                 FROM
                     TonKho
                 JOIN
-                    DanhSachMaSP ON TonKho.MaSP_ID = DanhSachMaSP.ID;
+                    DanhSachMaSP ON TonKho.MaSP_ID = DanhSachMaSP.ID
+                 WHERE
+                        TonKho.KhoiLuongConLai > 0;
                 ";
 
 

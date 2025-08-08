@@ -53,13 +53,11 @@ namespace QLDuLieuTonKho_BTP
 
         public Uc_Ben() { }
 
-
         public void LoadDanhSachMay(string[] dsMay)
         {
             may.Items.Clear();
             may.Items.AddRange(dsMay);
         }
-
 
         private void tbLuu_Click(object sender, EventArgs e)
         {
@@ -68,7 +66,7 @@ namespace QLDuLieuTonKho_BTP
             string maBin = lot.Text;
             int maID = (int)idTenSP.Value;
             float kl = (float)khoiLuong.Value;
-            float hn = (float)hanNoi.Value;
+            //float hn = (float)hanNoi.Value;
             float cd = (float)chieuDai.Value;
             string error = "";
             if (maBin == "")
@@ -94,7 +92,7 @@ namespace QLDuLieuTonKho_BTP
                     MaSP_ID = maID,
                     KhoiLuongDauVao = kl,
                     KhoiLuongConLai = kl,
-                    HanNoi = hn,
+                    HanNoi = 0,
                     ChieuDai = cd
                 };
 
@@ -112,7 +110,7 @@ namespace QLDuLieuTonKho_BTP
                 if (validationResults.Count != 0)
                 {
                     string errorMessage = string.Join("\n", validationResults.ConvertAll(r => r.ErrorMessage));
-                    MessageBox.Show("Lỗi nhập liệu:\n" + errorMessage, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show("Lỗi nhập liệu:\n" + errorMessage, "THÔNG BÁO", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }
 
@@ -140,22 +138,34 @@ namespace QLDuLieuTonKho_BTP
         {
             ngay.Value = DateTime.Now;
             ca.SelectedIndex = -1;
-            may.SelectedIndex = -1;
+            ghiChu.Text = "";
+            nguoiLam.Text = "";
+            stt.Value = 0;
+            dateReport.Value = DateTime.Now;
 
-            maHT.Value = 0;
+            ResetController_TimLot();
+            ResetController_TimSP();
+        }
+
+        private void ResetController_TimLot()
+        {
+
+            may.SelectedIndex = -1;
             STTCD.SelectedIndex = -1;
             sttBin.Value = 0;
             soBin.Value = 0;
-
+            maHT.Value = 0;
             lot.Text = "";
+        }
+
+        private void ResetController_TimSP()
+        {
             maSP.Text = "";
             idTenSP.Value = 0;
             tenSP.Text = "";
             khoiLuong.Value = 0;
-            hanNoi.Value = 0;
+            //hanNoi.Value = 0;
             chieuDai.Value = 0;
-            nguoiLam.Text = "";
-            ghiChu.Text = "";
             stt.Value = 0;
         }
 
@@ -173,10 +183,6 @@ namespace QLDuLieuTonKho_BTP
             LoadAutoCompleteTenSP(tenSP.Text);
         }
 
-        /// <summary>
-        /// Hàm này sẽ tải dữ liệu tự động hoàn thành cho ComboBox tenSP dựa trên từ khóa nhập vào.
-        /// </summary>
-        /// <param name="keyword"></param>
         private void LoadAutoCompleteTenSP(string keyword)
         {
             // check empty keyword
@@ -194,7 +200,7 @@ namespace QLDuLieuTonKho_BTP
                "WHERE KieuSP = '" + TypeOfProduct + "' " +
                "AND Ten LIKE '%' || @" + para + " || '%' " +
                "AND Ten NOT LIKE '%/T' " +
-               "LIMIT 20";
+               "AND (Ten LIKE 'c %' OR Ten LIKE 'C %')";
 
             DataTable dslot = DatabaseHelper.GetData(keyword, query, para);
 
@@ -218,10 +224,9 @@ namespace QLDuLieuTonKho_BTP
             }
         }
 
-
         private void tenSP_SelectionChangeCommitted(object sender, EventArgs e)
         {
-            ResetAllController();
+            ResetController_TimSP();
 
             if (tenSP.SelectedItem == null || !(tenSP.SelectedItem is DataRowView)) return;
 
@@ -292,11 +297,10 @@ namespace QLDuLieuTonKho_BTP
             idTenSP.Value = Convert.ToDecimal(dataRow["idTenSP"]);
             tenSP.Text = dataRow["TenSP"].ToString();
             khoiLuong.Value = Convert.ToDecimal(dataRow["KhoiLuongDauVao"]);
-            hanNoi.Value = Convert.ToDecimal(dataRow["HanNoi"]);
+            //hanNoi.Value = Convert.ToDecimal(dataRow["HanNoi"]);
             chieuDai.Value = Convert.ToDecimal(dataRow["ChieuDai"]);
             nguoiLam.Text = dataRow["NguoiLam"].ToString();
             ghiChu.Text = dataRow["ghiChu"].ToString();
-
         }
 
         private void may_SelectedIndexChanged(object sender, EventArgs e)

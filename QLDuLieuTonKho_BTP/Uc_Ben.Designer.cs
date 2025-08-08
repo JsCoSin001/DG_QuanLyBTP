@@ -39,7 +39,6 @@
             this.maHT = new System.Windows.Forms.NumericUpDown();
             this.sttBin = new System.Windows.Forms.NumericUpDown();
             this.idTenSP = new System.Windows.Forms.NumericUpDown();
-            this.hanNoi = new System.Windows.Forms.NumericUpDown();
             this.chieuDai = new System.Windows.Forms.NumericUpDown();
             this.khoiLuong = new System.Windows.Forms.NumericUpDown();
             this.may = new System.Windows.Forms.ComboBox();
@@ -50,7 +49,6 @@
             this.label11 = new System.Windows.Forms.Label();
             this.label8 = new System.Windows.Forms.Label();
             this.ca = new System.Windows.Forms.ComboBox();
-            this.label7 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label15 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
@@ -85,7 +83,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.maHT)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.sttBin)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.idTenSP)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.hanNoi)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.chieuDai)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.khoiLuong)).BeginInit();
             this.PnNhapDL.SuspendLayout();
@@ -109,7 +106,6 @@
             this.groupBox1.Controls.Add(this.maHT);
             this.groupBox1.Controls.Add(this.sttBin);
             this.groupBox1.Controls.Add(this.idTenSP);
-            this.groupBox1.Controls.Add(this.hanNoi);
             this.groupBox1.Controls.Add(this.chieuDai);
             this.groupBox1.Controls.Add(this.khoiLuong);
             this.groupBox1.Controls.Add(this.may);
@@ -120,7 +116,6 @@
             this.groupBox1.Controls.Add(this.label11);
             this.groupBox1.Controls.Add(this.label8);
             this.groupBox1.Controls.Add(this.ca);
-            this.groupBox1.Controls.Add(this.label7);
             this.groupBox1.Controls.Add(this.label2);
             this.groupBox1.Controls.Add(this.label15);
             this.groupBox1.Controls.Add(this.label4);
@@ -266,25 +261,6 @@
             this.idTenSP.Size = new System.Drawing.Size(109, 27);
             this.idTenSP.TabIndex = 8;
             // 
-            // hanNoi
-            // 
-            this.hanNoi.DecimalPlaces = 1;
-            this.hanNoi.Font = new System.Drawing.Font("Microsoft Sans Serif", 12.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.hanNoi.Increment = new decimal(new int[] {
-            1,
-            0,
-            0,
-            131072});
-            this.hanNoi.Location = new System.Drawing.Point(361, 337);
-            this.hanNoi.Maximum = new decimal(new int[] {
-            90000000,
-            0,
-            0,
-            0});
-            this.hanNoi.Name = "hanNoi";
-            this.hanNoi.Size = new System.Drawing.Size(131, 27);
-            this.hanNoi.TabIndex = 8;
-            // 
             // chieuDai
             // 
             this.chieuDai.DecimalPlaces = 1;
@@ -294,14 +270,14 @@
             0,
             0,
             131072});
-            this.chieuDai.Location = new System.Drawing.Point(126, 396);
+            this.chieuDai.Location = new System.Drawing.Point(361, 337);
             this.chieuDai.Maximum = new decimal(new int[] {
             90000000,
             0,
             0,
             0});
             this.chieuDai.Name = "chieuDai";
-            this.chieuDai.Size = new System.Drawing.Size(146, 27);
+            this.chieuDai.Size = new System.Drawing.Size(131, 27);
             this.chieuDai.TabIndex = 8;
             // 
             // khoiLuong
@@ -368,9 +344,9 @@
             // nguoiLam
             // 
             this.nguoiLam.Font = new System.Drawing.Font("Microsoft Sans Serif", 12.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.nguoiLam.Location = new System.Drawing.Point(361, 395);
+            this.nguoiLam.Location = new System.Drawing.Point(126, 395);
             this.nguoiLam.Name = "nguoiLam";
-            this.nguoiLam.Size = new System.Drawing.Size(131, 27);
+            this.nguoiLam.Size = new System.Drawing.Size(366, 27);
             this.nguoiLam.TabIndex = 5;
             // 
             // maSP
@@ -387,7 +363,7 @@
             // 
             this.label9.AutoSize = true;
             this.label9.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label9.Location = new System.Drawing.Point(280, 401);
+            this.label9.Location = new System.Drawing.Point(14, 399);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(75, 18);
             this.label9.TabIndex = 0;
@@ -407,7 +383,7 @@
             // 
             this.label8.AutoSize = true;
             this.label8.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label8.Location = new System.Drawing.Point(14, 399);
+            this.label8.Location = new System.Drawing.Point(286, 340);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(69, 18);
             this.label8.TabIndex = 0;
@@ -426,16 +402,6 @@
             this.ca.Name = "ca";
             this.ca.Size = new System.Drawing.Size(72, 28);
             this.ca.TabIndex = 3;
-            // 
-            // label7
-            // 
-            this.label7.AutoSize = true;
-            this.label7.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label7.Location = new System.Drawing.Point(280, 340);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(59, 18);
-            this.label7.TabIndex = 0;
-            this.label7.Text = "Hàn nối";
             // 
             // label2
             // 
@@ -757,7 +723,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.maHT)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.sttBin)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.idTenSP)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.hanNoi)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.chieuDai)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.khoiLuong)).EndInit();
             this.PnNhapDL.ResumeLayout(false);
@@ -788,10 +753,8 @@
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.Label label11;
         private System.Windows.Forms.Label label8;
-        private System.Windows.Forms.Label label7;
         private System.Windows.Forms.Panel PnNhapDL;
         private System.Windows.Forms.ComboBox may;
-        private System.Windows.Forms.NumericUpDown hanNoi;
         private System.Windows.Forms.NumericUpDown chieuDai;
         private System.Windows.Forms.NumericUpDown khoiLuong;
         private System.Windows.Forms.GroupBox groupBox3;

@@ -31,9 +31,6 @@ namespace QLDuLieuTonKho_BTP
         private string[] _dsMay;
         private string _callTimer;
 
-
-
-
         public event Action<DataTable> OnDataReady;
 
         public Uc_Boc(string url, string[] dsMay, int sttCongDoan)
