@@ -69,6 +69,7 @@
             this.dgDsLot = new System.Windows.Forms.DataGridView();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.btnDsGopBin = new System.Windows.Forms.Button();
+            this.cbXuatExcel = new System.Windows.Forms.CheckBox();
             this.groupBox1.SuspendLayout();
             this.flowLayoutPanel1.SuspendLayout();
             this.flowLayoutPanel2.SuspendLayout();
@@ -502,6 +503,7 @@
             this.flowLayoutPanel5.Controls.Add(this.btnGop);
             this.flowLayoutPanel5.Controls.Add(this.btnCancel);
             this.flowLayoutPanel5.Controls.Add(this.btnDsGopBin);
+            this.flowLayoutPanel5.Controls.Add(this.cbXuatExcel);
             this.flowLayoutPanel5.Dock = System.Windows.Forms.DockStyle.Top;
             this.flowLayoutPanel5.FlowDirection = System.Windows.Forms.FlowDirection.RightToLeft;
             this.flowLayoutPanel5.Location = new System.Drawing.Point(10, 432);
@@ -570,6 +572,17 @@
             this.btnDsGopBin.UseVisualStyleBackColor = true;
             this.btnDsGopBin.Click += new System.EventHandler(this.btnDsGopBin_Click);
             // 
+            // cbXuatExcel
+            // 
+            this.cbXuatExcel.AutoSize = true;
+            this.cbXuatExcel.Location = new System.Drawing.Point(161, 20);
+            this.cbXuatExcel.Margin = new System.Windows.Forms.Padding(3, 20, 3, 3);
+            this.cbXuatExcel.Name = "cbXuatExcel";
+            this.cbXuatExcel.Size = new System.Drawing.Size(97, 22);
+            this.cbXuatExcel.TabIndex = 9;
+            this.cbXuatExcel.Text = "Xuất Excel";
+            this.cbXuatExcel.UseVisualStyleBackColor = true;
+            // 
             // Uc_GopBin
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 18F);
@@ -602,6 +615,7 @@
             this.flowLayoutPanel6.PerformLayout();
             this.groupBox2.ResumeLayout(false);
             this.flowLayoutPanel5.ResumeLayout(false);
+            this.flowLayoutPanel5.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgDsLot)).EndInit();
             this.ResumeLayout(false);
 
@@ -649,5 +663,6 @@
         private System.Windows.Forms.Label lblLot;
         private System.Windows.Forms.NumericUpDown nmIDTenSP;
         private System.Windows.Forms.Button btnDsGopBin;
+        private System.Windows.Forms.CheckBox cbXuatExcel;
     }
 }

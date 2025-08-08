@@ -20,7 +20,6 @@ namespace QLDuLieuTonKho_BTP
         public event Action<DataTable> OnDataReady;
         private string _url;
         private string _callTimer;
-
         public Uc_GopBin(string url)
         {
             InitializeComponent();
@@ -49,7 +48,6 @@ namespace QLDuLieuTonKho_BTP
             //dgDsLot.CellContentClick += dgDsLot_CellContentClick; // sự kiện cho nút
             dgDsLot.CellClick += dgDsLot_CellClick;               // tùy chọn: nếu muốn bắt click cả ô
         }
-
         private void Uc_GopBin_Load(object sender, EventArgs e)
         {
             
@@ -81,7 +79,6 @@ namespace QLDuLieuTonKho_BTP
             }
 
         }
-
 
         private void dgDsLot_CellClick(object sender, DataGridViewCellEventArgs e)
         {
@@ -339,8 +336,46 @@ namespace QLDuLieuTonKho_BTP
             ResetAllController();
         }
 
-        private void btnDsGopBin_Click(object sender, EventArgs e)
+        private async void btnDsGopBin_Click(object sender, EventArgs e)
         {
+            string query = @"
+            SELECT
+                parent.ID                  AS ID_HienTai,
+                parent.Lot                 AS Lot_HienTai,
+                parent.KhoiLuongDauVao     AS KL_HienTai,
+                spp.Ten                    AS TenSP_HienTai,   
+                child.ID                   AS ID_HanNoi,
+                child.Lot 					AS Lot_HanNoi, 
+                sp.Ten                     AS Ten_HanNoi,     
+                child.KhoiLuongDauVao 		AS KL_HanNoi,
+                child.ChieuDai,
+                boc.Ngay                   AS NgayHanNoi
+            FROM TonKho AS child
+            JOIN TonKho AS parent
+                ON parent.ID = child.HanNoi
+            LEFT JOIN DanhSachMaSP AS sp
+                ON sp.ID = child.MaSP_ID
+            LEFT JOIN DanhSachMaSP AS spp      
+                ON spp.ID = parent.MaSP_ID
+            LEFT JOIN (
+                SELECT TonKho_ID, MAX(Ngay) AS Ngay
+                FROM DL_CD_Boc
+                GROUP BY TonKho_ID
+            ) AS boc
+                ON boc.TonKho_ID = child.ID
+            WHERE child.HanNoi <> 0
+            ORDER BY parent.ID, child.ID;
+            ";
+
+            DataTable table = DatabaseHelper.GetDataFromSQL(query);
+
+            if (!cbXuatExcel.Checked)
+            {
+                OnDataReady?.Invoke(table);
+                return;
+            }
+
+            await ExcelHelper.ExportWithLoading(table);
 
         }
     }

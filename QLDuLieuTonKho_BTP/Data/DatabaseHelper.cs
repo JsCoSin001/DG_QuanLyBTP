@@ -125,6 +125,91 @@ namespace QLDuLieuTonKho_BTP.Data
             }
         }
 
+        public static bool InsertVaUpdateTonKho_HanNoi(TonKho tonKhoNew, DL_CD_Boc hanNoiNew, IEnumerable<long> ids)
+        {
+            if (tonKhoNew == null) throw new ArgumentNullException(nameof(tonKhoNew));
+            if (hanNoiNew == null) throw new ArgumentNullException(nameof(hanNoiNew));
+            if (string.IsNullOrWhiteSpace(tonKhoNew.Lot))
+                throw new ArgumentException("tonKhoNew.Lot bắt buộc (NOT NULL, UNIQUE).");
+
+            try
+            {
+                using (var conn = new SQLiteConnection(connStr))
+                {
+                    conn.Open();
+                    using (var tran = conn.BeginTransaction())
+                    {
+                        long newTonKhoId;
+
+                        // 1) Insert TonKho
+                        using (var cmd = new SQLiteCommand(@"
+                            INSERT INTO TonKho
+                              (Lot, MaSP_ID, KhoiLuongDauVao, KhoiLuongConLai, HanNoi, ChieuDai, DuocHanNoi)
+                            VALUES
+                              (@Lot, @MaSP_ID, @KhoiLuongDauVao, @KhoiLuongConLai, @HanNoi, @ChieuDai, @DuocHanNoi);
+                        ", conn, tran))
+                        {
+                            cmd.Parameters.Add("@Lot", DbType.String).Value = tonKhoNew.Lot;
+                            cmd.Parameters.Add("@MaSP_ID", DbType.Int32).Value = tonKhoNew.MaSP_ID;
+                            cmd.Parameters.Add("@KhoiLuongDauVao", DbType.Double).Value = tonKhoNew.KhoiLuongDauVao;
+                            cmd.Parameters.Add("@KhoiLuongConLai", DbType.Double).Value = tonKhoNew.KhoiLuongConLai;
+                            cmd.Parameters.Add("@HanNoi", DbType.Int32).Value = tonKhoNew.HanNoi;
+                            cmd.Parameters.Add("@ChieuDai", DbType.Double).Value = tonKhoNew.ChieuDai;
+                            cmd.Parameters.Add("@DuocHanNoi", DbType.Int32).Value = tonKhoNew.HanNoi;
+
+                            cmd.ExecuteNonQuery();
+                            newTonKhoId = conn.LastInsertRowId;
+
+                            // 2) Insert DL_CD_Boc
+                            using (var cmd2 = new SQLiteCommand(@"
+                                INSERT INTO DL_CD_Boc
+                                  (Ngay, Ca, NguoiLam, SoMay,
+                                   MaSP_ID, TonKho_ID, KhoiLuongTruocBoc, TenCongDoan)
+                                VALUES
+                                  (@Ngay, @Ca, @NguoiLam, @SoMay,
+                                   @MaSP_ID, @TonKho_ID, @KhoiLuongTruocBoc, @TenCongDoan);
+                            ", conn, tran))
+                            {
+                                cmd2.Parameters.Add("@Ngay", DbType.String).Value = hanNoiNew.Ngay;
+                                cmd2.Parameters.Add("@Ca", DbType.String).Value = hanNoiNew.Ca;
+                                cmd2.Parameters.Add("@NguoiLam", DbType.String).Value = hanNoiNew.NguoiLam;
+                                cmd2.Parameters.Add("@SoMay", DbType.String).Value = hanNoiNew.SoMay;
+                                cmd2.Parameters.Add("@MaSP_ID", DbType.Int32).Value = hanNoiNew.MaSP_ID;
+                                cmd2.Parameters.Add("@TonKho_ID", DbType.Int64).Value = newTonKhoId;
+                                cmd2.Parameters.Add("@KhoiLuongTruocBoc", DbType.Double).Value = hanNoiNew.KhoiLuongTruocBoc;
+                                cmd2.Parameters.Add("@TenCongDoan", DbType.String).Value = hanNoiNew.TenCongDoan;
+
+                                cmd2.ExecuteNonQuery();
+                            }
+                        }
+
+                        // 3) Update TonKho.KhoiLuongConLai = 0 cho danh sách ids
+                        var idList = (ids ?? Enumerable.Empty<long>()).Distinct().ToList();
+                        if (idList.Count > 0)
+                        {
+                            var paramNames = idList.Select((_, i) => $"@id{i}").ToArray();
+                            var sqlUpdate = $"UPDATE TonKho SET KhoiLuongConLai = 0, HanNoi ={newTonKhoId} WHERE ID IN ({string.Join(",", paramNames)})";
+
+                            using (var cmd3 = new SQLiteCommand(sqlUpdate, conn, tran))
+                            {
+                                for (int i = 0; i < idList.Count; i++)
+                                    cmd3.Parameters.Add(paramNames[i], DbType.Int64).Value = idList[i];
+                                cmd3.ExecuteNonQuery();
+                            }
+                        }
+
+                        tran.Commit();
+                    }
+                }
+
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
         //=================================================================
         // Cập nhật dữ liệu trong bảng DL_CongDoan và cập nhật lượng TonKho theo ID
         public static Boolean UpdateDL_CDBoc(int bocID, TonKho tonKho, DL_CD_Boc dl)
@@ -281,9 +366,7 @@ namespace QLDuLieuTonKho_BTP.Data
 
             return affectedRows != 0;
         }
-
-        
-
+                
         public static bool UpdateKhoiLuongVaBin(string id, decimal khoiLuongDauVao, string tenBin, decimal khoiLuongBin)
         {
             using (SQLiteConnection conn = new SQLiteConnection(connStr))
@@ -332,8 +415,6 @@ namespace QLDuLieuTonKho_BTP.Data
                 }
             }
         }
-
-
 
         // =================================================================
 
@@ -490,92 +571,7 @@ namespace QLDuLieuTonKho_BTP.Data
         }
 
         // =================================================================
-        public static bool InsertVaUpdateTonKho_HanNoi( TonKho tonKhoNew, DL_CD_Boc hanNoiNew, IEnumerable<long> ids)
-        {
-            if (tonKhoNew == null) throw new ArgumentNullException(nameof(tonKhoNew));
-            if (hanNoiNew == null) throw new ArgumentNullException(nameof(hanNoiNew));
-            if (string.IsNullOrWhiteSpace(tonKhoNew.Lot))
-                throw new ArgumentException("tonKhoNew.Lot bắt buộc (NOT NULL, UNIQUE).");
-
-            try
-            {
-                using (var conn = new SQLiteConnection(connStr))
-                {
-                    conn.Open();
-                    using (var tran = conn.BeginTransaction())
-                    {
-                        long newTonKhoId;
-
-                        // 1) Insert TonKho
-                        using (var cmd = new SQLiteCommand(@"
-                            INSERT INTO TonKho
-                              (Lot, MaSP_ID, KhoiLuongDauVao, KhoiLuongConLai, HanNoi, ChieuDai, DuocHanNoi)
-                            VALUES
-                              (@Lot, @MaSP_ID, @KhoiLuongDauVao, @KhoiLuongConLai, @HanNoi, @ChieuDai, @DuocHanNoi);
-                        ", conn, tran))
-                        {
-                            cmd.Parameters.Add("@Lot", DbType.String).Value = tonKhoNew.Lot;
-                            cmd.Parameters.Add("@MaSP_ID", DbType.Int32).Value = tonKhoNew.MaSP_ID;
-                            cmd.Parameters.Add("@KhoiLuongDauVao", DbType.Double).Value = tonKhoNew.KhoiLuongDauVao;
-                            cmd.Parameters.Add("@KhoiLuongConLai", DbType.Double).Value = tonKhoNew.KhoiLuongConLai;
-                            cmd.Parameters.Add("@HanNoi", DbType.Int32).Value = tonKhoNew.HanNoi;
-                            cmd.Parameters.Add("@ChieuDai", DbType.Double).Value = tonKhoNew.ChieuDai;
-                            cmd.Parameters.Add("@DuocHanNoi", DbType.Int32).Value = tonKhoNew.HanNoi;
-
-                            cmd.ExecuteNonQuery();
-                            newTonKhoId = conn.LastInsertRowId;
-
-                            // 2) Insert DL_CD_Boc
-                            using (var cmd2 = new SQLiteCommand(@"
-                                INSERT INTO DL_CD_Boc
-                                  (Ngay, Ca, NguoiLam, SoMay,
-                                   MaSP_ID, TonKho_ID, KhoiLuongTruocBoc, TenCongDoan)
-                                VALUES
-                                  (@Ngay, @Ca, @NguoiLam, @SoMay,
-                                   @MaSP_ID, @TonKho_ID, @KhoiLuongTruocBoc, @TenCongDoan);
-                            ", conn, tran))
-                            {
-                                cmd2.Parameters.Add("@Ngay", DbType.String).Value = hanNoiNew.Ngay;
-                                cmd2.Parameters.Add("@Ca", DbType.String).Value = hanNoiNew.Ca;
-                                cmd2.Parameters.Add("@NguoiLam", DbType.String).Value = hanNoiNew.NguoiLam;
-                                cmd2.Parameters.Add("@SoMay", DbType.String).Value = hanNoiNew.SoMay;
-                                cmd2.Parameters.Add("@MaSP_ID", DbType.Int32).Value = hanNoiNew.MaSP_ID;
-                                cmd2.Parameters.Add("@TonKho_ID", DbType.Int64).Value = newTonKhoId;
-                                cmd2.Parameters.Add("@KhoiLuongTruocBoc", DbType.Double).Value = hanNoiNew.KhoiLuongTruocBoc;
-                                cmd2.Parameters.Add("@TenCongDoan", DbType.String).Value = hanNoiNew.TenCongDoan;
-
-                                cmd2.ExecuteNonQuery();
-                            }
-                        }
-
-                        // 3) Update TonKho.KhoiLuongConLai = 0 cho danh sách ids
-                        var idList = (ids ?? Enumerable.Empty<long>()).Distinct().ToList();
-                        if (idList.Count > 0)
-                        {
-                            var paramNames = idList.Select((_, i) => $"@id{i}").ToArray();
-                            var sqlUpdate = $"UPDATE TonKho SET KhoiLuongConLai = 0, HanNoi ={newTonKhoId} WHERE ID IN ({string.Join(",", paramNames)})";
-
-                            using (var cmd3 = new SQLiteCommand(sqlUpdate, conn, tran))
-                            {
-                                for (int i = 0; i < idList.Count; i++)
-                                    cmd3.Parameters.Add(paramNames[i], DbType.Int64).Value = idList[i];
-                                cmd3.ExecuteNonQuery();
-                            }
-                        }
-
-                        tran.Commit();
-                    }
-                }
-
-                return true;
-            }
-            catch
-            {
-                return false;
-            }
-        }
-
-
+        
 
     }
 
