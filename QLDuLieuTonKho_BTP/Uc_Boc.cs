@@ -505,7 +505,7 @@ namespace QLDuLieuTonKho_BTP
                 LEFT JOIN 
                     TonKho AS TonKho_Ben ON DL_CD_Ben.TonKho_ID = TonKho_Ben.ID
                 WHERE strftime('%Y-%m', DL_CD_Boc.Ngay) = @Ngay
-                ORDER BY DL_CD_Boc.Ngay DESC;
+                ORDER BY DL_CD_Boc.ID DESC;
             ";
 
 

@@ -146,7 +146,6 @@ namespace QLDuLieuTonKho_BTP
 
             if (string.IsNullOrWhiteSpace(keyword))
             {
-                //ResetController_TimLOT();
                 cbLot.DroppedDown = false;
                 return;
             }
@@ -304,8 +303,6 @@ namespace QLDuLieuTonKho_BTP
                 TenCongDoan = "Hàn nối",
                 DateInsert = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")                
             };
-
-           
 
             bool isUpdateSuccess = DatabaseHelper.InsertVaUpdateTonKho_HanNoi(tonKhoNew, hanNoiNew, ids);
 

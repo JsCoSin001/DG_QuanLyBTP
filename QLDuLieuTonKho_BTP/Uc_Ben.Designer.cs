@@ -160,7 +160,7 @@
             this.lot.Location = new System.Drawing.Point(126, 160);
             this.lot.Name = "lot";
             this.lot.Size = new System.Drawing.Size(366, 26);
-            this.lot.TabIndex = 13;
+            this.lot.TabIndex = 8;
             // 
             // STTCD
             // 
@@ -179,8 +179,9 @@
             this.STTCD.Location = new System.Drawing.Point(226, 108);
             this.STTCD.Name = "STTCD";
             this.STTCD.Size = new System.Drawing.Size(49, 28);
-            this.STTCD.TabIndex = 12;
+            this.STTCD.TabIndex = 5;
             this.STTCD.SelectedIndexChanged += new System.EventHandler(this.STTCD_SelectedIndexChanged);
+            this.STTCD.TextChanged += new System.EventHandler(this.STTCD_TextChanged);
             // 
             // tenSP
             // 
@@ -189,7 +190,7 @@
             this.tenSP.Location = new System.Drawing.Point(126, 276);
             this.tenSP.Name = "tenSP";
             this.tenSP.Size = new System.Drawing.Size(366, 28);
-            this.tenSP.TabIndex = 10;
+            this.tenSP.TabIndex = 11;
             this.tenSP.KeyDown += new System.Windows.Forms.KeyEventHandler(this.tenSP_KeyDown);
             // 
             // tbLuu
@@ -216,7 +217,7 @@
             0});
             this.soBin.Name = "soBin";
             this.soBin.Size = new System.Drawing.Size(81, 27);
-            this.soBin.TabIndex = 8;
+            this.soBin.TabIndex = 7;
             this.soBin.ValueChanged += new System.EventHandler(this.soBin_ValueChanged);
             // 
             // maHT
@@ -230,7 +231,7 @@
             0});
             this.maHT.Name = "maHT";
             this.maHT.Size = new System.Drawing.Size(99, 27);
-            this.maHT.TabIndex = 8;
+            this.maHT.TabIndex = 4;
             this.maHT.ValueChanged += new System.EventHandler(this.maHT_ValueChanged);
             // 
             // sttBin
@@ -244,7 +245,7 @@
             0});
             this.sttBin.Name = "sttBin";
             this.sttBin.Size = new System.Drawing.Size(85, 27);
-            this.sttBin.TabIndex = 8;
+            this.sttBin.TabIndex = 6;
             this.sttBin.ValueChanged += new System.EventHandler(this.sttBin_ValueChanged);
             // 
             // idTenSP
@@ -259,7 +260,7 @@
             0});
             this.idTenSP.Name = "idTenSP";
             this.idTenSP.Size = new System.Drawing.Size(109, 27);
-            this.idTenSP.TabIndex = 8;
+            this.idTenSP.TabIndex = 10;
             // 
             // chieuDai
             // 
@@ -272,13 +273,13 @@
             131072});
             this.chieuDai.Location = new System.Drawing.Point(361, 337);
             this.chieuDai.Maximum = new decimal(new int[] {
-            90000000,
-            0,
-            0,
+            1661992959,
+            1808227885,
+            5,
             0});
             this.chieuDai.Name = "chieuDai";
             this.chieuDai.Size = new System.Drawing.Size(131, 27);
-            this.chieuDai.TabIndex = 8;
+            this.chieuDai.TabIndex = 13;
             // 
             // khoiLuong
             // 
@@ -291,13 +292,13 @@
             131072});
             this.khoiLuong.Location = new System.Drawing.Point(126, 337);
             this.khoiLuong.Maximum = new decimal(new int[] {
-            90000000,
-            0,
-            0,
+            1661992959,
+            1808227885,
+            5,
             0});
             this.khoiLuong.Name = "khoiLuong";
             this.khoiLuong.Size = new System.Drawing.Size(146, 27);
-            this.khoiLuong.TabIndex = 8;
+            this.khoiLuong.TabIndex = 12;
             // 
             // may
             // 
@@ -327,7 +328,7 @@
             this.may.Location = new System.Drawing.Point(17, 108);
             this.may.Name = "may";
             this.may.Size = new System.Drawing.Size(70, 28);
-            this.may.TabIndex = 7;
+            this.may.TabIndex = 3;
             this.may.SelectedIndexChanged += new System.EventHandler(this.may_SelectedIndexChanged);
             // 
             // ghiChu
@@ -338,7 +339,7 @@
             this.ghiChu.Location = new System.Drawing.Point(126, 457);
             this.ghiChu.Name = "ghiChu";
             this.ghiChu.Size = new System.Drawing.Size(366, 88);
-            this.ghiChu.TabIndex = 6;
+            this.ghiChu.TabIndex = 15;
             this.ghiChu.Text = "";
             // 
             // nguoiLam
@@ -347,7 +348,7 @@
             this.nguoiLam.Location = new System.Drawing.Point(126, 395);
             this.nguoiLam.Name = "nguoiLam";
             this.nguoiLam.Size = new System.Drawing.Size(366, 27);
-            this.nguoiLam.TabIndex = 5;
+            this.nguoiLam.TabIndex = 14;
             // 
             // maSP
             // 
@@ -357,7 +358,7 @@
             this.maSP.Location = new System.Drawing.Point(126, 216);
             this.maSP.Name = "maSP";
             this.maSP.Size = new System.Drawing.Size(210, 27);
-            this.maSP.TabIndex = 5;
+            this.maSP.TabIndex = 9;
             // 
             // label9
             // 
@@ -401,7 +402,7 @@
             this.ca.Location = new System.Drawing.Point(336, 32);
             this.ca.Name = "ca";
             this.ca.Size = new System.Drawing.Size(72, 28);
-            this.ca.TabIndex = 3;
+            this.ca.TabIndex = 2;
             // 
             // label2
             // 

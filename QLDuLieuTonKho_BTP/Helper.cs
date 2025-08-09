@@ -50,17 +50,21 @@ namespace QLDuLieuTonKho_BTP
         {
             string result = "";
 
-            do
+            using (OpenFileDialog dialog = new OpenFileDialog())
             {
-                using (OpenFileDialog dialog = new OpenFileDialog())
-                {
-                    dialog.Title = "Chọn file database (.db)";
-                    dialog.Filter = "SQLite Database (*.db)|*.db|Tất cả các file (*.*)|*.*";
-                    dialog.Multiselect = false;
+                dialog.Title = "Chọn file database (.db)";
+                dialog.Filter = "SQLite Database (*.db)|*.db|Tất cả các file (*.*)|*.*";
+                dialog.Multiselect = false;
 
-                    if (dialog.ShowDialog() == DialogResult.OK) result = dialog.FileName;
+                if (dialog.ShowDialog() == DialogResult.OK)
+                {
+                    result = dialog.FileName;
                 }
-            } while (result == "");
+                else
+                {
+                    result = "";
+                }
+            }
 
             Properties.Settings.Default.URL = result;
             Properties.Settings.Default.Save();
@@ -215,14 +219,31 @@ namespace QLDuLieuTonKho_BTP
         public static void UpdatePassApp(string tb)
         {
             string[] parts = tb.Split('|');
-            if (parts[0] != "Change") return;
-            Properties.Settings.Default.PassApp = parts[1].Trim();
+            
+            if (parts.Count() == 2 && parts[0] == "Change")
+                Properties.Settings.Default.PassApp = parts[1].Trim();
+            else
+                Properties.Settings.Default.UserPass = tb;
+                
             Properties.Settings.Default.Save();
             // Khởi động lại ứng dụng
             Application.Restart();
 
             // Thoát ứng dụng hiện tại
             Environment.Exit(0);
+        }
+        public static bool kiemTraPhanQuyen(string tx)
+        {
+            string password = Properties.Settings.Default.PassApp;
+            if (tx == password)
+            {
+                return true;
+            }
+            else
+            {
+                MessageBox.Show("Bạn không có quyền truy cập chức năng này.", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return false;
+            }
         }
     }
 }

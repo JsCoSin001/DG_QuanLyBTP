@@ -324,6 +324,11 @@
             // 
             this.nmIDTenSP.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.nmIDTenSP.Location = new System.Drawing.Point(554, 3);
+            this.nmIDTenSP.Maximum = new decimal(new int[] {
+            1661992959,
+            1808227885,
+            5,
+            0});
             this.nmIDTenSP.Name = "nmIDTenSP";
             this.nmIDTenSP.Size = new System.Drawing.Size(96, 24);
             this.nmIDTenSP.TabIndex = 32;
@@ -385,9 +390,9 @@
             this.nmKLSP.Location = new System.Drawing.Point(532, 10);
             this.nmKLSP.Margin = new System.Windows.Forms.Padding(3, 10, 3, 3);
             this.nmKLSP.Maximum = new decimal(new int[] {
-            90000000,
-            0,
-            0,
+            1661992959,
+            1808227885,
+            5,
             0});
             this.nmKLSP.Name = "nmKLSP";
             this.nmKLSP.Size = new System.Drawing.Size(124, 27);

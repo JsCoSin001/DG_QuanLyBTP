@@ -16,6 +16,8 @@ namespace QLDuLieuTonKho_BTP
         public string[] LOAISP = { "Bán Thành Phẩm", "Thành Phẩm", "Nguyên Liệu" };
         public string[] KIHIEU_LOAISP = { "BTP", "TP", "NVL" };
         public event Action<DataTable> OnDataReady;
+        // Change from 'const' to 'readonly' since the value is not a compile-time constant
+        private static readonly string _quyen = Properties.Settings.Default.UserPass;
 
         public Uc_CapNhatMaSP(string url)
         {
@@ -23,7 +25,6 @@ namespace QLDuLieuTonKho_BTP
 
             URL = url;
             DatabaseHelper.SetDatabasePath(url);
-            tbUserPassword.Text = Properties.Settings.Default.UserPass;
         }
 
         public Uc_CapNhatMaSP(){}
@@ -37,29 +38,14 @@ namespace QLDuLieuTonKho_BTP
             cbxLoaiSP.SelectedIndex = 0;
         }
 
-        private bool kiemTraPhanQuyen(string tx)
-        {
-            string password = Properties.Settings.Default.PassApp;
-            if(tx == password)
-            {
-                return true;
-            }
-            else
-            {
-                MessageBox.Show("Bạn không có quyền truy cập chức năng này.", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return false;
-            }
-        }
+        
 
         private void btnLuuSP_Click(object sender, EventArgs e)
         {
-
-            if (!kiemTraPhanQuyen(tbUserPassword.Text.Trim())) return;
+            if (!Helper.kiemTraPhanQuyen(_quyen)) return;
 
             string ma = tbMa.Text.Trim().ToUpper();
             string ten = tbTenX.Text.Trim().ToUpper();
-
-
 
             string typeProduct = DatabaseHelper.KtraMaSP(ma);            
 
@@ -170,7 +156,7 @@ namespace QLDuLieuTonKho_BTP
          
         private async void btnImportExcel_Click(object sender, EventArgs e)
         {
-            if (!kiemTraPhanQuyen(tbUserPassword.Text.Trim())) return;
+            if (!kiemTraPhanQuyen(_quyen)) return;
             using (OpenFileDialog openFileDialog = new OpenFileDialog())
             {
                 openFileDialog.Title = "Chọn file Excel";
@@ -248,15 +234,6 @@ namespace QLDuLieuTonKho_BTP
             tbMa.Text = product.Ma;
             tbTenX.Text = product.Ten;
         }
-
-        private void button3_Click(object sender, EventArgs e)
-        {
-            string userP = tbUserPassword.Text.Trim();
-            Helper.UpdatePassApp(userP);
-            Properties.Settings.Default.UserPass = userP;
-            Properties.Settings.Default.Save();
-            MessageBox.Show("Câp nhật thành công.", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
-
-        }
+        
     }
 }

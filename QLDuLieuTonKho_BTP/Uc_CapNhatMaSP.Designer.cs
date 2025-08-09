@@ -48,9 +48,6 @@
             this.idMaSP = new System.Windows.Forms.NumericUpDown();
             this.label6 = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.button3 = new System.Windows.Forms.Button();
-            this.tbUserPassword = new System.Windows.Forms.TextBox();
             this.panel5 = new System.Windows.Forms.Panel();
             this.panel4 = new System.Windows.Forms.Panel();
             this.panel3 = new System.Windows.Forms.Panel();
@@ -59,7 +56,6 @@
             this.grbCapNhat.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.idMaSP)).BeginInit();
             this.panel1.SuspendLayout();
-            this.groupBox1.SuspendLayout();
             this.panel5.SuspendLayout();
             this.panel4.SuspendLayout();
             this.panel3.SuspendLayout();
@@ -283,6 +279,11 @@
             // 
             this.idMaSP.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.idMaSP.Location = new System.Drawing.Point(47, 36);
+            this.idMaSP.Maximum = new decimal(new int[] {
+            1661992959,
+            1808227885,
+            5,
+            0});
             this.idMaSP.Name = "idMaSP";
             this.idMaSP.Size = new System.Drawing.Size(202, 26);
             this.idMaSP.TabIndex = 1;
@@ -299,7 +300,6 @@
             // 
             // panel1
             // 
-            this.panel1.Controls.Add(this.groupBox1);
             this.panel1.Controls.Add(this.panel5);
             this.panel1.Controls.Add(this.panel4);
             this.panel1.Controls.Add(this.panel3);
@@ -309,39 +309,6 @@
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(416, 833);
             this.panel1.TabIndex = 8;
-            // 
-            // groupBox1
-            // 
-            this.groupBox1.Controls.Add(this.button3);
-            this.groupBox1.Controls.Add(this.tbUserPassword);
-            this.groupBox1.Dock = System.Windows.Forms.DockStyle.Top;
-            this.groupBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.groupBox1.Location = new System.Drawing.Point(0, 659);
-            this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(416, 134);
-            this.groupBox1.TabIndex = 4;
-            this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "Cấu hình";
-            // 
-            // button3
-            // 
-            this.button3.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button3.Location = new System.Drawing.Point(278, 65);
-            this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(123, 45);
-            this.button3.TabIndex = 1;
-            this.button3.Text = "Cập nhật";
-            this.button3.UseVisualStyleBackColor = true;
-            this.button3.Click += new System.EventHandler(this.button3_Click);
-            // 
-            // tbUserPassword
-            // 
-            this.tbUserPassword.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.tbUserPassword.Location = new System.Drawing.Point(12, 32);
-            this.tbUserPassword.Name = "tbUserPassword";
-            this.tbUserPassword.Size = new System.Drawing.Size(389, 26);
-            this.tbUserPassword.TabIndex = 0;
-            this.tbUserPassword.UseSystemPasswordChar = true;
             // 
             // panel5
             // 
@@ -389,8 +356,6 @@
             this.grbCapNhat.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.idMaSP)).EndInit();
             this.panel1.ResumeLayout(false);
-            this.groupBox1.ResumeLayout(false);
-            this.groupBox1.PerformLayout();
             this.panel5.ResumeLayout(false);
             this.panel4.ResumeLayout(false);
             this.panel3.ResumeLayout(false);
@@ -422,9 +387,6 @@
         private System.Windows.Forms.Panel panel4;
         private System.Windows.Forms.Panel panel3;
         private System.Windows.Forms.Panel panel5;
-        private System.Windows.Forms.GroupBox groupBox1;
-        private System.Windows.Forms.Button button3;
-        private System.Windows.Forms.TextBox tbUserPassword;
     }
 }
 

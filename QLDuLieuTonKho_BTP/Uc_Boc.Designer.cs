@@ -450,6 +450,11 @@
             // idBen
             // 
             this.idBen.Location = new System.Drawing.Point(17, 653);
+            this.idBen.Maximum = new decimal(new int[] {
+            1661992959,
+            1808227885,
+            5,
+            0});
             this.idBen.Name = "idBen";
             this.idBen.Size = new System.Drawing.Size(72, 22);
             this.idBen.TabIndex = 14;
@@ -543,9 +548,9 @@
             131072});
             this.klPhe.Location = new System.Drawing.Point(133, 422);
             this.klPhe.Maximum = new decimal(new int[] {
-            90000000,
-            0,
-            0,
+            1661992959,
+            1808227885,
+            5,
             0});
             this.klPhe.Name = "klPhe";
             this.klPhe.Size = new System.Drawing.Size(127, 27);
@@ -562,9 +567,9 @@
             131072});
             this.chieuDai.Location = new System.Drawing.Point(362, 421);
             this.chieuDai.Maximum = new decimal(new int[] {
-            90000000,
-            0,
-            0,
+            1661992959,
+            1808227885,
+            5,
             0});
             this.chieuDai.Name = "chieuDai";
             this.chieuDai.Size = new System.Drawing.Size(125, 27);
@@ -581,9 +586,9 @@
             131072});
             this.klConLai.Location = new System.Drawing.Point(362, 372);
             this.klConLai.Maximum = new decimal(new int[] {
-            90000000,
-            0,
-            0,
+            1661992959,
+            1808227885,
+            5,
             0});
             this.klConLai.Name = "klConLai";
             this.klConLai.Size = new System.Drawing.Size(125, 27);
@@ -601,9 +606,9 @@
             131072});
             this.klTruocBoc.Location = new System.Drawing.Point(133, 372);
             this.klTruocBoc.Maximum = new decimal(new int[] {
-            90000000,
-            0,
-            0,
+            1661992959,
+            1808227885,
+            5,
             0});
             this.klTruocBoc.Name = "klTruocBoc";
             this.klTruocBoc.Size = new System.Drawing.Size(127, 27);

@@ -34,19 +34,10 @@ namespace QLDuLieuTonKho_BTP
             if (string.IsNullOrEmpty(_url))
             {
                 MessageBox.Show("Vui lòng chọn đường dẫn đến file database.", "THÔNG BÁO");
-                UrlDb.Text = Helper.GetURLDatabase();
+                _url = Helper.GetURLDatabase();
                 Application.Restart();
                 return;
             }
-
-            UrlDb.Text = _url;
-        }
-
-        private void btnTimDB_Click(object sender, EventArgs e)
-        {
-            string url = Helper.GetURLDatabase();
-            MessageBox.Show("Ứng dụng sẽ được khởi động lại để áp dụng thay đổi.", "THÔNG BÁO");
-            Application.Restart();
         }
 
         private void btnCapNhatMaSP_Click(object sender, EventArgs e)
@@ -81,7 +72,6 @@ namespace QLDuLieuTonKho_BTP
             ucBen.TypeOfProduct = "BTP";
             ucBen.TitleForm = "BÁO CÁO CÔNG ĐOẠN BỆN";
         }
-
 
         private void btnBocMach_Click(object sender, EventArgs e)
         {
@@ -179,6 +169,17 @@ namespace QLDuLieuTonKho_BTP
                dt => ucShowData.SetData(dt),
                _url
            );
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            ucShowData = Helper.LoadUserControlsWithData<Uc_ConfigApp>(
+                pnLeft,
+                pnRight,
+                out var Uc_ConfigApp,
+                dt => ucShowData.SetData(dt),
+                _url
+            );
         }
     }
 }

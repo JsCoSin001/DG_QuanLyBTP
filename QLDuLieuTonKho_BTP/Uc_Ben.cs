@@ -70,7 +70,6 @@ namespace QLDuLieuTonKho_BTP
             if (maBin == "")
             {
                 error = "Kiểm tra lại dữ liệu tại:\n Mã Hành Trình \nSTT Công Đoạn \nSTT Bin \nSố Bin";
-
                 MessageBox.Show(error, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
@@ -122,9 +121,10 @@ namespace QLDuLieuTonKho_BTP
                     result = DatabaseHelper.UpdateDL_CDBen(sttBen, tonKho, dL_CD_Ben);
                 }
 
-                ResetAllController();
+                if (!result) return;
 
-                if (result) MessageBox.Show("THAO TÁC THÀNH CÔNG", "THÔNG BÁO", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                ResetAllController();
+                MessageBox.Show("THAO TÁC THÀNH CÔNG", "THÔNG BÁO", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
             catch (Exception ex)
             {
@@ -305,7 +305,7 @@ namespace QLDuLieuTonKho_BTP
 
         private void STTCD_SelectedIndexChanged(object sender, EventArgs e)
         {
-            lot.Text = Helper.LOTGenerated(may, maHT, STTCD, sttBin, soBin);
+            
         }
 
         private void maHT_ValueChanged(object sender, EventArgs e)
@@ -337,8 +337,8 @@ namespace QLDuLieuTonKho_BTP
                         DL_CD_Ben.ID,
                         DL_CD_Ben.Ngay,
                         TonKho.Lot as LOT,
-                        DL_CD_Ben.Ca,
                         DL_CD_Ben.NguoiLam,
+                        DL_CD_Ben.Ca,
                         DanhSachMaSP.Ma,
                         DanhSachMaSP.Ten,
                         TonKho.KhoiLuongDauVao,
@@ -351,7 +351,7 @@ namespace QLDuLieuTonKho_BTP
                     JOIN TonKho ON DL_CD_Ben.TonKho_ID = TonKho.ID
                     JOIN DanhSachMaSP ON TonKho.MaSP_ID = DanhSachMaSP.ID
                     WHERE strftime('%Y-%m', DL_CD_Ben.Ngay) = @Ngay
-                    ORDER BY DL_CD_Ben.Ngay DESC;
+                    ORDER BY DL_CD_Ben.ID DESC;
                 ";
 
             DataTable table = DatabaseHelper.GetDataByDate(dateRP, query);
@@ -370,5 +370,9 @@ namespace QLDuLieuTonKho_BTP
            
         }
 
+        private void STTCD_TextChanged(object sender, EventArgs e)
+        {
+            lot.Text = Helper.LOTGenerated(may, maHT, STTCD, sttBin, soBin);
+        }
     }
 }
