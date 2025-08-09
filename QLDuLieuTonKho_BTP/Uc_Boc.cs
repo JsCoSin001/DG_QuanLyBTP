@@ -24,29 +24,24 @@ namespace QLDuLieuTonKho_BTP
 
     public partial class Uc_Boc : UserControl, ICustomUserControl
     {
-
-        private string _url;
         bool isProgrammaticChange = true;
-        bool isTextChangedEvent = true;
-        private string[] _dsMay;
+        //private string[] _dsMay;
         private string _callTimer;
 
         public event Action<DataTable> OnDataReady;
 
         public Uc_Boc(string url, string[] dsMay, int sttCongDoan)
         {
-
             InitializeComponent();
 
-            _url = url;
-            _dsMay = dsMay;
+            //_dsMay = dsMay;
             congDoan.SelectedIndex = sttCongDoan;
 
             DatabaseHelper.SetDatabasePath(url);
             lblTitleForm.Text = ("BÁO cáo công đoạn " + congDoan.Items[sttCongDoan].ToString()).ToUpper();
 
             // Cấu hình timer
-            timer1.Interval = 500;
+            timer1.Interval = 300;
         }
 
         public Uc_Boc() { }
@@ -158,7 +153,6 @@ namespace QLDuLieuTonKho_BTP
 
                 ResetAllController();
                 if (result) MessageBox.Show("THAO TÁC THÀNH CÔNG", "THÔNG BÁO", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-
 
             }
             catch (Exception ex)
@@ -293,7 +287,7 @@ namespace QLDuLieuTonKho_BTP
 
             string[] result = Helper.PhanTachLot(selectedLot);
 
-            cbTimLot.DataSource = null;
+            //cbTimLot.SelectedIndex = -1;
             cbTimLot.Text = "";
 
             if (result.Length < 5)
@@ -339,7 +333,7 @@ namespace QLDuLieuTonKho_BTP
             else            
                 query += " AND (Ten LIKE 'CE%' OR Ten LIKE 'CV%') ";
             
-            query += " LIMIT 20";
+            //query += " LIMIT 20";
 
             DataTable dslot = DatabaseHelper.GetData(keyword, query, para);
 
@@ -540,8 +534,6 @@ namespace QLDuLieuTonKho_BTP
             timer1.Stop();
             timer1.Start();
         }
-
-
 
         private void cbTimLot_TextUpdate(object sender, EventArgs e)
         {

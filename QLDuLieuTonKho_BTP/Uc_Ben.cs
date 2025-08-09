@@ -21,7 +21,6 @@ namespace QLDuLieuTonKho_BTP
 
     public partial class Uc_Ben : UserControl, ICustomUserControl
     {
-        private string _url;
         private string _titleForm;
 
         public event Action<DataTable> OnDataReady;
@@ -42,7 +41,6 @@ namespace QLDuLieuTonKho_BTP
 
             InitializeComponent();
 
-            _url = url;
             DatabaseHelper.SetDatabasePath(url);
             lblTitleForm.Text = _titleForm;
 
@@ -171,9 +169,7 @@ namespace QLDuLieuTonKho_BTP
 
         private void Ben_Load(object sender, EventArgs e)
         {
-            //_url = Properties.Settings.Default.URL;
             dateReport.Value = DateTime.Now;
-
         }
 
         // Sự kiện khi người dùng thay đổi URL
@@ -195,7 +191,7 @@ namespace QLDuLieuTonKho_BTP
             }
             string para = "search";
 
-            
+
             string query = "SELECT ID, Ma, Ten FROM DanhSachMaSP " +
                "WHERE KieuSP = '" + TypeOfProduct + "' " +
                "AND Ten LIKE '%' || @" + para + " || '%' " +
@@ -248,7 +244,6 @@ namespace QLDuLieuTonKho_BTP
             timer1.Start();
         }
       
-
         private void tbShowDL_Click(object sender, EventArgs e)
         {
             int id_MaSP = (int)stt.Value;
@@ -367,7 +362,7 @@ namespace QLDuLieuTonKho_BTP
                 return;
             }
 
-            string fileName = $"BC Tháng {dateRP} - {DateTime.Now:yyyy-MM-dd HH_mm}.xlsx";
+            string fileName = $"BC Tháng {dateRP}";
             await ExcelHelper.ExportWithLoading(table, fileName);
 
 

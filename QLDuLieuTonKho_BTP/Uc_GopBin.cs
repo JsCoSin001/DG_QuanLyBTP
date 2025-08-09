@@ -277,6 +277,12 @@ namespace QLDuLieuTonKho_BTP
                 return;
             }
 
+            if(nmKLSP.Value == 0)
+            {
+                MessageBox.Show("Khối lượng sản phẩm không hợp lệ.", "THÔNG BÁO", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
 
             TonKho tonKhoNew = new TonKho
             {
@@ -296,6 +302,7 @@ namespace QLDuLieuTonKho_BTP
                 MaSP_ID = Convert.ToInt32(nmIDTenSP.Value),
                 KhoiLuongTruocBoc = Convert.ToDouble(nmKLSP.Value),
                 TenCongDoan = "Hàn nối",
+                DateInsert = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")                
             };
 
            
@@ -340,16 +347,16 @@ namespace QLDuLieuTonKho_BTP
         {
             string query = @"
             SELECT
-                parent.ID                  AS ID_HienTai,
-                parent.Lot                 AS Lot_HienTai,
-                parent.KhoiLuongDauVao     AS KL_HienTai,
-                spp.Ten                    AS TenSP_HienTai,   
-                child.ID                   AS ID_HanNoi,
+                parent.ID                   AS ID_HienTai,
+                parent.Lot                  AS Lot_HienTai,
+                parent.KhoiLuongDauVao      AS KL_HienTai,
+                spp.Ten                     AS TenSP_HienTai,   
+                child.ID                    AS ID_HanNoi,
                 child.Lot 					AS Lot_HanNoi, 
-                sp.Ten                     AS Ten_HanNoi,     
+                sp.Ten                      AS Ten_HanNoi,     
                 child.KhoiLuongDauVao 		AS KL_HanNoi,
                 child.ChieuDai,
-                boc.Ngay                   AS NgayHanNoi
+                boc.Ngay                    AS NgayHanNoi
             FROM TonKho AS child
             JOIN TonKho AS parent
                 ON parent.ID = child.HanNoi
@@ -375,7 +382,8 @@ namespace QLDuLieuTonKho_BTP
                 return;
             }
 
-            await ExcelHelper.ExportWithLoading(table);
+            string defaultFileName = "DanhSachGopBin";
+            await ExcelHelper.ExportWithLoading(table, defaultFileName);
 
         }
     }

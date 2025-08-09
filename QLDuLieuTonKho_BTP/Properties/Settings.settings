@@ -5,5 +5,11 @@
     <Setting Name="URL" Type="System.String" Scope="User">
       <Value Profile="(Default)">D:\Database\QLSX_DG_New.db</Value>
     </Setting>
+    <Setting Name="PassApp" Type="System.String" Scope="User">
+      <Value Profile="(Default)">DG@123</Value>
+    </Setting>
+    <Setting Name="UserPass" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
   </Settings>
 </SettingsFile>

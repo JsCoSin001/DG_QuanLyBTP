@@ -34,5 +34,29 @@ namespace QLDuLieuTonKho_BTP.Properties {
                 this["URL"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("DG@123")]
+        public string PassApp {
+            get {
+                return ((string)(this["PassApp"]));
+            }
+            set {
+                this["PassApp"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string UserPass {
+            get {
+                return ((string)(this["UserPass"]));
+            }
+            set {
+                this["UserPass"] = value;
+            }
+        }
     }
 }

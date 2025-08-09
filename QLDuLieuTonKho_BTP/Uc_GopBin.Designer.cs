@@ -65,11 +65,11 @@
             this.flowLayoutPanel5 = new System.Windows.Forms.FlowLayoutPanel();
             this.btnGop = new System.Windows.Forms.Button();
             this.btnCancel = new System.Windows.Forms.Button();
+            this.btnDsGopBin = new System.Windows.Forms.Button();
+            this.cbXuatExcel = new System.Windows.Forms.CheckBox();
             this.label4 = new System.Windows.Forms.Label();
             this.dgDsLot = new System.Windows.Forms.DataGridView();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
-            this.btnDsGopBin = new System.Windows.Forms.Button();
-            this.cbXuatExcel = new System.Windows.Forms.CheckBox();
             this.groupBox1.SuspendLayout();
             this.flowLayoutPanel1.SuspendLayout();
             this.flowLayoutPanel2.SuspendLayout();
@@ -104,6 +104,7 @@
             // 
             this.groupBox1.Controls.Add(this.flowLayoutPanel1);
             this.groupBox1.Dock = System.Windows.Forms.DockStyle.Top;
+            this.groupBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.groupBox1.Location = new System.Drawing.Point(0, 34);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Padding = new System.Windows.Forms.Padding(5, 10, 3, 10);
@@ -130,6 +131,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
+            this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label2.Location = new System.Drawing.Point(3, 10);
             this.label2.Margin = new System.Windows.Forms.Padding(3, 10, 3, 7);
             this.label2.Name = "label2";
@@ -299,6 +301,7 @@
             // 
             // label8
             // 
+            this.label8.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label8.Location = new System.Drawing.Point(3, 3);
             this.label8.Margin = new System.Windows.Forms.Padding(3, 3, 3, 7);
             this.label8.Name = "label8";
@@ -309,16 +312,17 @@
             // 
             // lblLot
             // 
+            this.lblLot.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblLot.Location = new System.Drawing.Point(111, 3);
             this.lblLot.Margin = new System.Windows.Forms.Padding(3, 3, 3, 7);
             this.lblLot.Name = "lblLot";
             this.lblLot.Size = new System.Drawing.Size(437, 30);
             this.lblLot.TabIndex = 29;
-            this.lblLot.Text = "Khối lượng";
             this.lblLot.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // nmIDTenSP
             // 
+            this.nmIDTenSP.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.nmIDTenSP.Location = new System.Drawing.Point(554, 3);
             this.nmIDTenSP.Name = "nmIDTenSP";
             this.nmIDTenSP.Size = new System.Drawing.Size(96, 24);
@@ -339,6 +343,7 @@
             // label7
             // 
             this.label7.AutoSize = true;
+            this.label7.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label7.Location = new System.Drawing.Point(3, 15);
             this.label7.Margin = new System.Windows.Forms.Padding(3, 15, 3, 7);
             this.label7.Name = "label7";
@@ -360,6 +365,7 @@
             // label11
             // 
             this.label11.AutoSize = true;
+            this.label11.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label11.Location = new System.Drawing.Point(448, 15);
             this.label11.Margin = new System.Windows.Forms.Padding(3, 15, 3, 7);
             this.label11.Name = "label11";
@@ -401,6 +407,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
+            this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label3.Location = new System.Drawing.Point(3, 15);
             this.label3.Margin = new System.Windows.Forms.Padding(3, 15, 3, 7);
             this.label3.Name = "label3";
@@ -422,6 +429,7 @@
             // label5
             // 
             this.label5.AutoSize = true;
+            this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label5.Location = new System.Drawing.Point(452, 15);
             this.label5.Margin = new System.Windows.Forms.Padding(3, 15, 3, 7);
             this.label5.Name = "label5";
@@ -457,6 +465,7 @@
             // label6
             // 
             this.label6.AutoSize = true;
+            this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label6.Location = new System.Drawing.Point(3, 7);
             this.label6.Margin = new System.Windows.Forms.Padding(3, 7, 3, 3);
             this.label6.Name = "label6";
@@ -472,7 +481,6 @@
             this.lblTenSP.Name = "lblTenSP";
             this.lblTenSP.Size = new System.Drawing.Size(508, 32);
             this.lblTenSP.TabIndex = 24;
-            this.lblTenSP.Text = "label7";
             this.lblTenSP.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
             // pnPhanCach
@@ -537,6 +545,29 @@
             this.btnCancel.UseVisualStyleBackColor = false;
             this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
             // 
+            // btnDsGopBin
+            // 
+            this.btnDsGopBin.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnDsGopBin.Location = new System.Drawing.Point(264, 3);
+            this.btnDsGopBin.Name = "btnDsGopBin";
+            this.btnDsGopBin.Size = new System.Drawing.Size(115, 54);
+            this.btnDsGopBin.TabIndex = 6;
+            this.btnDsGopBin.Text = "Ds Gộp bin";
+            this.btnDsGopBin.UseVisualStyleBackColor = true;
+            this.btnDsGopBin.Click += new System.EventHandler(this.btnDsGopBin_Click);
+            // 
+            // cbXuatExcel
+            // 
+            this.cbXuatExcel.AutoSize = true;
+            this.cbXuatExcel.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.cbXuatExcel.Location = new System.Drawing.Point(161, 20);
+            this.cbXuatExcel.Margin = new System.Windows.Forms.Padding(3, 20, 3, 3);
+            this.cbXuatExcel.Name = "cbXuatExcel";
+            this.cbXuatExcel.Size = new System.Drawing.Size(97, 22);
+            this.cbXuatExcel.TabIndex = 9;
+            this.cbXuatExcel.Text = "Xuất Excel";
+            this.cbXuatExcel.UseVisualStyleBackColor = true;
+            // 
             // label4
             // 
             this.label4.Dock = System.Windows.Forms.DockStyle.Top;
@@ -561,27 +592,6 @@
             // timer1
             // 
             this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
-            // 
-            // btnDsGopBin
-            // 
-            this.btnDsGopBin.Location = new System.Drawing.Point(264, 3);
-            this.btnDsGopBin.Name = "btnDsGopBin";
-            this.btnDsGopBin.Size = new System.Drawing.Size(115, 54);
-            this.btnDsGopBin.TabIndex = 6;
-            this.btnDsGopBin.Text = "Ds Gộp bin";
-            this.btnDsGopBin.UseVisualStyleBackColor = true;
-            this.btnDsGopBin.Click += new System.EventHandler(this.btnDsGopBin_Click);
-            // 
-            // cbXuatExcel
-            // 
-            this.cbXuatExcel.AutoSize = true;
-            this.cbXuatExcel.Location = new System.Drawing.Point(161, 20);
-            this.cbXuatExcel.Margin = new System.Windows.Forms.Padding(3, 20, 3, 3);
-            this.cbXuatExcel.Name = "cbXuatExcel";
-            this.cbXuatExcel.Size = new System.Drawing.Size(97, 22);
-            this.cbXuatExcel.TabIndex = 9;
-            this.cbXuatExcel.Text = "Xuất Excel";
-            this.cbXuatExcel.UseVisualStyleBackColor = true;
             // 
             // Uc_GopBin
             // 

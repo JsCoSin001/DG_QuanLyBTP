@@ -210,6 +210,20 @@ namespace QLDuLieuTonKho_BTP
         public interface ICustomUserControl
         {
             event Action<DataTable> OnDataReady;
+        }        
+
+        public static void UpdatePassApp(string tb)
+        {
+            string[] parts = tb.Split('|');
+            if (parts[0] != "Change") return;
+            Properties.Settings.Default.PassApp = parts[1].Trim();
+            Properties.Settings.Default.Save();
+            // Khởi động lại ứng dụng
+            Application.Restart();
+
+            // Thoát ứng dụng hiện tại
+            Environment.Exit(0);
         }
     }
 }
+

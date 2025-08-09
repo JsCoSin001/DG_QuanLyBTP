@@ -15,15 +15,12 @@ namespace QLDuLieuTonKho_BTP
     public partial class Uc_BoSungKL : UserControl, ICustomUserControl
     {
         public event Action<DataTable> OnDataReady;
-        private string _url;
         public Uc_BoSungKL(string url)
         {
             InitializeComponent();
-            _url = url;
             timer1.Interval = 500;
-            DatabaseHelper.SetDatabasePath(_url);
+            DatabaseHelper.SetDatabasePath(url);
         }
-
 
         private void cbLot_TextUpdate(object sender, EventArgs e)
         {
@@ -54,7 +51,6 @@ namespace QLDuLieuTonKho_BTP
             ResetControlerWithoutLot();
             cbLot.Text = "";
         }
-
 
         private void LoadAutoCompleteTenSP(string keyword)
         {
@@ -143,7 +139,6 @@ namespace QLDuLieuTonKho_BTP
             UpdateKLDong();
         }
 
-
         private void UpdateKLDong()
         {
             if (tbTenSP.Text == "")
@@ -193,7 +188,6 @@ namespace QLDuLieuTonKho_BTP
             await Task.Delay(100);
             LoadDataAsync();
         }
-
 
         private void tbnLuu_Click(object sender, EventArgs e)
         {

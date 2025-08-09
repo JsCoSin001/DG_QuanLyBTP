@@ -49,6 +49,7 @@
             // 
             // grDataViewer
             // 
+            this.grDataViewer.AllowUserToAddRows = false;
             this.grDataViewer.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.grDataViewer.Dock = System.Windows.Forms.DockStyle.Fill;
             this.grDataViewer.Location = new System.Drawing.Point(10, 25);

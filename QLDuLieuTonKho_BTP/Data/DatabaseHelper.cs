@@ -144,9 +144,9 @@ namespace QLDuLieuTonKho_BTP.Data
                         // 1) Insert TonKho
                         using (var cmd = new SQLiteCommand(@"
                             INSERT INTO TonKho
-                              (Lot, MaSP_ID, KhoiLuongDauVao, KhoiLuongConLai, HanNoi, ChieuDai, DuocHanNoi)
+                              (Lot, MaSP_ID, KhoiLuongDauVao, KhoiLuongConLai, HanNoi, ChieuDai)
                             VALUES
-                              (@Lot, @MaSP_ID, @KhoiLuongDauVao, @KhoiLuongConLai, @HanNoi, @ChieuDai, @DuocHanNoi);
+                              (@Lot, @MaSP_ID, @KhoiLuongDauVao, @KhoiLuongConLai, @HanNoi, @ChieuDai);
                         ", conn, tran))
                         {
                             cmd.Parameters.Add("@Lot", DbType.String).Value = tonKhoNew.Lot;
@@ -155,7 +155,6 @@ namespace QLDuLieuTonKho_BTP.Data
                             cmd.Parameters.Add("@KhoiLuongConLai", DbType.Double).Value = tonKhoNew.KhoiLuongConLai;
                             cmd.Parameters.Add("@HanNoi", DbType.Int32).Value = tonKhoNew.HanNoi;
                             cmd.Parameters.Add("@ChieuDai", DbType.Double).Value = tonKhoNew.ChieuDai;
-                            cmd.Parameters.Add("@DuocHanNoi", DbType.Int32).Value = tonKhoNew.HanNoi;
 
                             cmd.ExecuteNonQuery();
                             newTonKhoId = conn.LastInsertRowId;

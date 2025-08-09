@@ -12,12 +12,9 @@ namespace QLDuLieuTonKho_BTP
 {
     public partial class Uc_CapNhatMaSP : UserControl, ICustomUserControl
     {
-
         public string URL;
-
         public string[] LOAISP = { "Bán Thành Phẩm", "Thành Phẩm", "Nguyên Liệu" };
         public string[] KIHIEU_LOAISP = { "BTP", "TP", "NVL" };
-        
         public event Action<DataTable> OnDataReady;
 
         public Uc_CapNhatMaSP(string url)
@@ -26,10 +23,10 @@ namespace QLDuLieuTonKho_BTP
 
             URL = url;
             DatabaseHelper.SetDatabasePath(url);
+            tbUserPassword.Text = Properties.Settings.Default.UserPass;
         }
 
         public Uc_CapNhatMaSP(){}
-
 
         private void Form1_Load(object sender, EventArgs e)
         {
@@ -40,10 +37,28 @@ namespace QLDuLieuTonKho_BTP
             cbxLoaiSP.SelectedIndex = 0;
         }
 
+        private bool kiemTraPhanQuyen(string tx)
+        {
+            string password = Properties.Settings.Default.PassApp;
+            if(tx == password)
+            {
+                return true;
+            }
+            else
+            {
+                MessageBox.Show("Bạn không có quyền truy cập chức năng này.", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return false;
+            }
+        }
+
         private void btnLuuSP_Click(object sender, EventArgs e)
         {
+
+            if (!kiemTraPhanQuyen(tbUserPassword.Text.Trim())) return;
+
             string ma = tbMa.Text.Trim().ToUpper();
             string ten = tbTenX.Text.Trim().ToUpper();
+
 
 
             string typeProduct = DatabaseHelper.KtraMaSP(ma);            
@@ -129,18 +144,13 @@ namespace QLDuLieuTonKho_BTP
 
             var table = DatabaseHelper.GetDataFromSQL(sql);
             OnDataReady?.Invoke(table);
-
         }
-
-
 
         private void checkBox1_CheckedChanged(object sender, EventArgs e)
         {
             timePicker.Enabled = !timePicker.Enabled;
         }
-
-
-        // Xuất file excel
+                
         private async void button1_Click(object sender, EventArgs e)
         {
             string sql = getSQL();
@@ -153,17 +163,14 @@ namespace QLDuLieuTonKho_BTP
                 return;
             }
 
-
-
-            string fileName = $"DanhSachMaSP - {DateTime.Now:yyyy-MM-dd HH_mm}.xlsx";
+            string fileName = $"DanhSachMaSP";
             await ExcelHelper.ExportWithLoading(table, fileName);
 
         }
-
-        // Import dữ liệu từ Excel
+         
         private async void btnImportExcel_Click(object sender, EventArgs e)
         {
-
+            if (!kiemTraPhanQuyen(tbUserPassword.Text.Trim())) return;
             using (OpenFileDialog openFileDialog = new OpenFileDialog())
             {
                 openFileDialog.Title = "Chọn file Excel";
@@ -200,7 +207,7 @@ namespace QLDuLieuTonKho_BTP
                         await Task.Run(() =>
                         {
                             var dbHelper = new ExcelHelper();
-                            dbHelper.ImportExcelProductList(excelPath, URL, loadingControl); // nếu control này hiển thị tiến trình
+                            dbHelper.ImportExcelProductList(excelPath, URL, loadingControl); 
                         });
                     }
                     catch (Exception ex)
@@ -211,24 +218,16 @@ namespace QLDuLieuTonKho_BTP
                     {
                         // 4. Đóng form loading sau khi hoàn tất
                         if (loadingForm.InvokeRequired)
-                        {
                             loadingForm.Invoke(new Action(() => loadingForm.Close()));
-                        }
                         else
-                        {
                             loadingForm.Close();
-                        }
 
                         MessageBox.Show("Import dữ liệu hoàn tất!", "Thành công", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     }
                 }
-                else
-                {
+                else                
                     MessageBox.Show("Không có file Excel nào được chọn.", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                }
-
             }
-
         }
 
         private void button2_Click(object sender, EventArgs e)
@@ -248,6 +247,16 @@ namespace QLDuLieuTonKho_BTP
             ProductModel product = dta[0];
             tbMa.Text = product.Ma;
             tbTenX.Text = product.Ten;
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            string userP = tbUserPassword.Text.Trim();
+            Helper.UpdatePassApp(userP);
+            Properties.Settings.Default.UserPass = userP;
+            Properties.Settings.Default.Save();
+            MessageBox.Show("Câp nhật thành công.", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
         }
     }
 }

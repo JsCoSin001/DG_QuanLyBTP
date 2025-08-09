@@ -14,13 +14,10 @@ namespace QLDuLieuTonKho_BTP
 {
     public partial class Uc_BcTonKho : UserControl, ICustomUserControl
     {
-        private string _url;
         public event Action<DataTable> OnDataReady;
         public Uc_BcTonKho(string url)
         {
             InitializeComponent();
-
-            _url = url;
             DatabaseHelper.SetDatabasePath(url);
         }
 
@@ -45,7 +42,6 @@ namespace QLDuLieuTonKho_BTP
                         TonKho.KhoiLuongConLai > 0;
                 ";
 
-
             DataTable table = DatabaseHelper.GetDataFromSQL(sql);
 
             if (table.Rows.Count == 0)
@@ -60,7 +56,7 @@ namespace QLDuLieuTonKho_BTP
                 return;
             }
 
-            string fileName = $"BC Ton Kho - {DateTime.Now:yyyy-MM-dd HH_mm}.xlsx";
+            string fileName = "BC Ton Kho";
             await ExcelHelper.ExportWithLoading(table, fileName);
 
         }

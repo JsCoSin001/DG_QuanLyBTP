@@ -35,7 +35,6 @@
             this.label4 = new System.Windows.Forms.Label();
             this.tbMa = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
-            this.lbThongBao = new System.Windows.Forms.Label();
             this.xemDL = new System.Windows.Forms.GroupBox();
             this.button1 = new System.Windows.Forms.Button();
             this.cbTimer = new System.Windows.Forms.CheckBox();
@@ -49,6 +48,9 @@
             this.idMaSP = new System.Windows.Forms.NumericUpDown();
             this.label6 = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.button3 = new System.Windows.Forms.Button();
+            this.tbUserPassword = new System.Windows.Forms.TextBox();
             this.panel5 = new System.Windows.Forms.Panel();
             this.panel4 = new System.Windows.Forms.Panel();
             this.panel3 = new System.Windows.Forms.Panel();
@@ -57,6 +59,7 @@
             this.grbCapNhat.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.idMaSP)).BeginInit();
             this.panel1.SuspendLayout();
+            this.groupBox1.SuspendLayout();
             this.panel5.SuspendLayout();
             this.panel4.SuspendLayout();
             this.panel3.SuspendLayout();
@@ -83,25 +86,29 @@
             // 
             // btnImportExcel
             // 
+            this.btnImportExcel.BackColor = System.Drawing.Color.Crimson;
             this.btnImportExcel.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnImportExcel.ForeColor = System.Drawing.SystemColors.Control;
             this.btnImportExcel.Location = new System.Drawing.Point(12, 190);
             this.btnImportExcel.Name = "btnImportExcel";
             this.btnImportExcel.Size = new System.Drawing.Size(130, 44);
             this.btnImportExcel.TabIndex = 4;
             this.btnImportExcel.Text = "Import Excel";
-            this.btnImportExcel.UseVisualStyleBackColor = true;
+            this.btnImportExcel.UseVisualStyleBackColor = false;
             this.btnImportExcel.Click += new System.EventHandler(this.btnImportExcel_Click);
             // 
             // btnLuuSP
             // 
             this.btnLuuSP.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnLuuSP.BackColor = System.Drawing.Color.MediumSeaGreen;
             this.btnLuuSP.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnLuuSP.ForeColor = System.Drawing.Color.Snow;
             this.btnLuuSP.Location = new System.Drawing.Point(278, 190);
             this.btnLuuSP.Name = "btnLuuSP";
             this.btnLuuSP.Size = new System.Drawing.Size(123, 44);
             this.btnLuuSP.TabIndex = 3;
             this.btnLuuSP.Text = "Lưu";
-            this.btnLuuSP.UseVisualStyleBackColor = true;
+            this.btnLuuSP.UseVisualStyleBackColor = false;
             this.btnLuuSP.Click += new System.EventHandler(this.btnLuuSP_Click);
             // 
             // tbTenX
@@ -144,20 +151,6 @@
             this.label3.TabIndex = 0;
             this.label3.Text = "Mã Sản Phẩm";
             // 
-            // lbThongBao
-            // 
-            this.lbThongBao.AutoSize = true;
-            this.lbThongBao.Dock = System.Windows.Forms.DockStyle.Top;
-            this.lbThongBao.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbThongBao.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(64)))), ((int)(((byte)(0)))));
-            this.lbThongBao.Location = new System.Drawing.Point(0, 710);
-            this.lbThongBao.Margin = new System.Windows.Forms.Padding(3, 10, 3, 0);
-            this.lbThongBao.Name = "lbThongBao";
-            this.lbThongBao.Size = new System.Drawing.Size(44, 16);
-            this.lbThongBao.TabIndex = 4;
-            this.lbThongBao.Text = "label2";
-            this.lbThongBao.Visible = false;
-            // 
             // xemDL
             // 
             this.xemDL.Controls.Add(this.button1);
@@ -171,7 +164,7 @@
             this.xemDL.Font = new System.Drawing.Font("Tahoma", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.xemDL.Location = new System.Drawing.Point(0, 0);
             this.xemDL.Name = "xemDL";
-            this.xemDL.Size = new System.Drawing.Size(416, 245);
+            this.xemDL.Size = new System.Drawing.Size(416, 228);
             this.xemDL.TabIndex = 3;
             this.xemDL.TabStop = false;
             this.xemDL.Text = "Xem Dữ Liệu";
@@ -235,13 +228,15 @@
             // btnGetData
             // 
             this.btnGetData.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnGetData.BackColor = System.Drawing.Color.MediumSeaGreen;
             this.btnGetData.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnGetData.ForeColor = System.Drawing.SystemColors.Control;
             this.btnGetData.Location = new System.Drawing.Point(278, 165);
             this.btnGetData.Name = "btnGetData";
             this.btnGetData.Size = new System.Drawing.Size(123, 44);
             this.btnGetData.TabIndex = 7;
             this.btnGetData.Text = "Lấy dữ liệu";
-            this.btnGetData.UseVisualStyleBackColor = true;
+            this.btnGetData.UseVisualStyleBackColor = false;
             this.btnGetData.Click += new System.EventHandler(this.btnGetData_Click);
             // 
             // cbxLoaiSP
@@ -273,13 +268,15 @@
             // button2
             // 
             this.button2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.button2.BackColor = System.Drawing.Color.LightSeaGreen;
             this.button2.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.button2.ForeColor = System.Drawing.SystemColors.Control;
             this.button2.Location = new System.Drawing.Point(278, 27);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(123, 43);
             this.button2.TabIndex = 2;
             this.button2.Text = "Tìm kiếm";
-            this.button2.UseVisualStyleBackColor = true;
+            this.button2.UseVisualStyleBackColor = false;
             this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
             // idMaSP
@@ -287,7 +284,7 @@
             this.idMaSP.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.idMaSP.Location = new System.Drawing.Point(47, 36);
             this.idMaSP.Name = "idMaSP";
-            this.idMaSP.Size = new System.Drawing.Size(139, 26);
+            this.idMaSP.Size = new System.Drawing.Size(202, 26);
             this.idMaSP.TabIndex = 1;
             // 
             // label6
@@ -302,7 +299,7 @@
             // 
             // panel1
             // 
-            this.panel1.Controls.Add(this.lbThongBao);
+            this.panel1.Controls.Add(this.groupBox1);
             this.panel1.Controls.Add(this.panel5);
             this.panel1.Controls.Add(this.panel4);
             this.panel1.Controls.Add(this.panel3);
@@ -310,27 +307,60 @@
             this.panel1.Location = new System.Drawing.Point(0, 0);
             this.panel1.Margin = new System.Windows.Forms.Padding(3, 3, 10, 10);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(416, 806);
+            this.panel1.Size = new System.Drawing.Size(416, 833);
             this.panel1.TabIndex = 8;
+            // 
+            // groupBox1
+            // 
+            this.groupBox1.Controls.Add(this.button3);
+            this.groupBox1.Controls.Add(this.tbUserPassword);
+            this.groupBox1.Dock = System.Windows.Forms.DockStyle.Top;
+            this.groupBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.groupBox1.Location = new System.Drawing.Point(0, 659);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(416, 134);
+            this.groupBox1.TabIndex = 4;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "Cấu hình";
+            // 
+            // button3
+            // 
+            this.button3.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.button3.Location = new System.Drawing.Point(278, 65);
+            this.button3.Name = "button3";
+            this.button3.Size = new System.Drawing.Size(123, 45);
+            this.button3.TabIndex = 1;
+            this.button3.Text = "Cập nhật";
+            this.button3.UseVisualStyleBackColor = true;
+            this.button3.Click += new System.EventHandler(this.button3_Click);
+            // 
+            // tbUserPassword
+            // 
+            this.tbUserPassword.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.tbUserPassword.Location = new System.Drawing.Point(12, 32);
+            this.tbUserPassword.Name = "tbUserPassword";
+            this.tbUserPassword.Size = new System.Drawing.Size(389, 26);
+            this.tbUserPassword.TabIndex = 0;
+            this.tbUserPassword.UseSystemPasswordChar = true;
             // 
             // panel5
             // 
             this.panel5.Controls.Add(this.xemDL);
             this.panel5.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panel5.Location = new System.Drawing.Point(0, 438);
+            this.panel5.Location = new System.Drawing.Point(0, 408);
             this.panel5.Name = "panel5";
             this.panel5.Padding = new System.Windows.Forms.Padding(0, 0, 0, 10);
-            this.panel5.Size = new System.Drawing.Size(416, 272);
+            this.panel5.Size = new System.Drawing.Size(416, 251);
             this.panel5.TabIndex = 2;
             // 
             // panel4
             // 
             this.panel4.Controls.Add(this.grbCapNhat);
             this.panel4.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panel4.Location = new System.Drawing.Point(0, 295);
+            this.panel4.Location = new System.Drawing.Point(0, 283);
             this.panel4.Name = "panel4";
             this.panel4.Padding = new System.Windows.Forms.Padding(0, 0, 0, 10);
-            this.panel4.Size = new System.Drawing.Size(416, 143);
+            this.panel4.Size = new System.Drawing.Size(416, 125);
             this.panel4.TabIndex = 1;
             // 
             // panel3
@@ -340,7 +370,7 @@
             this.panel3.Location = new System.Drawing.Point(0, 0);
             this.panel3.Name = "panel3";
             this.panel3.Padding = new System.Windows.Forms.Padding(0, 0, 0, 10);
-            this.panel3.Size = new System.Drawing.Size(416, 295);
+            this.panel3.Size = new System.Drawing.Size(416, 283);
             this.panel3.TabIndex = 0;
             // 
             // Uc_CapNhatMaSP
@@ -349,7 +379,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.panel1);
             this.Name = "Uc_CapNhatMaSP";
-            this.Size = new System.Drawing.Size(416, 806);
+            this.Size = new System.Drawing.Size(416, 833);
             this.Load += new System.EventHandler(this.Form1_Load);
             this.themSP.ResumeLayout(false);
             this.themSP.PerformLayout();
@@ -359,7 +389,8 @@
             this.grbCapNhat.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.idMaSP)).EndInit();
             this.panel1.ResumeLayout(false);
-            this.panel1.PerformLayout();
+            this.groupBox1.ResumeLayout(false);
+            this.groupBox1.PerformLayout();
             this.panel5.ResumeLayout(false);
             this.panel4.ResumeLayout(false);
             this.panel3.ResumeLayout(false);
@@ -377,7 +408,6 @@
         private System.Windows.Forms.GroupBox xemDL;
         private System.Windows.Forms.Button btnGetData;
         private System.Windows.Forms.ComboBox cbxLoaiSP;
-        private System.Windows.Forms.Label lbThongBao;
         private System.Windows.Forms.DateTimePicker timePicker;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label label2;
@@ -392,6 +422,9 @@
         private System.Windows.Forms.Panel panel4;
         private System.Windows.Forms.Panel panel3;
         private System.Windows.Forms.Panel panel5;
+        private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.Button button3;
+        private System.Windows.Forms.TextBox tbUserPassword;
     }
 }
 

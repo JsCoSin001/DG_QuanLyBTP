@@ -124,7 +124,7 @@
             // 
             this.pnTimeRequest.Controls.Add(this.groupBox2);
             this.pnTimeRequest.Dock = System.Windows.Forms.DockStyle.Top;
-            this.pnTimeRequest.Location = new System.Drawing.Point(0, 815);
+            this.pnTimeRequest.Location = new System.Drawing.Point(0, 786);
             this.pnTimeRequest.Name = "pnTimeRequest";
             this.pnTimeRequest.Padding = new System.Windows.Forms.Padding(0, 10, 0, 0);
             this.pnTimeRequest.Size = new System.Drawing.Size(521, 123);
@@ -137,7 +137,7 @@
             this.groupBox2.Controls.Add(this.showReport);
             this.groupBox2.Controls.Add(this.label12);
             this.groupBox2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.groupBox2.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.groupBox2.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.groupBox2.Location = new System.Drawing.Point(0, 10);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Size = new System.Drawing.Size(521, 113);
@@ -168,6 +168,7 @@
             // 
             // showReport
             // 
+            this.showReport.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.showReport.Location = new System.Drawing.Point(392, 54);
             this.showReport.Name = "showReport";
             this.showReport.Size = new System.Drawing.Size(95, 34);
@@ -192,10 +193,10 @@
             this.groupBox3.Controls.Add(this.tbShowDL);
             this.groupBox3.Controls.Add(this.label13);
             this.groupBox3.Dock = System.Windows.Forms.DockStyle.Top;
-            this.groupBox3.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.groupBox3.Location = new System.Drawing.Point(0, 721);
+            this.groupBox3.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.groupBox3.Location = new System.Drawing.Point(0, 698);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(521, 94);
+            this.groupBox3.Size = new System.Drawing.Size(521, 88);
             this.groupBox3.TabIndex = 1;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Bảng Sửa Dữ Liệu";
@@ -283,12 +284,12 @@
             this.groupBox1.Controls.Add(this.label19);
             this.groupBox1.Controls.Add(this.label1);
             this.groupBox1.Dock = System.Windows.Forms.DockStyle.Top;
-            this.groupBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.groupBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.groupBox1.Location = new System.Drawing.Point(0, 0);
             this.groupBox1.Margin = new System.Windows.Forms.Padding(3, 10, 3, 3);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Padding = new System.Windows.Forms.Padding(3, 20, 3, 10);
-            this.groupBox1.Size = new System.Drawing.Size(521, 721);
+            this.groupBox1.Size = new System.Drawing.Size(521, 698);
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Bảng Nhập Liệu";
@@ -299,7 +300,7 @@
             this.cbTimLot.FormattingEnabled = true;
             this.cbTimLot.Location = new System.Drawing.Point(215, 41);
             this.cbTimLot.Name = "cbTimLot";
-            this.cbTimLot.Size = new System.Drawing.Size(185, 26);
+            this.cbTimLot.Size = new System.Drawing.Size(272, 26);
             this.cbTimLot.TabIndex = 24;
             this.cbTimLot.TextUpdate += new System.EventHandler(this.cbTimLot_TextUpdate);
             // 
@@ -654,7 +655,7 @@
             this.nguoiLam.Font = new System.Drawing.Font("Microsoft Sans Serif", 12.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.nguoiLam.Location = new System.Drawing.Point(133, 473);
             this.nguoiLam.Name = "nguoiLam";
-            this.nguoiLam.Size = new System.Drawing.Size(354, 27);
+            this.nguoiLam.Size = new System.Drawing.Size(254, 27);
             this.nguoiLam.TabIndex = 5;
             // 
             // maSP
@@ -711,13 +712,13 @@
             // ca
             // 
             this.ca.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.ca.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.ca.Font = new System.Drawing.Font("Microsoft Sans Serif", 12.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.ca.FormattingEnabled = true;
             this.ca.Items.AddRange(new object[] {
             "1",
             "2",
             "3"});
-            this.ca.Location = new System.Drawing.Point(439, 41);
+            this.ca.Location = new System.Drawing.Point(439, 473);
             this.ca.Name = "ca";
             this.ca.Size = new System.Drawing.Size(48, 28);
             this.ca.TabIndex = 3;
@@ -736,7 +737,7 @@
             // 
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.Location = new System.Drawing.Point(406, 46);
+            this.label2.Location = new System.Drawing.Point(406, 477);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(27, 18);
             this.label2.TabIndex = 2;
