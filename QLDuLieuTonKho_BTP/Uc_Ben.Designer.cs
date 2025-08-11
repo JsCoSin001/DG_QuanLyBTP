@@ -552,8 +552,8 @@
             // 
             this.lblHuongDan.AutoSize = true;
             this.lblHuongDan.Dock = System.Windows.Forms.DockStyle.Right;
-            this.lblHuongDan.Font = new System.Drawing.Font("Tahoma", 11.25F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblHuongDan.Location = new System.Drawing.Point(396, 893);
+            this.lblHuongDan.Font = new System.Drawing.Font("Tahoma", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblHuongDan.Location = new System.Drawing.Point(396, 874);
             this.lblHuongDan.Name = "lblHuongDan";
             this.lblHuongDan.Size = new System.Drawing.Size(113, 18);
             this.lblHuongDan.TabIndex = 4;
@@ -567,7 +567,7 @@
             this.pnXemDLID.Location = new System.Drawing.Point(0, 775);
             this.pnXemDLID.Name = "pnXemDLID";
             this.pnXemDLID.Padding = new System.Windows.Forms.Padding(0, 10, 0, 10);
-            this.pnXemDLID.Size = new System.Drawing.Size(509, 118);
+            this.pnXemDLID.Size = new System.Drawing.Size(509, 99);
             this.pnXemDLID.TabIndex = 3;
             // 
             // groupBox3
@@ -579,7 +579,7 @@
             this.groupBox3.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.groupBox3.Location = new System.Drawing.Point(0, 10);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(509, 88);
+            this.groupBox3.Size = new System.Drawing.Size(509, 79);
             this.groupBox3.TabIndex = 1;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Bảng Sửa Dữ Liệu";

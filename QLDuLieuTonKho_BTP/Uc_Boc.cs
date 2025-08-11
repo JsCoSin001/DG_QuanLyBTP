@@ -34,6 +34,8 @@ namespace QLDuLieuTonKho_BTP
         {
             InitializeComponent();
 
+            Helper.AddHoverEffect(lbHuongDan);
+
             //_dsMay = dsMay;
             congDoan.SelectedIndex = sttCongDoan;
 
@@ -540,6 +542,13 @@ namespace QLDuLieuTonKho_BTP
             _callTimer = "cbTimLot";
             timer1.Stop();
             timer1.Start();
+        }
+
+
+        public Uc_ShowData UcShowDataInstance { get; set; }
+        private void lbHuongDan_Click(object sender, EventArgs e)
+        {
+            UcShowDataInstance.ShowHideController(false);
         }
     }
 }

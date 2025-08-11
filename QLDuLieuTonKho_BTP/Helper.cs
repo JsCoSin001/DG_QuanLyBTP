@@ -212,6 +212,30 @@ namespace QLDuLieuTonKho_BTP
             return rightControl;
         }
 
+        public static void AddHoverEffect(Label lbl)
+        {
+            // Lưu font gốc để khôi phục đúng family/size
+            var originalFont = lbl.Font;
+            var hoverFont = new System.Drawing.Font(originalFont, FontStyle.Italic | FontStyle.Underline);
+
+            lbl.MouseEnter += (s, e) =>
+            {
+                lbl.Font = hoverFont;
+                lbl.ForeColor = System.Drawing.Color.Blue;
+                lbl.Cursor = Cursors.Hand;
+            };
+
+            lbl.MouseLeave += (s, e) =>
+            {
+                lbl.Font = originalFont;          // trở về đứng (Regular)
+                lbl.ForeColor = System.Drawing.Color.Black;      // màu đen
+                lbl.Cursor = Cursors.Default;
+            };
+
+            // Dọn dẹp font tạo ra khi label bị dispose
+            lbl.Disposed += (s, e) => hoverFont.Dispose();
+        }
+
 
         public interface ICustomUserControl
         {

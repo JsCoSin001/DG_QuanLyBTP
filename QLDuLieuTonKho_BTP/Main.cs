@@ -74,6 +74,7 @@ namespace QLDuLieuTonKho_BTP
             ucBen.LoadDanhSachMay(dsMay);
             ucBen.TypeOfProduct = "BTP";
             ucBen.TitleForm = "BÁO CÁO CÔNG ĐOẠN BỆN";
+
             ucBen.UcShowDataInstance = ucShowData;
             string filePath = Path.Combine(_pdfInstruction, "01 HD_BEN.pdf");
             ucShowData.LoadPdf(filePath);
@@ -99,7 +100,11 @@ namespace QLDuLieuTonKho_BTP
             );
             ucBoc.LoadDanhSachMay(dsMay);
             ucBoc.TypeOfProduct = "BTP";
-            
+
+            ucBoc.UcShowDataInstance = ucShowData;
+            string filePath = Path.Combine(_pdfInstruction, "02 HD_BOC.pdf");
+            ucShowData.LoadPdf(filePath);
+
         }
 
         private void btnQuanMica_Click(object sender, EventArgs e)
@@ -120,6 +125,11 @@ namespace QLDuLieuTonKho_BTP
             );
             ucBoc.LoadDanhSachMay(dsMay);
             ucBoc.TypeOfProduct = "BTP";
+
+
+            ucBoc.UcShowDataInstance = ucShowData;
+            string filePath = Path.Combine(_pdfInstruction, "02 HD_BOC.pdf");
+            ucShowData.LoadPdf(filePath);
 
         }
 
@@ -142,6 +152,11 @@ namespace QLDuLieuTonKho_BTP
             );
             ucBoc.LoadDanhSachMay(dsMay);
             ucBoc.TypeOfProduct = "TP";
+
+
+            ucBoc.UcShowDataInstance = ucShowData;
+            string filePath = Path.Combine(_pdfInstruction, "02 HD_BOC.pdf");
+            ucShowData.LoadPdf(filePath);
         }
 
         private void btnBaoCao_Click(object sender, EventArgs e)
@@ -164,6 +179,11 @@ namespace QLDuLieuTonKho_BTP
                dt => ucShowData.SetData(dt),
                _url
            );
+
+
+            Uc_BoSungKL.UcShowDataInstance = ucShowData;
+            string filePath = Path.Combine(_pdfInstruction, "03 HD_BO SUNG KL.pdf");
+            ucShowData.LoadPdf(filePath);
         }
 
         private void btnGopBin_Click(object sender, EventArgs e)
@@ -175,6 +195,10 @@ namespace QLDuLieuTonKho_BTP
                dt => ucShowData.SetData(dt),
                _url
            );
+
+            Uc_GopBin.UcShowDataInstance = ucShowData;
+            string filePath = Path.Combine(_pdfInstruction, "04 HD_GopBin.pdf");
+            ucShowData.LoadPdf(filePath);
         }
 
         private void button1_Click(object sender, EventArgs e)

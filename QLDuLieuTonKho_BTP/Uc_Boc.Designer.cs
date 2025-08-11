@@ -31,16 +31,16 @@
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Uc_Boc));
             this.pnNhapDL = new System.Windows.Forms.Panel();
+            this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.stt = new System.Windows.Forms.NumericUpDown();
+            this.tbShowDL = new System.Windows.Forms.Button();
+            this.label13 = new System.Windows.Forms.Label();
             this.pnTimeRequest = new System.Windows.Forms.Panel();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.cbXuatExcel = new System.Windows.Forms.CheckBox();
             this.dateReport = new System.Windows.Forms.DateTimePicker();
             this.showReport = new System.Windows.Forms.Button();
             this.label12 = new System.Windows.Forms.Label();
-            this.groupBox3 = new System.Windows.Forms.GroupBox();
-            this.stt = new System.Windows.Forms.NumericUpDown();
-            this.tbShowDL = new System.Windows.Forms.Button();
-            this.label13 = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.cbTimLot = new System.Windows.Forms.ComboBox();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
@@ -89,11 +89,12 @@
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.panel2 = new System.Windows.Forms.Panel();
             this.lblTitleForm = new System.Windows.Forms.Label();
+            this.lbHuongDan = new System.Windows.Forms.Label();
             this.pnNhapDL.SuspendLayout();
-            this.pnTimeRequest.SuspendLayout();
-            this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.stt)).BeginInit();
+            this.pnTimeRequest.SuspendLayout();
+            this.groupBox2.SuspendLayout();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.soBin)).BeginInit();
@@ -110,6 +111,7 @@
             // 
             // pnNhapDL
             // 
+            this.pnNhapDL.Controls.Add(this.lbHuongDan);
             this.pnNhapDL.Controls.Add(this.groupBox3);
             this.pnNhapDL.Controls.Add(this.pnTimeRequest);
             this.pnNhapDL.Controls.Add(this.groupBox1);
@@ -117,14 +119,64 @@
             this.pnNhapDL.Location = new System.Drawing.Point(0, 47);
             this.pnNhapDL.Margin = new System.Windows.Forms.Padding(0);
             this.pnNhapDL.Name = "pnNhapDL";
-            this.pnNhapDL.Size = new System.Drawing.Size(521, 931);
+            this.pnNhapDL.Size = new System.Drawing.Size(521, 947);
             this.pnNhapDL.TabIndex = 1;
+            // 
+            // groupBox3
+            // 
+            this.groupBox3.Controls.Add(this.stt);
+            this.groupBox3.Controls.Add(this.tbShowDL);
+            this.groupBox3.Controls.Add(this.label13);
+            this.groupBox3.Dock = System.Windows.Forms.DockStyle.Top;
+            this.groupBox3.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.groupBox3.Location = new System.Drawing.Point(0, 821);
+            this.groupBox3.Name = "groupBox3";
+            this.groupBox3.Size = new System.Drawing.Size(521, 88);
+            this.groupBox3.TabIndex = 1;
+            this.groupBox3.TabStop = false;
+            this.groupBox3.Text = "Bảng Sửa Dữ Liệu";
+            // 
+            // stt
+            // 
+            this.stt.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.stt.Location = new System.Drawing.Point(126, 36);
+            this.stt.Maximum = new decimal(new int[] {
+            1661992959,
+            1808227885,
+            5,
+            0});
+            this.stt.Name = "stt";
+            this.stt.Size = new System.Drawing.Size(231, 26);
+            this.stt.TabIndex = 23;
+            // 
+            // tbShowDL
+            // 
+            this.tbShowDL.BackColor = System.Drawing.Color.LightSeaGreen;
+            this.tbShowDL.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.tbShowDL.ForeColor = System.Drawing.SystemColors.Control;
+            this.tbShowDL.Location = new System.Drawing.Point(371, 21);
+            this.tbShowDL.Name = "tbShowDL";
+            this.tbShowDL.Size = new System.Drawing.Size(95, 45);
+            this.tbShowDL.TabIndex = 24;
+            this.tbShowDL.Text = "Xem";
+            this.tbShowDL.UseVisualStyleBackColor = false;
+            this.tbShowDL.Click += new System.EventHandler(this.tbShowDL_Click);
+            // 
+            // label13
+            // 
+            this.label13.AutoSize = true;
+            this.label13.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label13.Location = new System.Drawing.Point(14, 40);
+            this.label13.Name = "label13";
+            this.label13.Size = new System.Drawing.Size(55, 18);
+            this.label13.TabIndex = 1;
+            this.label13.Text = "STT lỗi";
             // 
             // pnTimeRequest
             // 
             this.pnTimeRequest.Controls.Add(this.groupBox2);
             this.pnTimeRequest.Dock = System.Windows.Forms.DockStyle.Top;
-            this.pnTimeRequest.Location = new System.Drawing.Point(0, 786);
+            this.pnTimeRequest.Location = new System.Drawing.Point(0, 698);
             this.pnTimeRequest.Name = "pnTimeRequest";
             this.pnTimeRequest.Padding = new System.Windows.Forms.Padding(0, 10, 0, 0);
             this.pnTimeRequest.Size = new System.Drawing.Size(521, 123);
@@ -186,56 +238,6 @@
             this.label12.Size = new System.Drawing.Size(106, 20);
             this.label12.TabIndex = 3;
             this.label12.Text = "Thời gian xem";
-            // 
-            // groupBox3
-            // 
-            this.groupBox3.Controls.Add(this.stt);
-            this.groupBox3.Controls.Add(this.tbShowDL);
-            this.groupBox3.Controls.Add(this.label13);
-            this.groupBox3.Dock = System.Windows.Forms.DockStyle.Top;
-            this.groupBox3.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.groupBox3.Location = new System.Drawing.Point(0, 698);
-            this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(521, 88);
-            this.groupBox3.TabIndex = 1;
-            this.groupBox3.TabStop = false;
-            this.groupBox3.Text = "Bảng Sửa Dữ Liệu";
-            // 
-            // stt
-            // 
-            this.stt.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.stt.Location = new System.Drawing.Point(126, 36);
-            this.stt.Maximum = new decimal(new int[] {
-            1661992959,
-            1808227885,
-            5,
-            0});
-            this.stt.Name = "stt";
-            this.stt.Size = new System.Drawing.Size(231, 26);
-            this.stt.TabIndex = 23;
-            // 
-            // tbShowDL
-            // 
-            this.tbShowDL.BackColor = System.Drawing.Color.LightSeaGreen;
-            this.tbShowDL.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.tbShowDL.ForeColor = System.Drawing.SystemColors.Control;
-            this.tbShowDL.Location = new System.Drawing.Point(371, 21);
-            this.tbShowDL.Name = "tbShowDL";
-            this.tbShowDL.Size = new System.Drawing.Size(95, 45);
-            this.tbShowDL.TabIndex = 24;
-            this.tbShowDL.Text = "Xem";
-            this.tbShowDL.UseVisualStyleBackColor = false;
-            this.tbShowDL.Click += new System.EventHandler(this.tbShowDL_Click);
-            // 
-            // label13
-            // 
-            this.label13.AutoSize = true;
-            this.label13.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label13.Location = new System.Drawing.Point(14, 40);
-            this.label13.Name = "label13";
-            this.label13.Size = new System.Drawing.Size(55, 18);
-            this.label13.TabIndex = 1;
-            this.label13.Text = "STT lỗi";
             // 
             // groupBox1
             // 
@@ -863,6 +865,18 @@
             this.lblTitleForm.Text = "label10";
             this.lblTitleForm.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
+            // lbHuongDan
+            // 
+            this.lbHuongDan.AutoSize = true;
+            this.lbHuongDan.Dock = System.Windows.Forms.DockStyle.Right;
+            this.lbHuongDan.Font = new System.Drawing.Font("Tahoma", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbHuongDan.Location = new System.Drawing.Point(404, 909);
+            this.lbHuongDan.Name = "lbHuongDan";
+            this.lbHuongDan.Size = new System.Drawing.Size(117, 18);
+            this.lbHuongDan.TabIndex = 4;
+            this.lbHuongDan.Text = "Xem Hướng Dẫn";
+            this.lbHuongDan.Click += new System.EventHandler(this.lbHuongDan_Click);
+            // 
             // Uc_Boc
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -870,15 +884,16 @@
             this.Controls.Add(this.pnNhapDL);
             this.Controls.Add(this.panel2);
             this.Name = "Uc_Boc";
-            this.Size = new System.Drawing.Size(521, 978);
+            this.Size = new System.Drawing.Size(521, 994);
             this.Load += new System.EventHandler(this.Boc_Load);
             this.pnNhapDL.ResumeLayout(false);
-            this.pnTimeRequest.ResumeLayout(false);
-            this.groupBox2.ResumeLayout(false);
-            this.groupBox2.PerformLayout();
+            this.pnNhapDL.PerformLayout();
             this.groupBox3.ResumeLayout(false);
             this.groupBox3.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.stt)).EndInit();
+            this.pnTimeRequest.ResumeLayout(false);
+            this.groupBox2.ResumeLayout(false);
+            this.groupBox2.PerformLayout();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
@@ -956,6 +971,7 @@
         private System.Windows.Forms.ComboBox cbTimLot;
         private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.Label lblTitleForm;
+        private System.Windows.Forms.Label lbHuongDan;
     }
 }
 

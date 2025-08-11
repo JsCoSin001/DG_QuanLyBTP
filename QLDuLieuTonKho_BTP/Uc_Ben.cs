@@ -27,6 +27,8 @@ namespace QLDuLieuTonKho_BTP
         public event Action<DataTable> OnDataReady;
         public string TypeOfProduct { get; set; }
 
+        public Uc_ShowData UcShowDataInstance { get; set; }
+
         public string TitleForm
         {
             get => _titleForm;
@@ -44,13 +46,17 @@ namespace QLDuLieuTonKho_BTP
 
             DatabaseHelper.SetDatabasePath(url);
             lblTitleForm.Text = _titleForm;
+            Helper.AddHoverEffect(lblHuongDan);
 
             // Cấu hình timer
             timer1.Interval = 300;
         }
 
 
-        public Uc_Ben() { }
+        public Uc_Ben() 
+        {
+          
+        }
 
         public void LoadDanhSachMay(string[] dsMay)
         {
@@ -373,7 +379,6 @@ namespace QLDuLieuTonKho_BTP
             lot.Text = Helper.LOTGenerated(may, maHT, STTCD, sttBin, soBin);
         }
 
-        public Uc_ShowData UcShowDataInstance { get; set; }
         private void lblHuongDan_Click(object sender, EventArgs e)
         {
             UcShowDataInstance.ShowHideController(false);

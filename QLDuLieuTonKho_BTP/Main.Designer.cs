@@ -52,7 +52,6 @@
             this.label1 = new System.Windows.Forms.Label();
             this.pnRight = new System.Windows.Forms.Panel();
             this.pnLeft = new System.Windows.Forms.Panel();
-            this.btnHuongDan = new System.Windows.Forms.Button();
             this.pnMainControl.SuspendLayout();
             this.pnQuanLy.SuspendLayout();
             this.flowLayoutPanel1.SuspendLayout();
@@ -101,7 +100,6 @@
             this.flowLayoutPanel1.Controls.Add(this.btnCapNhatMaSP);
             this.flowLayoutPanel1.Controls.Add(this.panel3);
             this.flowLayoutPanel1.Controls.Add(this.button1);
-            this.flowLayoutPanel1.Controls.Add(this.btnHuongDan);
             this.flowLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.flowLayoutPanel1.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
             this.flowLayoutPanel1.Location = new System.Drawing.Point(0, 0);
@@ -328,16 +326,6 @@
             this.pnLeft.Size = new System.Drawing.Size(489, 893);
             this.pnLeft.TabIndex = 1;
             // 
-            // btnHuongDan
-            // 
-            this.btnHuongDan.Location = new System.Drawing.Point(3, 206);
-            this.btnHuongDan.Margin = new System.Windows.Forms.Padding(3, 3, 3, 10);
-            this.btnHuongDan.Name = "btnHuongDan";
-            this.btnHuongDan.Size = new System.Drawing.Size(196, 53);
-            this.btnHuongDan.TabIndex = 10;
-            this.btnHuongDan.Text = "HƯỚNG DẪN";
-            this.btnHuongDan.UseVisualStyleBackColor = true;
-            // 
             // Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -389,6 +377,5 @@
         private System.Windows.Forms.Button btnGopBin;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Panel panel3;
-        private System.Windows.Forms.Button btnHuongDan;
     }
 }

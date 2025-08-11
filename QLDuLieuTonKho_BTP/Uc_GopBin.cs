@@ -23,6 +23,8 @@ namespace QLDuLieuTonKho_BTP
         public Uc_GopBin(string url)
         {
             InitializeComponent();
+
+            Helper.AddHoverEffect(lblHuongDan);
             _url = url;
             timer1.Interval = 500;
             DatabaseHelper.SetDatabasePath(_url);
@@ -382,6 +384,13 @@ namespace QLDuLieuTonKho_BTP
             string defaultFileName = "DanhSachGopBin";
             await ExcelHelper.ExportWithLoading(table, defaultFileName);
 
+        }
+
+        public Uc_ShowData UcShowDataInstance { get; set; }
+      
+        private void lblHuongDan_Click(object sender, EventArgs e)
+        {
+            UcShowDataInstance.ShowHideController(false);
         }
     }
 }

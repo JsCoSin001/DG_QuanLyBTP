@@ -70,6 +70,7 @@
             this.label4 = new System.Windows.Forms.Label();
             this.dgDsLot = new System.Windows.Forms.DataGridView();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
+            this.lblHuongDan = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             this.flowLayoutPanel1.SuspendLayout();
             this.flowLayoutPanel2.SuspendLayout();
@@ -506,7 +507,7 @@
             this.groupBox2.Location = new System.Drawing.Point(0, 377);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Padding = new System.Windows.Forms.Padding(10);
-            this.groupBox2.Size = new System.Drawing.Size(689, 518);
+            this.groupBox2.Size = new System.Drawing.Size(689, 515);
             this.groupBox2.TabIndex = 2;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Danh sách LOT gộp";
@@ -598,10 +599,23 @@
             // 
             this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
             // 
+            // lblHuongDan
+            // 
+            this.lblHuongDan.AutoSize = true;
+            this.lblHuongDan.Dock = System.Windows.Forms.DockStyle.Right;
+            this.lblHuongDan.Font = new System.Drawing.Font("Tahoma", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblHuongDan.Location = new System.Drawing.Point(572, 892);
+            this.lblHuongDan.Name = "lblHuongDan";
+            this.lblHuongDan.Size = new System.Drawing.Size(117, 18);
+            this.lblHuongDan.TabIndex = 4;
+            this.lblHuongDan.Text = "Xem Hướng Dẫn";
+            this.lblHuongDan.Click += new System.EventHandler(this.lblHuongDan_Click);
+            // 
             // Uc_GopBin
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 18F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.lblHuongDan);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.pnPhanCach);
             this.Controls.Add(this.groupBox1);
@@ -609,7 +623,7 @@
             this.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "Uc_GopBin";
-            this.Size = new System.Drawing.Size(689, 938);
+            this.Size = new System.Drawing.Size(689, 992);
             this.groupBox1.ResumeLayout(false);
             this.flowLayoutPanel1.ResumeLayout(false);
             this.flowLayoutPanel1.PerformLayout();
@@ -633,6 +647,7 @@
             this.flowLayoutPanel5.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgDsLot)).EndInit();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -679,5 +694,6 @@
         private System.Windows.Forms.NumericUpDown nmIDTenSP;
         private System.Windows.Forms.Button btnDsGopBin;
         private System.Windows.Forms.CheckBox cbXuatExcel;
+        private System.Windows.Forms.Label lblHuongDan;
     }
 }

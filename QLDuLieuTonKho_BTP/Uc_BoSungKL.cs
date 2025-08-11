@@ -18,6 +18,7 @@ namespace QLDuLieuTonKho_BTP
         public Uc_BoSungKL(string url)
         {
             InitializeComponent();
+            Helper.AddHoverEffect(lblHuongDan);
             timer1.Interval = 500;
             DatabaseHelper.SetDatabasePath(url);
         }
@@ -235,6 +236,12 @@ namespace QLDuLieuTonKho_BTP
         private void btnXoa_Click(object sender, EventArgs e)
         {
             ResetAllControler();
+        }
+
+        public Uc_ShowData UcShowDataInstance { get; set; }
+        private void lblHuongDan_Click(object sender, EventArgs e)
+        {
+            UcShowDataInstance.ShowHideController(false);
         }
     }
 }

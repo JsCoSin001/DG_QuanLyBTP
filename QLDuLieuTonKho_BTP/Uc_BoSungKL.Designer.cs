@@ -50,6 +50,7 @@
             this.label5 = new System.Windows.Forms.Label();
             this.nmKLDong = new System.Windows.Forms.NumericUpDown();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
+            this.lblHuongDan = new System.Windows.Forms.Label();
             this.panel1.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.flowLayoutPanel1.SuspendLayout();
@@ -323,10 +324,23 @@
             // 
             this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
             // 
+            // lblHuongDan
+            // 
+            this.lblHuongDan.AutoSize = true;
+            this.lblHuongDan.Dock = System.Windows.Forms.DockStyle.Right;
+            this.lblHuongDan.Font = new System.Drawing.Font("Tahoma", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblHuongDan.Location = new System.Drawing.Point(503, 696);
+            this.lblHuongDan.Name = "lblHuongDan";
+            this.lblHuongDan.Size = new System.Drawing.Size(117, 18);
+            this.lblHuongDan.TabIndex = 2;
+            this.lblHuongDan.Text = "Xem Hướng Dẫn";
+            this.lblHuongDan.Click += new System.EventHandler(this.lblHuongDan_Click);
+            // 
             // Uc_BoSungKL
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 18F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.lblHuongDan);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.panel1);
             this.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -342,6 +356,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.nmKLBin)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.nmKLDong)).EndInit();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -368,5 +383,6 @@
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.TextBox tbTenBin;
         private System.Windows.Forms.Button btnXoa;
+        private System.Windows.Forms.Label lblHuongDan;
     }
 }
