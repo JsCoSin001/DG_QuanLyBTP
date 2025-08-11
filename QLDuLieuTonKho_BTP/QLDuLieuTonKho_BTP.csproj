@@ -250,9 +250,9 @@
     <EmbeddedResource Include="Uc_ShowData.resx">
       <DependentUpon>Uc_ShowData.cs</DependentUpon>
     </EmbeddedResource>
-    <None Include="Data\01 HD_BEN.pdf">
+    <Content Include="Data\01 HD_BEN.pdf">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
+    </Content>
     <None Include="Data\02 HD_BOC.pdf">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>

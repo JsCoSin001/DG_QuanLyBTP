@@ -63,6 +63,7 @@
             this.label17 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.PnNhapDL = new System.Windows.Forms.Panel();
+            this.lblHuongDan = new System.Windows.Forms.Label();
             this.pnXemDLID = new System.Windows.Forms.Panel();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.stt = new System.Windows.Forms.NumericUpDown();
@@ -78,7 +79,6 @@
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.pnTieuDe = new System.Windows.Forms.Panel();
             this.lblTitleForm = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.soBin)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.maHT)).BeginInit();
@@ -537,7 +537,7 @@
             // 
             // PnNhapDL
             // 
-            this.PnNhapDL.Controls.Add(this.label3);
+            this.PnNhapDL.Controls.Add(this.lblHuongDan);
             this.PnNhapDL.Controls.Add(this.pnXemDLID);
             this.PnNhapDL.Controls.Add(this.pnTimeRequest);
             this.PnNhapDL.Controls.Add(this.pnNhapLieu);
@@ -547,6 +547,18 @@
             this.PnNhapDL.Name = "PnNhapDL";
             this.PnNhapDL.Size = new System.Drawing.Size(509, 967);
             this.PnNhapDL.TabIndex = 1;
+            // 
+            // lblHuongDan
+            // 
+            this.lblHuongDan.AutoSize = true;
+            this.lblHuongDan.Dock = System.Windows.Forms.DockStyle.Right;
+            this.lblHuongDan.Font = new System.Drawing.Font("Tahoma", 11.25F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblHuongDan.Location = new System.Drawing.Point(396, 893);
+            this.lblHuongDan.Name = "lblHuongDan";
+            this.lblHuongDan.Size = new System.Drawing.Size(113, 18);
+            this.lblHuongDan.TabIndex = 4;
+            this.lblHuongDan.Text = "Xem hướng dẫn";
+            this.lblHuongDan.Click += new System.EventHandler(this.lblHuongDan_Click);
             // 
             // pnXemDLID
             // 
@@ -713,17 +725,6 @@
             this.lblTitleForm.Text = "label3";
             this.lblTitleForm.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
             // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Dock = System.Windows.Forms.DockStyle.Right;
-            this.label3.Font = new System.Drawing.Font("Tahoma", 11.25F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.Location = new System.Drawing.Point(396, 893);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(113, 18);
-            this.label3.TabIndex = 4;
-            this.label3.Text = "Xem hướng dẫn";
-            // 
             // Uc_Ben
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -807,7 +808,7 @@
         private System.Windows.Forms.CheckBox cbXuatExcel;
         private System.Windows.Forms.Panel pnTieuDe;
         private System.Windows.Forms.Label lblTitleForm;
-        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Label lblHuongDan;
     }
 }
 

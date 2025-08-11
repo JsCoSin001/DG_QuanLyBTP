@@ -1,4 +1,5 @@
-﻿using QLDuLieuTonKho_BTP.Data;
+﻿using PdfiumViewer;
+using QLDuLieuTonKho_BTP.Data;
 using QLDuLieuTonKho_BTP.Models;
 using QLDuLieuTonKho_BTP.Validate;
 using System;
@@ -364,15 +365,18 @@ namespace QLDuLieuTonKho_BTP
 
             string fileName = $"BC Tháng {dateRP}";
             await ExcelHelper.ExportWithLoading(table, fileName);
-
-
-
            
         }
 
         private void STTCD_TextChanged(object sender, EventArgs e)
         {
             lot.Text = Helper.LOTGenerated(may, maHT, STTCD, sttBin, soBin);
+        }
+
+        public Uc_ShowData UcShowDataInstance { get; set; }
+        private void lblHuongDan_Click(object sender, EventArgs e)
+        {
+            UcShowDataInstance.ShowHideController(false);
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using DocumentFormat.OpenXml.Wordprocessing;
+using PdfiumViewer;
 using QLDuLieuTonKho_BTP.Data;
 using QLDuLieuTonKho_BTP.Models;
 using System;
@@ -210,6 +211,7 @@ namespace QLDuLieuTonKho_BTP
 
             return rightControl;
         }
+
 
         public interface ICustomUserControl
         {
