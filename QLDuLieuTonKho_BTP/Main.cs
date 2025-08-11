@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -42,6 +43,7 @@ namespace QLDuLieuTonKho_BTP
 
         private void btnCapNhatMaSP_Click(object sender, EventArgs e)
         {
+            RestoreRightPanel();
             ucShowData = Helper.LoadUserControlsWithData<Uc_CapNhatMaSP>(
                 pnLeft,
                 pnRight,
@@ -53,6 +55,7 @@ namespace QLDuLieuTonKho_BTP
 
         private void btnBen_Click(object sender, EventArgs e)
         {
+            RestoreRightPanel();
             string[] dsMay = new[]
             {
                 "B1", "B2", "B3", "B4", "B5", "B6", "B7", "B8", "B9", "B10",
@@ -75,6 +78,7 @@ namespace QLDuLieuTonKho_BTP
 
         private void btnBocMach_Click(object sender, EventArgs e)
         {
+            RestoreRightPanel();
             string[] dsMay = new[]
             {
                 "E1", "E2", "E3", "E4", "E5", "E6", "E7", "E8", "E9", "E10",
@@ -97,6 +101,7 @@ namespace QLDuLieuTonKho_BTP
 
         private void btnQuanMica_Click(object sender, EventArgs e)
         {
+            RestoreRightPanel();
             string[] dsMay = new[]
             {
                 "T3", "T4", "T5", "T6"
@@ -118,7 +123,7 @@ namespace QLDuLieuTonKho_BTP
 
         private void btnBocVo_Click(object sender, EventArgs e)
         {
-            
+            RestoreRightPanel();
             string[] dsMay = new[]
             {
                 "E1", "E2", "E3", "E4", "E5", "E6", "E7", "E8", "E9", "E10",
@@ -140,6 +145,7 @@ namespace QLDuLieuTonKho_BTP
 
         private void btnBaoCao_Click(object sender, EventArgs e)
         {
+            RestoreRightPanel();
             ucShowData = Helper.LoadUserControlsWithData<Uc_BcTonKho>(
                 pnLeft,
                 pnRight,
@@ -151,6 +157,7 @@ namespace QLDuLieuTonKho_BTP
 
         private void btnBoSungKL_Click(object sender, EventArgs e)
         {
+            RestoreRightPanel();
             ucShowData = Helper.LoadUserControlsWithData<Uc_BoSungKL>(
                pnLeft,
                pnRight,
@@ -162,6 +169,7 @@ namespace QLDuLieuTonKho_BTP
 
         private void btnGopBin_Click(object sender, EventArgs e)
         {
+            RestoreRightPanel();
             ucShowData = Helper.LoadUserControlsWithData<Uc_GopBin>(
                pnLeft,
                pnRight,
@@ -181,5 +189,68 @@ namespace QLDuLieuTonKho_BTP
                 _url
             );
         }
+
+
+        private Uc_HuongDan _ucHuongDan;
+        private int _pnRightOldWidth = -1;
+
+        private void btnHuongDan_Click(object sender, EventArgs e)
+        {
+            // 1) Lấy danh sách TÊN file PDF trong thư mục.\data
+            string dataDir = Path.Combine(Application.StartupPath, "data");
+            if (!Directory.Exists(dataDir))
+            {
+                MessageBox.Show($"Không tìm thấy thư mục: {dataDir}", "Thông báo",
+                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            string[] pdfNames = Directory.GetFiles(dataDir, "*.pdf")
+                                         .Select(Path.GetFileName) // chỉ lấy tên file
+                                         .OrderBy(n => n, StringComparer.CurrentCultureIgnoreCase)
+                                         .ToArray();
+
+            if (pdfNames.Length == 0)
+            {
+                MessageBox.Show("Thư mục data không có file PDF nào.", "Thông báo",
+                    MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
+
+            // 2) Tạo UC và truyền mảng TÊN file
+            if (_ucHuongDan == null || _ucHuongDan.IsDisposed)
+                _ucHuongDan = new Uc_HuongDan(pdfNames);
+
+            // 3) Chèn vào pnLeft, Dock = Fill
+            pnLeft.SuspendLayout();
+            try
+            {
+                pnLeft.Controls.Clear();
+                _ucHuongDan.Dock = DockStyle.Fill;
+                pnLeft.Controls.Add(_ucHuongDan);
+                _ucHuongDan.BringToFront();
+
+                // Cho pnLeft chiếm toàn bộ form
+                pnLeft.Dock = DockStyle.Fill;
+            }
+            finally
+            {
+                pnLeft.ResumeLayout();
+            }
+
+            // 4) Thu nhỏ/ẩn pnRight
+            if (_pnRightOldWidth < 0) _pnRightOldWidth = pnRight.Width;
+            pnRight.Visible = false;
+            pnRight.Width = 0;
+
+        }
+
+        private void RestoreRightPanel()
+        {
+            pnRight.Visible = true;
+            if (_pnRightOldWidth > 0) pnRight.Width = _pnRightOldWidth;
+            pnLeft.Dock = DockStyle.Left; // hoặc về layout ban đầu tuỳ bạn
+        }
+
     }
 }

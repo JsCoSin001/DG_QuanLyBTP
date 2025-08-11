@@ -110,8 +110,8 @@
             // 
             // pnNhapDL
             // 
-            this.pnNhapDL.Controls.Add(this.pnTimeRequest);
             this.pnNhapDL.Controls.Add(this.groupBox3);
+            this.pnNhapDL.Controls.Add(this.pnTimeRequest);
             this.pnNhapDL.Controls.Add(this.groupBox1);
             this.pnNhapDL.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pnNhapDL.Location = new System.Drawing.Point(0, 47);
@@ -152,7 +152,7 @@
             this.cbXuatExcel.Location = new System.Drawing.Point(390, 21);
             this.cbXuatExcel.Name = "cbXuatExcel";
             this.cbXuatExcel.Size = new System.Drawing.Size(97, 22);
-            this.cbXuatExcel.TabIndex = 6;
+            this.cbXuatExcel.TabIndex = 27;
             this.cbXuatExcel.Text = "Xuất Excel";
             this.cbXuatExcel.UseVisualStyleBackColor = true;
             // 
@@ -164,7 +164,7 @@
             this.dateReport.Location = new System.Drawing.Point(145, 61);
             this.dateReport.Name = "dateReport";
             this.dateReport.Size = new System.Drawing.Size(235, 27);
-            this.dateReport.TabIndex = 4;
+            this.dateReport.TabIndex = 25;
             // 
             // showReport
             // 
@@ -172,7 +172,7 @@
             this.showReport.Location = new System.Drawing.Point(392, 54);
             this.showReport.Name = "showReport";
             this.showReport.Size = new System.Drawing.Size(95, 34);
-            this.showReport.TabIndex = 5;
+            this.showReport.TabIndex = 26;
             this.showReport.Text = "Xem";
             this.showReport.UseVisualStyleBackColor = true;
             this.showReport.Click += new System.EventHandler(this.showReport_Click_1);
@@ -212,7 +212,7 @@
             0});
             this.stt.Name = "stt";
             this.stt.Size = new System.Drawing.Size(231, 26);
-            this.stt.TabIndex = 8;
+            this.stt.TabIndex = 23;
             // 
             // tbShowDL
             // 
@@ -222,7 +222,7 @@
             this.tbShowDL.Location = new System.Drawing.Point(371, 21);
             this.tbShowDL.Name = "tbShowDL";
             this.tbShowDL.Size = new System.Drawing.Size(95, 45);
-            this.tbShowDL.TabIndex = 7;
+            this.tbShowDL.TabIndex = 24;
             this.tbShowDL.Text = "Xem";
             this.tbShowDL.UseVisualStyleBackColor = false;
             this.tbShowDL.Click += new System.EventHandler(this.tbShowDL_Click);
@@ -301,7 +301,7 @@
             this.cbTimLot.Location = new System.Drawing.Point(215, 41);
             this.cbTimLot.Name = "cbTimLot";
             this.cbTimLot.Size = new System.Drawing.Size(272, 26);
-            this.cbTimLot.TabIndex = 24;
+            this.cbTimLot.TabIndex = 2;
             this.cbTimLot.TextUpdate += new System.EventHandler(this.cbTimLot_TextUpdate);
             // 
             // pictureBox1
@@ -351,7 +351,7 @@
             this.button1.Location = new System.Drawing.Point(250, 631);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(99, 48);
-            this.button1.TabIndex = 17;
+            this.button1.TabIndex = 21;
             this.button1.Text = "Nhập lại";
             this.button1.UseVisualStyleBackColor = false;
             this.button1.Click += new System.EventHandler(this.button1_Click);
@@ -374,7 +374,7 @@
             this.maySX.Location = new System.Drawing.Point(393, 272);
             this.maySX.Name = "maySX";
             this.maySX.Size = new System.Drawing.Size(94, 28);
-            this.maySX.TabIndex = 16;
+            this.maySX.TabIndex = 12;
             // 
             // label3
             // 
@@ -398,7 +398,7 @@
             0});
             this.soBin.Name = "soBin";
             this.soBin.Size = new System.Drawing.Size(75, 27);
-            this.soBin.TabIndex = 8;
+            this.soBin.TabIndex = 7;
             this.soBin.ValueChanged += new System.EventHandler(this.soBin_ValueChanged);
             // 
             // sttBin
@@ -413,7 +413,7 @@
             0});
             this.sttBin.Name = "sttBin";
             this.sttBin.Size = new System.Drawing.Size(75, 27);
-            this.sttBin.TabIndex = 8;
+            this.sttBin.TabIndex = 6;
             this.sttBin.ValueChanged += new System.EventHandler(this.sttBin_ValueChanged);
             // 
             // label23
@@ -444,7 +444,7 @@
             this.STTCD.Location = new System.Drawing.Point(238, 119);
             this.STTCD.Name = "STTCD";
             this.STTCD.Size = new System.Drawing.Size(49, 28);
-            this.STTCD.TabIndex = 12;
+            this.STTCD.TabIndex = 5;
             this.STTCD.SelectedIndexChanged += new System.EventHandler(this.STTCD_SelectedIndexChanged);
             // 
             // idBen
@@ -467,7 +467,7 @@
             this.lot.Location = new System.Drawing.Point(133, 172);
             this.lot.Name = "lot";
             this.lot.Size = new System.Drawing.Size(354, 26);
-            this.lot.TabIndex = 13;
+            this.lot.TabIndex = 8;
             // 
             // maHT
             // 
@@ -481,7 +481,7 @@
             0});
             this.maHT.Name = "maHT";
             this.maHT.Size = new System.Drawing.Size(115, 27);
-            this.maHT.TabIndex = 8;
+            this.maHT.TabIndex = 4;
             this.maHT.ValueChanged += new System.EventHandler(this.maHT_ValueChanged);
             // 
             // congDoan
@@ -497,7 +497,7 @@
             this.congDoan.Location = new System.Drawing.Point(133, 272);
             this.congDoan.Name = "congDoan";
             this.congDoan.Size = new System.Drawing.Size(176, 28);
-            this.congDoan.TabIndex = 12;
+            this.congDoan.TabIndex = 11;
             this.congDoan.SelectedIndexChanged += new System.EventHandler(this.STTCD_SelectedIndexChanged);
             // 
             // tenSP
@@ -507,7 +507,7 @@
             this.tenSP.Location = new System.Drawing.Point(133, 320);
             this.tenSP.Name = "tenSP";
             this.tenSP.Size = new System.Drawing.Size(354, 28);
-            this.tenSP.TabIndex = 25;
+            this.tenSP.TabIndex = 13;
             this.tenSP.TextUpdate += new System.EventHandler(this.tenSP_TextUpdate);
             // 
             // tbLuu
@@ -518,7 +518,7 @@
             this.tbLuu.Location = new System.Drawing.Point(371, 630);
             this.tbLuu.Name = "tbLuu";
             this.tbLuu.Size = new System.Drawing.Size(116, 48);
-            this.tbLuu.TabIndex = 9;
+            this.tbLuu.TabIndex = 22;
             this.tbLuu.Text = "Lưu";
             this.tbLuu.UseVisualStyleBackColor = false;
             this.tbLuu.Click += new System.EventHandler(this.tbLuu_Click);
@@ -535,7 +535,7 @@
             0});
             this.idTenSP.Name = "idTenSP";
             this.idTenSP.Size = new System.Drawing.Size(105, 27);
-            this.idTenSP.TabIndex = 8;
+            this.idTenSP.TabIndex = 10;
             // 
             // klPhe
             // 
@@ -554,7 +554,7 @@
             0});
             this.klPhe.Name = "klPhe";
             this.klPhe.Size = new System.Drawing.Size(127, 27);
-            this.klPhe.TabIndex = 8;
+            this.klPhe.TabIndex = 16;
             // 
             // chieuDai
             // 
@@ -573,7 +573,7 @@
             0});
             this.chieuDai.Name = "chieuDai";
             this.chieuDai.Size = new System.Drawing.Size(125, 27);
-            this.chieuDai.TabIndex = 8;
+            this.chieuDai.TabIndex = 17;
             // 
             // klConLai
             // 
@@ -592,7 +592,7 @@
             0});
             this.klConLai.Name = "klConLai";
             this.klConLai.Size = new System.Drawing.Size(125, 27);
-            this.klConLai.TabIndex = 8;
+            this.klConLai.TabIndex = 15;
             // 
             // klTruocBoc
             // 
@@ -612,7 +612,7 @@
             0});
             this.klTruocBoc.Name = "klTruocBoc";
             this.klTruocBoc.Size = new System.Drawing.Size(127, 27);
-            this.klTruocBoc.TabIndex = 8;
+            this.klTruocBoc.TabIndex = 14;
             // 
             // may
             // 
@@ -643,7 +643,7 @@
             this.may.Location = new System.Drawing.Point(18, 119);
             this.may.Name = "may";
             this.may.Size = new System.Drawing.Size(66, 28);
-            this.may.TabIndex = 7;
+            this.may.TabIndex = 3;
             this.may.SelectedIndexChanged += new System.EventHandler(this.may_SelectedIndexChanged);
             // 
             // ghiChu
@@ -652,7 +652,7 @@
             this.ghiChu.Location = new System.Drawing.Point(133, 525);
             this.ghiChu.Name = "ghiChu";
             this.ghiChu.Size = new System.Drawing.Size(354, 88);
-            this.ghiChu.TabIndex = 6;
+            this.ghiChu.TabIndex = 20;
             this.ghiChu.Text = "";
             // 
             // nguoiLam
@@ -661,7 +661,7 @@
             this.nguoiLam.Location = new System.Drawing.Point(133, 473);
             this.nguoiLam.Name = "nguoiLam";
             this.nguoiLam.Size = new System.Drawing.Size(254, 27);
-            this.nguoiLam.TabIndex = 5;
+            this.nguoiLam.TabIndex = 18;
             // 
             // maSP
             // 
@@ -671,7 +671,7 @@
             this.maSP.Location = new System.Drawing.Point(133, 222);
             this.maSP.Name = "maSP";
             this.maSP.Size = new System.Drawing.Size(214, 27);
-            this.maSP.TabIndex = 5;
+            this.maSP.TabIndex = 9;
             // 
             // label9
             // 
@@ -726,7 +726,7 @@
             this.ca.Location = new System.Drawing.Point(439, 473);
             this.ca.Name = "ca";
             this.ca.Size = new System.Drawing.Size(48, 28);
-            this.ca.TabIndex = 3;
+            this.ca.TabIndex = 19;
             // 
             // label7
             // 

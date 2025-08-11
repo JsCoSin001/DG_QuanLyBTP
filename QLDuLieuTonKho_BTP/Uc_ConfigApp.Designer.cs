@@ -115,7 +115,7 @@
             this.tbQuyenUser.Margin = new System.Windows.Forms.Padding(3, 7, 3, 3);
             this.tbQuyenUser.Name = "tbQuyenUser";
             this.tbQuyenUser.Size = new System.Drawing.Size(426, 26);
-            this.tbQuyenUser.TabIndex = 4;
+            this.tbQuyenUser.TabIndex = 3;
             // 
             // btnPhanQuyen
             // 
@@ -123,7 +123,7 @@
             this.btnPhanQuyen.Location = new System.Drawing.Point(573, 45);
             this.btnPhanQuyen.Name = "btnPhanQuyen";
             this.btnPhanQuyen.Size = new System.Drawing.Size(105, 36);
-            this.btnPhanQuyen.TabIndex = 5;
+            this.btnPhanQuyen.TabIndex = 4;
             this.btnPhanQuyen.Text = "Lưu";
             this.btnPhanQuyen.UseVisualStyleBackColor = true;
             this.btnPhanQuyen.Click += new System.EventHandler(this.btnPhanQuyen_Click);

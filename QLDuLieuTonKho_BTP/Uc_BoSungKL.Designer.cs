@@ -105,7 +105,7 @@
             this.btnXoa.Location = new System.Drawing.Point(340, 580);
             this.btnXoa.Name = "btnXoa";
             this.btnXoa.Size = new System.Drawing.Size(113, 50);
-            this.btnXoa.TabIndex = 2;
+            this.btnXoa.TabIndex = 8;
             this.btnXoa.Text = "Làm lại";
             this.btnXoa.UseVisualStyleBackColor = false;
             this.btnXoa.Click += new System.EventHandler(this.btnXoa_Click);
@@ -118,7 +118,7 @@
             this.tbnLuu.Location = new System.Drawing.Point(481, 580);
             this.tbnLuu.Name = "tbnLuu";
             this.tbnLuu.Size = new System.Drawing.Size(111, 50);
-            this.tbnLuu.TabIndex = 1;
+            this.tbnLuu.TabIndex = 9;
             this.tbnLuu.Text = "Lưu";
             this.tbnLuu.UseVisualStyleBackColor = false;
             this.tbnLuu.Click += new System.EventHandler(this.tbnLuu_Click);
@@ -171,7 +171,7 @@
             0});
             this.nmID.Name = "nmID";
             this.nmID.Size = new System.Drawing.Size(591, 27);
-            this.nmID.TabIndex = 11;
+            this.nmID.TabIndex = 1;
             // 
             // label1
             // 
@@ -192,7 +192,7 @@
             this.cbLot.Margin = new System.Windows.Forms.Padding(0, 5, 0, 5);
             this.cbLot.Name = "cbLot";
             this.cbLot.Size = new System.Drawing.Size(591, 28);
-            this.cbLot.TabIndex = 1;
+            this.cbLot.TabIndex = 2;
             this.cbLot.TextUpdate += new System.EventHandler(this.cbLot_TextUpdate);
             // 
             // label3
@@ -214,7 +214,7 @@
             this.tbTenSP.Margin = new System.Windows.Forms.Padding(0, 5, 0, 5);
             this.tbTenSP.Name = "tbTenSP";
             this.tbTenSP.Size = new System.Drawing.Size(591, 27);
-            this.tbTenSP.TabIndex = 5;
+            this.tbTenSP.TabIndex = 3;
             // 
             // label7
             // 
@@ -235,7 +235,7 @@
             this.tbTenBin.Margin = new System.Windows.Forms.Padding(0, 5, 0, 5);
             this.tbTenBin.Name = "tbTenBin";
             this.tbTenBin.Size = new System.Drawing.Size(591, 27);
-            this.tbTenBin.TabIndex = 13;
+            this.tbTenBin.TabIndex = 4;
             this.tbTenBin.TextChanged += new System.EventHandler(this.tbTenBin_TextChanged);
             // 
             // label2
@@ -262,7 +262,7 @@
             0});
             this.nmTongKL.Name = "nmTongKL";
             this.nmTongKL.Size = new System.Drawing.Size(591, 27);
-            this.nmTongKL.TabIndex = 3;
+            this.nmTongKL.TabIndex = 5;
             this.nmTongKL.ValueChanged += new System.EventHandler(this.nmTongKL_ValueChanged);
             // 
             // label4
@@ -289,7 +289,7 @@
             0});
             this.nmKLBin.Name = "nmKLBin";
             this.nmKLBin.Size = new System.Drawing.Size(591, 27);
-            this.nmKLBin.TabIndex = 7;
+            this.nmKLBin.TabIndex = 6;
             this.nmKLBin.ValueChanged += new System.EventHandler(this.nmKLBin_ValueChanged);
             // 
             // label5
@@ -317,7 +317,7 @@
             0});
             this.nmKLDong.Name = "nmKLDong";
             this.nmKLDong.Size = new System.Drawing.Size(591, 27);
-            this.nmKLDong.TabIndex = 9;
+            this.nmKLDong.TabIndex = 7;
             // 
             // timer1
             // 

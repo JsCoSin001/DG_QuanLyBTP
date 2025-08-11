@@ -183,7 +183,7 @@
             this.may.Location = new System.Drawing.Point(3, 3);
             this.may.Name = "may";
             this.may.Size = new System.Drawing.Size(96, 28);
-            this.may.TabIndex = 17;
+            this.may.TabIndex = 1;
             this.may.SelectedIndexChanged += new System.EventHandler(this.may_SelectedIndexChanged);
             // 
             // label22
@@ -207,7 +207,7 @@
             0});
             this.maHT.Name = "maHT";
             this.maHT.Size = new System.Drawing.Size(124, 27);
-            this.maHT.TabIndex = 19;
+            this.maHT.TabIndex = 2;
             this.maHT.ValueChanged += new System.EventHandler(this.maHT_ValueChanged);
             // 
             // label20
@@ -238,7 +238,7 @@
             this.STTCD.Location = new System.Drawing.Point(286, 3);
             this.STTCD.Name = "STTCD";
             this.STTCD.Size = new System.Drawing.Size(75, 28);
-            this.STTCD.TabIndex = 21;
+            this.STTCD.TabIndex = 3;
             this.STTCD.SelectedIndexChanged += new System.EventHandler(this.STTCD_SelectedIndexChanged);
             // 
             // label14
@@ -262,7 +262,7 @@
             0});
             this.sttBin.Name = "sttBin";
             this.sttBin.Size = new System.Drawing.Size(129, 27);
-            this.sttBin.TabIndex = 20;
+            this.sttBin.TabIndex = 4;
             this.sttBin.ValueChanged += new System.EventHandler(this.sttBin_ValueChanged);
             // 
             // label21
@@ -286,7 +286,7 @@
             0});
             this.soBin.Name = "soBin";
             this.soBin.Size = new System.Drawing.Size(102, 27);
-            this.soBin.TabIndex = 18;
+            this.soBin.TabIndex = 5;
             this.soBin.ValueChanged += new System.EventHandler(this.soBin_ValueChanged);
             // 
             // flowLayoutPanel7
@@ -322,7 +322,8 @@
             // 
             // nmIDTenSP
             // 
-            this.nmIDTenSP.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.nmIDTenSP.Enabled = false;
+            this.nmIDTenSP.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.nmIDTenSP.Location = new System.Drawing.Point(554, 3);
             this.nmIDTenSP.Maximum = new decimal(new int[] {
             1661992959,
@@ -330,9 +331,8 @@
             5,
             0});
             this.nmIDTenSP.Name = "nmIDTenSP";
-            this.nmIDTenSP.Size = new System.Drawing.Size(96, 24);
-            this.nmIDTenSP.TabIndex = 32;
-            this.nmIDTenSP.Visible = false;
+            this.nmIDTenSP.Size = new System.Drawing.Size(102, 26);
+            this.nmIDTenSP.TabIndex = 6;
             // 
             // flowLayoutPanel4
             // 
@@ -364,7 +364,7 @@
             this.cbTenSP.Margin = new System.Windows.Forms.Padding(3, 10, 3, 3);
             this.cbTenSP.Name = "cbTenSP";
             this.cbTenSP.Size = new System.Drawing.Size(331, 28);
-            this.cbTenSP.TabIndex = 34;
+            this.cbTenSP.TabIndex = 7;
             this.cbTenSP.TextUpdate += new System.EventHandler(this.cbTenSP_TextUpdate);
             // 
             // label11
@@ -396,7 +396,7 @@
             0});
             this.nmKLSP.Name = "nmKLSP";
             this.nmKLSP.Size = new System.Drawing.Size(124, 27);
-            this.nmKLSP.TabIndex = 33;
+            this.nmKLSP.TabIndex = 8;
             // 
             // flowLayoutPanel3
             // 
@@ -428,7 +428,7 @@
             this.cbLot.Margin = new System.Windows.Forms.Padding(3, 10, 3, 7);
             this.cbLot.Name = "cbLot";
             this.cbLot.Size = new System.Drawing.Size(331, 28);
-            this.cbLot.TabIndex = 3;
+            this.cbLot.TabIndex = 9;
             this.cbLot.TextUpdate += new System.EventHandler(this.cbLot_TextUpdate);
             // 
             // label5
@@ -456,7 +456,7 @@
             0});
             this.nmKl.Name = "nmKl";
             this.nmKl.Size = new System.Drawing.Size(120, 27);
-            this.nmKl.TabIndex = 5;
+            this.nmKl.TabIndex = 10;
             // 
             // flowLayoutPanel6
             // 
@@ -532,7 +532,7 @@
             this.btnGop.Location = new System.Drawing.Point(526, 3);
             this.btnGop.Name = "btnGop";
             this.btnGop.Size = new System.Drawing.Size(140, 54);
-            this.btnGop.TabIndex = 5;
+            this.btnGop.TabIndex = 12;
             this.btnGop.Text = "LƯU";
             this.btnGop.UseVisualStyleBackColor = false;
             this.btnGop.Click += new System.EventHandler(this.btnGop_Click);
@@ -545,7 +545,7 @@
             this.btnCancel.Location = new System.Drawing.Point(385, 3);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(135, 54);
-            this.btnCancel.TabIndex = 4;
+            this.btnCancel.TabIndex = 11;
             this.btnCancel.Text = "Làm lại";
             this.btnCancel.UseVisualStyleBackColor = false;
             this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
@@ -556,7 +556,7 @@
             this.btnDsGopBin.Location = new System.Drawing.Point(264, 3);
             this.btnDsGopBin.Name = "btnDsGopBin";
             this.btnDsGopBin.Size = new System.Drawing.Size(115, 54);
-            this.btnDsGopBin.TabIndex = 6;
+            this.btnDsGopBin.TabIndex = 13;
             this.btnDsGopBin.Text = "Ds Gộp bin";
             this.btnDsGopBin.UseVisualStyleBackColor = true;
             this.btnDsGopBin.Click += new System.EventHandler(this.btnDsGopBin_Click);
@@ -569,7 +569,7 @@
             this.cbXuatExcel.Margin = new System.Windows.Forms.Padding(3, 20, 3, 3);
             this.cbXuatExcel.Name = "cbXuatExcel";
             this.cbXuatExcel.Size = new System.Drawing.Size(97, 22);
-            this.cbXuatExcel.TabIndex = 9;
+            this.cbXuatExcel.TabIndex = 14;
             this.cbXuatExcel.Text = "Xuất Excel";
             this.cbXuatExcel.UseVisualStyleBackColor = true;
             // 

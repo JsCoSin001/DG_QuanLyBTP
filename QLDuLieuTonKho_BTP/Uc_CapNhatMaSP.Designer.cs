@@ -88,7 +88,7 @@
             this.btnImportExcel.Location = new System.Drawing.Point(12, 190);
             this.btnImportExcel.Name = "btnImportExcel";
             this.btnImportExcel.Size = new System.Drawing.Size(130, 44);
-            this.btnImportExcel.TabIndex = 4;
+            this.btnImportExcel.TabIndex = 3;
             this.btnImportExcel.Text = "Import Excel";
             this.btnImportExcel.UseVisualStyleBackColor = false;
             this.btnImportExcel.Click += new System.EventHandler(this.btnImportExcel_Click);
@@ -102,7 +102,7 @@
             this.btnLuuSP.Location = new System.Drawing.Point(278, 190);
             this.btnLuuSP.Name = "btnLuuSP";
             this.btnLuuSP.Size = new System.Drawing.Size(123, 44);
-            this.btnLuuSP.TabIndex = 3;
+            this.btnLuuSP.TabIndex = 4;
             this.btnLuuSP.Text = "Lưu";
             this.btnLuuSP.UseVisualStyleBackColor = false;
             this.btnLuuSP.Click += new System.EventHandler(this.btnLuuSP_Click);
@@ -171,7 +171,7 @@
             this.button1.Location = new System.Drawing.Point(13, 164);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(129, 44);
-            this.button1.TabIndex = 8;
+            this.button1.TabIndex = 9;
             this.button1.Text = "Xuất Excel";
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click);
@@ -185,7 +185,7 @@
             this.cbTimer.Location = new System.Drawing.Point(145, 80);
             this.cbTimer.Name = "cbTimer";
             this.cbTimer.Size = new System.Drawing.Size(104, 24);
-            this.cbTimer.TabIndex = 5;
+            this.cbTimer.TabIndex = 11;
             this.cbTimer.Text = "Không cần";
             this.cbTimer.UseVisualStyleBackColor = true;
             this.cbTimer.CheckedChanged += new System.EventHandler(this.checkBox1_CheckedChanged);
@@ -199,7 +199,7 @@
             this.timePicker.Location = new System.Drawing.Point(12, 116);
             this.timePicker.Name = "timePicker";
             this.timePicker.Size = new System.Drawing.Size(389, 26);
-            this.timePicker.TabIndex = 6;
+            this.timePicker.TabIndex = 8;
             // 
             // label5
             // 
@@ -230,7 +230,7 @@
             this.btnGetData.Location = new System.Drawing.Point(278, 165);
             this.btnGetData.Name = "btnGetData";
             this.btnGetData.Size = new System.Drawing.Size(123, 44);
-            this.btnGetData.TabIndex = 7;
+            this.btnGetData.TabIndex = 10;
             this.btnGetData.Text = "Lấy dữ liệu";
             this.btnGetData.UseVisualStyleBackColor = false;
             this.btnGetData.Click += new System.EventHandler(this.btnGetData_Click);
@@ -245,7 +245,7 @@
             this.cbxLoaiSP.Location = new System.Drawing.Point(145, 26);
             this.cbxLoaiSP.Name = "cbxLoaiSP";
             this.cbxLoaiSP.Size = new System.Drawing.Size(256, 28);
-            this.cbxLoaiSP.TabIndex = 4;
+            this.cbxLoaiSP.TabIndex = 7;
             // 
             // grbCapNhat
             // 
@@ -270,7 +270,7 @@
             this.button2.Location = new System.Drawing.Point(278, 27);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(123, 43);
-            this.button2.TabIndex = 2;
+            this.button2.TabIndex = 6;
             this.button2.Text = "Tìm kiếm";
             this.button2.UseVisualStyleBackColor = false;
             this.button2.Click += new System.EventHandler(this.button2_Click);
@@ -286,7 +286,7 @@
             0});
             this.idMaSP.Name = "idMaSP";
             this.idMaSP.Size = new System.Drawing.Size(202, 26);
-            this.idMaSP.TabIndex = 1;
+            this.idMaSP.TabIndex = 5;
             // 
             // label6
             // 

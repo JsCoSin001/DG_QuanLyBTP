@@ -52,6 +52,7 @@
             this.label1 = new System.Windows.Forms.Label();
             this.pnRight = new System.Windows.Forms.Panel();
             this.pnLeft = new System.Windows.Forms.Panel();
+            this.btnHuongDan = new System.Windows.Forms.Button();
             this.pnMainControl.SuspendLayout();
             this.pnQuanLy.SuspendLayout();
             this.flowLayoutPanel1.SuspendLayout();
@@ -91,7 +92,7 @@
             this.pnQuanLy.Dock = System.Windows.Forms.DockStyle.Top;
             this.pnQuanLy.Location = new System.Drawing.Point(10, 519);
             this.pnQuanLy.Name = "pnQuanLy";
-            this.pnQuanLy.Size = new System.Drawing.Size(202, 232);
+            this.pnQuanLy.Size = new System.Drawing.Size(202, 336);
             this.pnQuanLy.TabIndex = 2;
             // 
             // flowLayoutPanel1
@@ -100,11 +101,12 @@
             this.flowLayoutPanel1.Controls.Add(this.btnCapNhatMaSP);
             this.flowLayoutPanel1.Controls.Add(this.panel3);
             this.flowLayoutPanel1.Controls.Add(this.button1);
+            this.flowLayoutPanel1.Controls.Add(this.btnHuongDan);
             this.flowLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.flowLayoutPanel1.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
             this.flowLayoutPanel1.Location = new System.Drawing.Point(0, 0);
             this.flowLayoutPanel1.Name = "flowLayoutPanel1";
-            this.flowLayoutPanel1.Size = new System.Drawing.Size(202, 232);
+            this.flowLayoutPanel1.Size = new System.Drawing.Size(202, 336);
             this.flowLayoutPanel1.TabIndex = 2;
             // 
             // btnBaoCao
@@ -113,7 +115,7 @@
             this.btnBaoCao.Margin = new System.Windows.Forms.Padding(3, 3, 3, 10);
             this.btnBaoCao.Name = "btnBaoCao";
             this.btnBaoCao.Size = new System.Drawing.Size(196, 51);
-            this.btnBaoCao.TabIndex = 1;
+            this.btnBaoCao.TabIndex = 7;
             this.btnBaoCao.Text = "Báo Cáo";
             this.btnBaoCao.UseVisualStyleBackColor = true;
             this.btnBaoCao.Click += new System.EventHandler(this.btnBaoCao_Click);
@@ -124,7 +126,7 @@
             this.btnCapNhatMaSP.Margin = new System.Windows.Forms.Padding(3, 3, 3, 10);
             this.btnCapNhatMaSP.Name = "btnCapNhatMaSP";
             this.btnCapNhatMaSP.Size = new System.Drawing.Size(196, 53);
-            this.btnCapNhatMaSP.TabIndex = 0;
+            this.btnCapNhatMaSP.TabIndex = 8;
             this.btnCapNhatMaSP.Text = "Cập Nhật Mã Hàng";
             this.btnCapNhatMaSP.UseVisualStyleBackColor = true;
             this.btnCapNhatMaSP.Click += new System.EventHandler(this.btnCapNhatMaSP_Click);
@@ -144,8 +146,8 @@
             this.button1.Margin = new System.Windows.Forms.Padding(3, 3, 3, 10);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(196, 53);
-            this.button1.TabIndex = 2;
-            this.button1.Text = "Cập nhật cấu hình";
+            this.button1.TabIndex = 9;
+            this.button1.Text = "Cài Đặt Cấu Hình";
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
@@ -163,7 +165,7 @@
             this.dsChucNang.Location = new System.Drawing.Point(10, 110);
             this.dsChucNang.Name = "dsChucNang";
             this.dsChucNang.Size = new System.Drawing.Size(202, 409);
-            this.dsChucNang.TabIndex = 3;
+            this.dsChucNang.TabIndex = 1;
             // 
             // btnBen
             // 
@@ -184,7 +186,7 @@
             this.btnBocMach.Margin = new System.Windows.Forms.Padding(0, 0, 0, 10);
             this.btnBocMach.Name = "btnBocMach";
             this.btnBocMach.Size = new System.Drawing.Size(199, 49);
-            this.btnBocMach.TabIndex = 1;
+            this.btnBocMach.TabIndex = 2;
             this.btnBocMach.Text = "Công Đoạn Bọc Mạch";
             this.btnBocMach.UseVisualStyleBackColor = true;
             this.btnBocMach.Click += new System.EventHandler(this.btnBocMach_Click);
@@ -197,7 +199,7 @@
             this.btnQuanMica.Margin = new System.Windows.Forms.Padding(0, 0, 0, 10);
             this.btnQuanMica.Name = "btnQuanMica";
             this.btnQuanMica.Size = new System.Drawing.Size(199, 49);
-            this.btnQuanMica.TabIndex = 2;
+            this.btnQuanMica.TabIndex = 3;
             this.btnQuanMica.Text = "Công Đoạn Quấn Mica";
             this.btnQuanMica.UseVisualStyleBackColor = true;
             this.btnQuanMica.Click += new System.EventHandler(this.btnQuanMica_Click);
@@ -210,7 +212,7 @@
             this.btnBocVo.Margin = new System.Windows.Forms.Padding(0, 0, 0, 10);
             this.btnBocVo.Name = "btnBocVo";
             this.btnBocVo.Size = new System.Drawing.Size(199, 49);
-            this.btnBocVo.TabIndex = 3;
+            this.btnBocVo.TabIndex = 4;
             this.btnBocVo.Text = "Công Đoạn Bọc Vỏ";
             this.btnBocVo.UseVisualStyleBackColor = true;
             this.btnBocVo.Click += new System.EventHandler(this.btnBocVo_Click);
@@ -245,7 +247,7 @@
             this.btnGopBin.Margin = new System.Windows.Forms.Padding(0, 10, 0, 10);
             this.btnGopBin.Name = "btnGopBin";
             this.btnGopBin.Size = new System.Drawing.Size(199, 49);
-            this.btnGopBin.TabIndex = 7;
+            this.btnGopBin.TabIndex = 6;
             this.btnGopBin.Text = "Công Đoạn Gộp Bin";
             this.btnGopBin.UseVisualStyleBackColor = true;
             this.btnGopBin.Click += new System.EventHandler(this.btnGopBin_Click);
@@ -311,9 +313,9 @@
             // pnRight
             // 
             this.pnRight.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pnRight.Location = new System.Drawing.Point(527, 0);
+            this.pnRight.Location = new System.Drawing.Point(711, 0);
             this.pnRight.Name = "pnRight";
-            this.pnRight.Size = new System.Drawing.Size(616, 893);
+            this.pnRight.Size = new System.Drawing.Size(432, 893);
             this.pnRight.TabIndex = 2;
             // 
             // pnLeft
@@ -323,8 +325,19 @@
             this.pnLeft.Margin = new System.Windows.Forms.Padding(3, 3, 10, 3);
             this.pnLeft.Name = "pnLeft";
             this.pnLeft.Padding = new System.Windows.Forms.Padding(0, 0, 10, 0);
-            this.pnLeft.Size = new System.Drawing.Size(305, 893);
+            this.pnLeft.Size = new System.Drawing.Size(489, 893);
             this.pnLeft.TabIndex = 1;
+            // 
+            // btnHuongDan
+            // 
+            this.btnHuongDan.Location = new System.Drawing.Point(3, 206);
+            this.btnHuongDan.Margin = new System.Windows.Forms.Padding(3, 3, 3, 10);
+            this.btnHuongDan.Name = "btnHuongDan";
+            this.btnHuongDan.Size = new System.Drawing.Size(196, 53);
+            this.btnHuongDan.TabIndex = 10;
+            this.btnHuongDan.Text = "HƯỚNG DẪN";
+            this.btnHuongDan.UseVisualStyleBackColor = true;
+            this.btnHuongDan.Click += new System.EventHandler(this.btnHuongDan_Click);
             // 
             // Main
             // 
@@ -377,5 +390,6 @@
         private System.Windows.Forms.Button btnGopBin;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Panel panel3;
+        private System.Windows.Forms.Button btnHuongDan;
     }
 }
