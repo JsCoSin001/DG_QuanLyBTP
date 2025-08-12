@@ -142,7 +142,6 @@ namespace QLDuLieuTonKho_BTP
             ucBoc.LoadDanhSachMay(dsMay);
             ucBoc.TypeOfProduct = "BTP";
 
-
             ucBoc.UcShowDataInstance = ucShowData;
             string filePath = Path.Combine(_pdfInstruction, "02 HD_BOC.pdf");
             ucShowData.LoadPdf(filePath);
