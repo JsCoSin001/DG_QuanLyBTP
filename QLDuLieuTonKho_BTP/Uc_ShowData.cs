@@ -43,6 +43,7 @@ namespace QLDuLieuTonKho_BTP
 
             // tuỳ chọn
             // pdfViewer1.ZoomMode = PdfViewerZoomMode.FitWidth;
+            pdfViewer1.ZoomMode = PdfViewerZoomMode.FitWidth;
         }
 
         public void ClearPdf()

@@ -167,11 +167,7 @@ namespace QLDuLieuTonKho_BTP
         {
             maSP.Text = "";
             idTenSP.Value = 0;
-            tenSP.Text = "";
-            khoiLuong.Value = 0;
-            //hanNoi.Value = 0;
-            chieuDai.Value = 0;
-            stt.Value = 0;
+            tenSP.Text = "";   
         }
 
         private void Ben_Load(object sender, EventArgs e)
@@ -229,6 +225,7 @@ namespace QLDuLieuTonKho_BTP
 
         private void tenSP_SelectionChangeCommitted(object sender, EventArgs e)
         {
+
             ResetController_TimSP();
 
             if (tenSP.SelectedItem == null || !(tenSP.SelectedItem is DataRowView)) return;

@@ -29,9 +29,8 @@ namespace QLDuLieuTonKho_BTP
                     TonKho.Lot,
                     DanhSachMaSP.Ma,
                     DanhSachMaSP.Ten,
-                    TonKho.KhoiLuongDauVao,
-                    TonKho.KhoiLuongConLai,
-                    TonKho.HanNoi,
+                    TonKho.KhoiLuongDauVao AS DauVao,
+                    TonKho.KhoiLuongConLai AS ConLai,
                     TonKho.ChieuDai,
                     DanhSachMaSP.KieuSP
                 FROM

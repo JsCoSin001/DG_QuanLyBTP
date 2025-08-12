@@ -173,7 +173,7 @@ namespace QLDuLieuTonKho_BTP
             STTCD.SelectedIndex = -1;
             sttBin.Value = 0;
             soBin.Value = 0;
-            congDoan.SelectedIndex = -1;
+            //congDoan.SelectedIndex = -1;
             maySX.SelectedIndex = -1;
 
             lot.Text = "";
