@@ -116,6 +116,7 @@
             this.tbQuyenUser.Name = "tbQuyenUser";
             this.tbQuyenUser.Size = new System.Drawing.Size(426, 26);
             this.tbQuyenUser.TabIndex = 3;
+            this.tbQuyenUser.UseSystemPasswordChar = true;
             // 
             // btnPhanQuyen
             // 

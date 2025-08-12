@@ -47,6 +47,7 @@ namespace QLDuLieuTonKho_BTP
 
         private void btnCapNhatMaSP_Click(object sender, EventArgs e)
         {
+            resetMainView();
             ucShowData = Helper.LoadUserControlsWithData<Uc_CapNhatMaSP>(
                 pnLeft,
                 pnRight,
