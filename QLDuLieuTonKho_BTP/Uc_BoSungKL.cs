@@ -73,8 +73,8 @@ namespace QLDuLieuTonKho_BTP
                     FROM DanhSachMaSP
                     JOIN TonKho ON TonKho.MaSP_ID = DanhSachMaSP.ID
                     WHERE TonKho.Lot LIKE '%' || @" + para + @" || '%'
-                      AND (TonKho.KhoiLuongDauVao = 0 OR TonKho.KhoiLuongDauVao IS NULL)
-                    LIMIT 20";
+                    AND TonKho.KhoiLuongConLai = 0 And TonKho.HanNoi == 0
+                    ";
 
 
             DataTable dslot = DatabaseHelper.GetData(keyword, query, para);
@@ -174,20 +174,13 @@ namespace QLDuLieuTonKho_BTP
                     DanhSachMaSP.KieuSP
                 FROM TonKho
                 INNER JOIN DanhSachMaSP ON TonKho.MaSP_ID = DanhSachMaSP.ID 
-                WHERE TonKho.KhoiLuongDauVao = 0
+                WHERE TonKho.KhoiLuongConLai = 0 And TonKho.HanNoi == 0
             ";
 
             DataTable dt = await Task.Run(() => DatabaseHelper.GetDataFromSQL(query));
 
             // Gửi dữ liệu ra ngoài qua event
             OnDataReady?.Invoke(dt);
-        }
-
-        protected override async void OnLoad(EventArgs e)
-        {
-            base.OnLoad(e);
-            await Task.Delay(100);
-            LoadDataAsync();
         }
 
         private void tbnLuu_Click(object sender, EventArgs e)
@@ -242,6 +235,11 @@ namespace QLDuLieuTonKho_BTP
         private void lblHuongDan_Click(object sender, EventArgs e)
         {
             UcShowDataInstance.ShowHideController(false);
+        }
+
+        private void btnXemDS_Click(object sender, EventArgs e)
+        {
+            LoadDataAsync();
         }
     }
 }

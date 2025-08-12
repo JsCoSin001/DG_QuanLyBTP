@@ -130,6 +130,12 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Uc_HomePage.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Uc_HomePage.Designer.cs">
+      <DependentUpon>Uc_HomePage.cs</DependentUpon>
+    </Compile>
     <Compile Include="Uc_ConfigApp.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -208,6 +214,9 @@
     </Compile>
     <Compile Include="Validate\URL.cs" />
     <Compile Include="Validate\ValidateInput.cs" />
+    <EmbeddedResource Include="Uc_HomePage.resx">
+      <DependentUpon>Uc_HomePage.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Uc_ConfigApp.resx">
       <DependentUpon>Uc_ConfigApp.cs</DependentUpon>
     </EmbeddedResource>
@@ -260,6 +269,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="Data\04 HD_GopBin.pdf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Data\welcome.pdf">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="packages.config" />

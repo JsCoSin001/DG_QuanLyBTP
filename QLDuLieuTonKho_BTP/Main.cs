@@ -16,13 +16,15 @@ namespace QLDuLieuTonKho_BTP
     public partial class Main : Form
     {
         private string _url;
-        private string _sign = "Make by Linh - v01.2025 @";
+        private string _sign = "Made by Linh - v01.2025 @";
         private string _pdfInstruction = Path.Combine(Application.StartupPath, "Data");
+        private string _pdfWelcome = Path.Combine(Application.StartupPath, "Data", "welcome.pdf");
 
         private Uc_ShowData ucShowData;
         public Main()
         {
             InitializeComponent();
+            ShowHomePage(_pdfWelcome);
         }
 
         private void Main_Load(object sender, EventArgs e)
@@ -56,6 +58,8 @@ namespace QLDuLieuTonKho_BTP
 
         private void btnBen_Click(object sender, EventArgs e)
         {
+
+            resetMainView();
             string[] dsMay = new[]
             {
                 "B1", "B2", "B3", "B4", "B5", "B6", "B7", "B8", "B9", "B10",
@@ -80,9 +84,18 @@ namespace QLDuLieuTonKho_BTP
             ucShowData.LoadPdf(filePath);
         }
 
+        private void resetMainView()
+        {
+            pnLeft.Controls.Clear();
+            pnRight.Controls.Clear();
+            pnLeft.Dock = DockStyle.Left;
+            pnRight.Dock = DockStyle.Fill;
+            pnRight.Visible = true;
+        }
 
         private void btnBocMach_Click(object sender, EventArgs e)
         {
+            resetMainView();
             string[] dsMay = new[]
             {
                 "E1", "E2", "E3", "E4", "E5", "E6", "E7", "E8", "E9", "E10",
@@ -109,6 +122,8 @@ namespace QLDuLieuTonKho_BTP
 
         private void btnQuanMica_Click(object sender, EventArgs e)
         {
+            resetMainView();
+
             string[] dsMay = new[]
             {
                 "T3", "T4", "T5", "T6"
@@ -135,6 +150,7 @@ namespace QLDuLieuTonKho_BTP
 
         private void btnBocVo_Click(object sender, EventArgs e)
         {
+            resetMainView();
             string[] dsMay = new[]
             {
                 "E1", "E2", "E3", "E4", "E5", "E6", "E7", "E8", "E9", "E10",
@@ -161,6 +177,7 @@ namespace QLDuLieuTonKho_BTP
 
         private void btnBaoCao_Click(object sender, EventArgs e)
         {
+            resetMainView();
             ucShowData = Helper.LoadUserControlsWithData<Uc_BcTonKho>(
                 pnLeft,
                 pnRight,
@@ -172,6 +189,7 @@ namespace QLDuLieuTonKho_BTP
 
         private void btnBoSungKL_Click(object sender, EventArgs e)
         {
+            resetMainView();
             ucShowData = Helper.LoadUserControlsWithData<Uc_BoSungKL>(
                pnLeft,
                pnRight,
@@ -180,7 +198,6 @@ namespace QLDuLieuTonKho_BTP
                _url
            );
 
-
             Uc_BoSungKL.UcShowDataInstance = ucShowData;
             string filePath = Path.Combine(_pdfInstruction, "03 HD_BO SUNG KL.pdf");
             ucShowData.LoadPdf(filePath);
@@ -188,6 +205,7 @@ namespace QLDuLieuTonKho_BTP
 
         private void btnGopBin_Click(object sender, EventArgs e)
         {
+            resetMainView();
             ucShowData = Helper.LoadUserControlsWithData<Uc_GopBin>(
                pnLeft,
                pnRight,
@@ -203,6 +221,7 @@ namespace QLDuLieuTonKho_BTP
 
         private void button1_Click(object sender, EventArgs e)
         {
+            resetMainView();
             ucShowData = Helper.LoadUserControlsWithData<Uc_ConfigApp>(
                 pnLeft,
                 pnRight,
@@ -212,7 +231,26 @@ namespace QLDuLieuTonKho_BTP
             );
         }
 
-        
+        private void pictureBox1_Click(object sender, EventArgs e)
+        {
+            ShowHomePage(_pdfWelcome);
+        }
 
+        private void label1_Click(object sender, EventArgs e)
+        {
+            ShowHomePage(_pdfWelcome);
+        }
+
+        private void ShowHomePage(string filePath)
+        {
+            // Xóa các control cũ trong panel
+            pnLeft.Controls.Clear();
+            Uc_HomePage homePage = new Uc_HomePage();
+
+            pnLeft.Dock = DockStyle.Fill;
+            pnRight.Visible = false;
+            pnLeft.Controls.Add(homePage);
+            homePage.Dock = DockStyle.Fill;
+        }
     }
 }

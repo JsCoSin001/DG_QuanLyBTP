@@ -51,6 +51,7 @@
             this.nmKLDong = new System.Windows.Forms.NumericUpDown();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.lblHuongDan = new System.Windows.Forms.Label();
+            this.btnXemDS = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.flowLayoutPanel1.SuspendLayout();
@@ -84,6 +85,7 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.btnXemDS);
             this.groupBox1.Controls.Add(this.btnXoa);
             this.groupBox1.Controls.Add(this.tbnLuu);
             this.groupBox1.Controls.Add(this.flowLayoutPanel1);
@@ -336,6 +338,17 @@
             this.lblHuongDan.Text = "Xem Hướng Dẫn";
             this.lblHuongDan.Click += new System.EventHandler(this.lblHuongDan_Click);
             // 
+            // btnXemDS
+            // 
+            this.btnXemDS.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnXemDS.Location = new System.Drawing.Point(206, 580);
+            this.btnXemDS.Name = "btnXemDS";
+            this.btnXemDS.Size = new System.Drawing.Size(115, 48);
+            this.btnXemDS.TabIndex = 10;
+            this.btnXemDS.Text = "Xem Danh Sách";
+            this.btnXemDS.UseVisualStyleBackColor = true;
+            this.btnXemDS.Click += new System.EventHandler(this.btnXemDS_Click);
+            // 
             // Uc_BoSungKL
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 18F);
@@ -384,5 +397,6 @@
         private System.Windows.Forms.TextBox tbTenBin;
         private System.Windows.Forms.Button btnXoa;
         private System.Windows.Forms.Label lblHuongDan;
+        private System.Windows.Forms.Button btnXemDS;
     }
 }

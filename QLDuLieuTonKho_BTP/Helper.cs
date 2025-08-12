@@ -240,7 +240,20 @@ namespace QLDuLieuTonKho_BTP
         public interface ICustomUserControl
         {
             event Action<DataTable> OnDataReady;
-        }        
+        }
+
+
+
+        //public static void ShowHidenController(GroupBox grbShowData, PdfViewer pdfViewer1, bool flg = false)
+        //{
+        //    grbShowData.Visible = flg;
+        //    grbShowData.Dock = flg ? DockStyle.Fill : DockStyle.Right;
+
+        //    pdfViewer1.Visible = !flg;
+        //    pdfViewer1.Dock = !flg ? DockStyle.Fill : DockStyle.Left;
+
+        //}
+
 
         public static void UpdatePassApp(string tb)
         {

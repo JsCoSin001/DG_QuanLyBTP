@@ -31,6 +31,7 @@
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Uc_Boc));
             this.pnNhapDL = new System.Windows.Forms.Panel();
+            this.lbHuongDan = new System.Windows.Forms.Label();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.stt = new System.Windows.Forms.NumericUpDown();
             this.tbShowDL = new System.Windows.Forms.Button();
@@ -89,7 +90,6 @@
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.panel2 = new System.Windows.Forms.Panel();
             this.lblTitleForm = new System.Windows.Forms.Label();
-            this.lbHuongDan = new System.Windows.Forms.Label();
             this.pnNhapDL.SuspendLayout();
             this.groupBox3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.stt)).BeginInit();
@@ -121,6 +121,18 @@
             this.pnNhapDL.Name = "pnNhapDL";
             this.pnNhapDL.Size = new System.Drawing.Size(521, 947);
             this.pnNhapDL.TabIndex = 1;
+            // 
+            // lbHuongDan
+            // 
+            this.lbHuongDan.AutoSize = true;
+            this.lbHuongDan.Dock = System.Windows.Forms.DockStyle.Right;
+            this.lbHuongDan.Font = new System.Drawing.Font("Tahoma", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbHuongDan.Location = new System.Drawing.Point(404, 909);
+            this.lbHuongDan.Name = "lbHuongDan";
+            this.lbHuongDan.Size = new System.Drawing.Size(117, 18);
+            this.lbHuongDan.TabIndex = 4;
+            this.lbHuongDan.Text = "Xem Hướng Dẫn";
+            this.lbHuongDan.Click += new System.EventHandler(this.lbHuongDan_Click);
             // 
             // groupBox3
             // 
@@ -864,18 +876,6 @@
             this.lblTitleForm.TabIndex = 0;
             this.lblTitleForm.Text = "label10";
             this.lblTitleForm.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // lbHuongDan
-            // 
-            this.lbHuongDan.AutoSize = true;
-            this.lbHuongDan.Dock = System.Windows.Forms.DockStyle.Right;
-            this.lbHuongDan.Font = new System.Drawing.Font("Tahoma", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbHuongDan.Location = new System.Drawing.Point(404, 909);
-            this.lbHuongDan.Name = "lbHuongDan";
-            this.lbHuongDan.Size = new System.Drawing.Size(117, 18);
-            this.lbHuongDan.TabIndex = 4;
-            this.lbHuongDan.Text = "Xem Hướng Dẫn";
-            this.lbHuongDan.Click += new System.EventHandler(this.lbHuongDan_Click);
             // 
             // Uc_Boc
             // 
