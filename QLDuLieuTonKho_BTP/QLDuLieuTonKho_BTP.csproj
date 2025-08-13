@@ -262,18 +262,18 @@
     <Content Include="Data\01 HD_BEN.pdf">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <None Include="Data\02 HD_BOC.pdf">
+    <Content Include="Data\02 HD_BOC.pdf">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="Data\03 HD_BO SUNG KL.pdf">
+    </Content>
+    <Content Include="Data\03 HD_BO SUNG KL.pdf">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="Data\04 HD_GopBin.pdf">
+    </Content>
+    <Content Include="Data\04 HD_GopBin.pdf">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="Data\welcome.pdf">
+    </Content>
+    <Content Include="Data\welcome.pdf">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
+    </Content>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
