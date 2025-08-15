@@ -1,6 +1,6 @@
 ﻿namespace QLDuLieuTonKho_BTP
 {
-    partial class Uc_GopBin
+    partial class Uc_HanNoi
     {
         /// <summary> 
         /// Required designer variable.
@@ -98,7 +98,7 @@
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(689, 34);
             this.label1.TabIndex = 0;
-            this.label1.Text = "BÁO CÁO GỘP BIN";
+            this.label1.Text = "BÁO CÁO HÀN NỐI";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // groupBox1
@@ -606,15 +606,18 @@
             this.lblHuongDan.Font = new System.Drawing.Font("Tahoma", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblHuongDan.Location = new System.Drawing.Point(572, 892);
             this.lblHuongDan.Name = "lblHuongDan";
-            this.lblHuongDan.Size = new System.Drawing.Size(117, 18);
+            this.lblHuongDan.Padding = new System.Windows.Forms.Padding(0, 10, 0, 0);
+            this.lblHuongDan.Size = new System.Drawing.Size(117, 28);
             this.lblHuongDan.TabIndex = 4;
             this.lblHuongDan.Text = "Xem Hướng Dẫn";
+            this.lblHuongDan.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.lblHuongDan.Click += new System.EventHandler(this.lblHuongDan_Click);
             // 
-            // Uc_GopBin
+            // Uc_HanNoi
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 18F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoScroll = true;
             this.Controls.Add(this.lblHuongDan);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.pnPhanCach);
@@ -622,7 +625,7 @@
             this.Controls.Add(this.label1);
             this.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Margin = new System.Windows.Forms.Padding(4);
-            this.Name = "Uc_GopBin";
+            this.Name = "Uc_HanNoi";
             this.Size = new System.Drawing.Size(689, 992);
             this.groupBox1.ResumeLayout(false);
             this.flowLayoutPanel1.ResumeLayout(false);

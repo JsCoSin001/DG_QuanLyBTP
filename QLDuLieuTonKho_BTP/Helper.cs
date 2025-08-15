@@ -33,8 +33,31 @@ namespace QLDuLieuTonKho_BTP
 
             return parts[0].ToUpper();
         }
-                
-        public static string GenerateRandomString(string congDoan, int length = 20)
+
+        public static string GetShiftValue()
+        {
+            int hour = DateTime.Now.Hour;
+
+            if (hour >= 6 && hour < 14)
+                return "1";
+
+            if (hour >= 14 && hour < 22)
+                return "2";
+
+            return "3";
+        }
+
+
+        public static string GetNgayHienTai()
+        {
+            DateTime now = DateTime.Now;
+            DateTime ngayHienTai = (now.TimeOfDay < new TimeSpan(6, 0, 0))
+                ? DateTime.Today.AddDays(-1)
+                : DateTime.Today;
+
+            return ngayHienTai.ToString("yyyy-MM-dd");
+        }
+        public static string GenerateRandomString(string congDoan, int length = 5)
         {
             const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
             StringBuilder result = new StringBuilder(length);
@@ -44,7 +67,7 @@ namespace QLDuLieuTonKho_BTP
                 result.Append(chars[_random.Next(chars.Length)]);
             }
 
-            return DateTime.Now + "-" + congDoan + result;
+            return "Z_" + DateTime.Now.ToString("yyyy-MM-dd") + "-" + congDoan + "-" + result;
         }
          
         public static string GetURLDatabase()
@@ -177,7 +200,7 @@ namespace QLDuLieuTonKho_BTP
                 return lot;
 
             // Kiểm tra sttBin và soBin
-            if (sttBin.Value == 0 || soBin.Value == 0)
+            if (sttBin.Value == 0)
                 return lot;
 
             string sttBinT = sttBin.Value < 10 ? "0" + sttBin.Text : sttBin.Text;
@@ -236,24 +259,10 @@ namespace QLDuLieuTonKho_BTP
             lbl.Disposed += (s, e) => hoverFont.Dispose();
         }
 
-
         public interface ICustomUserControl
         {
             event Action<DataTable> OnDataReady;
         }
-
-
-
-        //public static void ShowHidenController(GroupBox grbShowData, PdfViewer pdfViewer1, bool flg = false)
-        //{
-        //    grbShowData.Visible = flg;
-        //    grbShowData.Dock = flg ? DockStyle.Fill : DockStyle.Right;
-
-        //    pdfViewer1.Visible = !flg;
-        //    pdfViewer1.Dock = !flg ? DockStyle.Fill : DockStyle.Left;
-
-        //}
-
 
         public static void UpdatePassApp(string tb)
         {

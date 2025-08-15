@@ -376,7 +376,12 @@ namespace QLDuLieuTonKho_BTP.Data
                     try
                     {
                         // Cập nhật TonKho
-                        string updateTonKhoQuery = "UPDATE TonKho SET KhoiLuongDauVao = @KhoiLuongDauVao WHERE ID = @ID";
+                        string updateTonKhoQuery = @"
+                                UPDATE TonKho 
+                                SET KhoiLuongDauVao = @KhoiLuongDauVao, 
+                                    KhoiLuongConLai = @KhoiLuongDauVao 
+                                WHERE ID = @ID";
+
                         using (SQLiteCommand cmd1 = new SQLiteCommand(updateTonKhoQuery, conn, transaction))
                         {
                             cmd1.Parameters.AddWithValue("@KhoiLuongDauVao", khoiLuongDauVao);

@@ -15,12 +15,12 @@ using static QLDuLieuTonKho_BTP.Helper;
 
 namespace QLDuLieuTonKho_BTP
 {
-    public partial class Uc_GopBin : UserControl, ICustomUserControl
+    public partial class Uc_HanNoi : UserControl, ICustomUserControl
     {
         public event Action<DataTable> OnDataReady;
         private string _url;
         private string _callTimer;
-        public Uc_GopBin(string url)
+        public Uc_HanNoi(string url)
         {
             InitializeComponent();
 
@@ -77,6 +77,7 @@ namespace QLDuLieuTonKho_BTP
                         break;
                 default:
                     Console.WriteLine("Lỗi tại function Timer1_tick");
+                    MessageBox.Show("Lỗi tại function Timer1_tick");
                     break;
             }
 
@@ -114,6 +115,7 @@ namespace QLDuLieuTonKho_BTP
                 DanhSachMaSP
             WHERE
                 DanhSachMaSP.Ten LIKE '%' || @" + para + " || '%'";
+
             DataTable dsMaSP = DatabaseHelper.GetData(keyword, query, para);
             cbTenSP.DroppedDown = false;
             cbTenSP.SelectionChangeCommitted -= cbTenSP_SelectionChangeCommitted; // tránh trùng event
@@ -165,6 +167,7 @@ namespace QLDuLieuTonKho_BTP
                 DanhSachMaSP ON TonKho.MaSP_ID = DanhSachMaSP.ID
             WHERE
                 TonKho.KhoiLuongConLai > 0
+                AND TonKho.Lot NOT LIKE 'Z_%'
                 AND TonKho.Lot LIKE '%' || @" + para + " || '%'";
 
 
@@ -289,8 +292,8 @@ namespace QLDuLieuTonKho_BTP
             {
                 MaSP_ID = Convert.ToInt32(nmIDTenSP.Value),
                 Lot = lblLot.Text,
-                KhoiLuongConLai = Convert.ToDouble(nmKLSP.Value),
-                KhoiLuongDauVao = Convert.ToDouble(nmKLSP.Value),
+                KhoiLuongConLai = nmKLSP.Value,
+                KhoiLuongDauVao = nmKLSP.Value,
                 HanNoi = 0,
                 ChieuDai = 0
             };
@@ -301,7 +304,7 @@ namespace QLDuLieuTonKho_BTP
                 NguoiLam = "Hàn nối",
                 SoMay = "Hàn nối",
                 MaSP_ID = Convert.ToInt32(nmIDTenSP.Value),
-                KhoiLuongTruocBoc = Convert.ToDouble(nmKLSP.Value),
+                KhoiLuongTruocBoc = nmKLSP.Value,
                 TenCongDoan = "Hàn nối",
                 DateInsert = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")                
             };
@@ -374,6 +377,12 @@ namespace QLDuLieuTonKho_BTP
             ";
 
             DataTable table = DatabaseHelper.GetDataFromSQL(query);
+
+            if (table.Rows.Count < 1)
+            {
+                MessageBox.Show("Không có dữ liệu", "THÔNG BÁO", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
 
             if (!cbXuatExcel.Checked)
             {

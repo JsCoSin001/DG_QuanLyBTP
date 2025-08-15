@@ -44,6 +44,9 @@ namespace QLDuLieuTonKho_BTP
 
             // Cấu hình timer
             timer1.Interval = 300;
+
+            ngay.Value = DateTime.Parse(Helper.GetNgayHienTai());
+            ca.Text = Helper.GetShiftValue();
         }
 
         public Uc_Boc() { }
@@ -62,11 +65,12 @@ namespace QLDuLieuTonKho_BTP
 
             string maBin = lot.Text;
             int maID = (int)idTenSP.Value;
-            float klTB = (float)klTruocBoc.Value;
-            float klCL = (float)klConLai.Value;
-            float klP = (float)klPhe.Value;
-            float cd = (float)chieuDai.Value;
+            decimal klTB = (decimal)klTruocBoc.Value;
+            decimal klCL = (decimal)klConLai.Value;
+            decimal klP = (decimal)klPhe.Value;
+            decimal cd = (decimal)chieuDai.Value;
             string tenCongDoan = congDoan.Text;
+            int id_cd_ben = (int)idBen.Value;
 
             string error = "";
 
@@ -92,6 +96,21 @@ namespace QLDuLieuTonKho_BTP
                 return;
             }
 
+            if (klTB < klCL  + klP)
+            {
+                error = "Kiểm tra lại Khối Lượng Phế hoặc Khối Lượng Còn Lại";
+                MessageBox.Show(error, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+
+            if (id_cd_ben == 0)
+            {
+                error = "Dữ liệu bất thường. Hãy kiểm tra và nhập lại";
+                MessageBox.Show(error, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
             try
             {
                 // Biến chứa dữ liệu up mới vào tồn kho
@@ -107,10 +126,10 @@ namespace QLDuLieuTonKho_BTP
 
                 DL_CD_Boc dL_CD_Boc = new DL_CD_Boc
                 {
-                    Ngay = ngay.Value.ToString("yyyy-MM-dd"),
+                    Ngay = Helper.GetNgayHienTai(), 
                     Ca = ca.Text,
                     KhoiLuongTruocBoc = klTB,
-                    KhoiLuongPhe = double.TryParse(klPhe.Text, out var phe) ? phe : 0,
+                    KhoiLuongPhe = klPhe.Value,
                     NguoiLam = nguoiLam.Text,
                     SoMay = maySX.Text,
                     TenCongDoan = tenCongDoan,
@@ -165,8 +184,8 @@ namespace QLDuLieuTonKho_BTP
 
         private void ResetAllController()
         {
-            ngay.Value = DateTime.Now;
-            ca.SelectedIndex = -1;
+            ngay.Value = DateTime.Parse(Helper.GetNgayHienTai());
+            ca.Text = Helper.GetShiftValue();
             may.SelectedIndex = -1;
 
             maHT.Value = 0;
@@ -202,6 +221,7 @@ namespace QLDuLieuTonKho_BTP
             STTCD.SelectedIndex = -1;
             sttBin.Value = 0;
             soBin.Value = 0;
+            lot.Clear();
         }
 
         private void ResetController_TimTenSP()
@@ -213,7 +233,7 @@ namespace QLDuLieuTonKho_BTP
 
         private void Boc_Load(object sender, EventArgs e)
         {
-            dateReport.Value = DateTime.Now;
+            dateReport.Value = DateTime.Parse(Helper.GetNgayHienTai());
         }
 
         private void timer1_Tick(object sender, EventArgs e)
@@ -242,7 +262,7 @@ namespace QLDuLieuTonKho_BTP
             string query = @"
                 SELECT Lot, KhoiLuongConLai
                 FROM TonKho
-                WHERE Lot LIKE '%' || @" + para+ " || '%' AND KhoiLuongConLai <> 0;";
+                WHERE Lot LIKE '%' || @" + para+ " || '%' AND KhoiLuongConLai <> 0 AND Lot NOT LIKE 'Z_%';";
 
             DataTable tonKho = DatabaseHelper.GetData( keyword, query,para);
 
@@ -484,7 +504,7 @@ namespace QLDuLieuTonKho_BTP
 
             string query = @"
                 SELECT 
-                    DL_CD_Boc.ID,
+                    DL_CD_Boc.ID as STT,
                     DL_CD_Boc.Ngay,
                     DL_CD_Boc.NguoiLam,
                     DanhSachMaSP.Ten as TenSP,
@@ -512,6 +532,12 @@ namespace QLDuLieuTonKho_BTP
 
 
             DataTable table = DatabaseHelper.GetDataByDate(dateRP, query);
+
+            if (table.Rows.Count < 1)
+            {
+                MessageBox.Show("Không có dữ liệu", "THÔNG BÁO", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
 
             if (!cbXuatExcel.Checked)
             {
@@ -543,7 +569,6 @@ namespace QLDuLieuTonKho_BTP
             timer1.Stop();
             timer1.Start();
         }
-
 
         public Uc_ShowData UcShowDataInstance { get; set; }
         private void lbHuongDan_Click(object sender, EventArgs e)

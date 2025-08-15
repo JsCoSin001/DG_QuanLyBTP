@@ -73,6 +73,7 @@
             // 
             // pnMainControl
             // 
+            this.pnMainControl.AutoScroll = true;
             this.pnMainControl.Controls.Add(this.pnQuanLy);
             this.pnMainControl.Controls.Add(this.dsChucNang);
             this.pnMainControl.Controls.Add(this.pnLogo);
@@ -114,7 +115,7 @@
             this.btnBaoCao.Name = "btnBaoCao";
             this.btnBaoCao.Size = new System.Drawing.Size(196, 51);
             this.btnBaoCao.TabIndex = 7;
-            this.btnBaoCao.Text = "Báo Cáo";
+            this.btnBaoCao.Text = "BÁO CÁO";
             this.btnBaoCao.UseVisualStyleBackColor = true;
             this.btnBaoCao.Click += new System.EventHandler(this.btnBaoCao_Click);
             // 
@@ -125,7 +126,7 @@
             this.btnCapNhatMaSP.Name = "btnCapNhatMaSP";
             this.btnCapNhatMaSP.Size = new System.Drawing.Size(196, 53);
             this.btnCapNhatMaSP.TabIndex = 8;
-            this.btnCapNhatMaSP.Text = "Cập Nhật Mã Hàng";
+            this.btnCapNhatMaSP.Text = "CẬP NHẬT MÃ HÀNG";
             this.btnCapNhatMaSP.UseVisualStyleBackColor = true;
             this.btnCapNhatMaSP.Click += new System.EventHandler(this.btnCapNhatMaSP_Click);
             // 
@@ -173,7 +174,7 @@
             this.btnBen.Name = "btnBen";
             this.btnBen.Size = new System.Drawing.Size(199, 49);
             this.btnBen.TabIndex = 0;
-            this.btnBen.Text = "Công Đoạn Bện";
+            this.btnBen.Text = "CÔNG ĐOẠN BỆN";
             this.btnBen.UseVisualStyleBackColor = true;
             this.btnBen.Click += new System.EventHandler(this.btnBen_Click);
             // 
@@ -185,7 +186,7 @@
             this.btnBocMach.Name = "btnBocMach";
             this.btnBocMach.Size = new System.Drawing.Size(199, 49);
             this.btnBocMach.TabIndex = 2;
-            this.btnBocMach.Text = "Công Đoạn Bọc Mạch";
+            this.btnBocMach.Text = "CÔNG ĐOẠN BỌC MẠCH";
             this.btnBocMach.UseVisualStyleBackColor = true;
             this.btnBocMach.Click += new System.EventHandler(this.btnBocMach_Click);
             // 
@@ -198,7 +199,7 @@
             this.btnQuanMica.Name = "btnQuanMica";
             this.btnQuanMica.Size = new System.Drawing.Size(199, 49);
             this.btnQuanMica.TabIndex = 3;
-            this.btnQuanMica.Text = "Công Đoạn Quấn Mica";
+            this.btnQuanMica.Text = "CÔNG ĐOẠN QUẤN MICA";
             this.btnQuanMica.UseVisualStyleBackColor = true;
             this.btnQuanMica.Click += new System.EventHandler(this.btnQuanMica_Click);
             // 
@@ -211,7 +212,7 @@
             this.btnBocVo.Name = "btnBocVo";
             this.btnBocVo.Size = new System.Drawing.Size(199, 49);
             this.btnBocVo.TabIndex = 4;
-            this.btnBocVo.Text = "Công Đoạn Bọc Vỏ";
+            this.btnBocVo.Text = "CÔNG ĐOẠN BỌC VỎ";
             this.btnBocVo.UseVisualStyleBackColor = true;
             this.btnBocVo.Click += new System.EventHandler(this.btnBocVo_Click);
             // 
@@ -233,7 +234,7 @@
             this.btnBoSungKL.Name = "btnBoSungKL";
             this.btnBoSungKL.Size = new System.Drawing.Size(199, 49);
             this.btnBoSungKL.TabIndex = 5;
-            this.btnBoSungKL.Text = "Bổ Sung Khối Lượng";
+            this.btnBoSungKL.Text = "BỔ SUNG KHỐI LƯỢNG";
             this.btnBoSungKL.UseVisualStyleBackColor = true;
             this.btnBoSungKL.Click += new System.EventHandler(this.btnBoSungKL_Click);
             // 
@@ -246,7 +247,7 @@
             this.btnGopBin.Name = "btnGopBin";
             this.btnGopBin.Size = new System.Drawing.Size(199, 49);
             this.btnGopBin.TabIndex = 6;
-            this.btnGopBin.Text = "Công Đoạn Gộp Bin";
+            this.btnGopBin.Text = "CÔNG ĐOẠN HÀN NỐI";
             this.btnGopBin.UseVisualStyleBackColor = true;
             this.btnGopBin.Click += new System.EventHandler(this.btnGopBin_Click);
             // 

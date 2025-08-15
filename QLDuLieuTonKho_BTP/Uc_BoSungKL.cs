@@ -73,7 +73,7 @@ namespace QLDuLieuTonKho_BTP
                     FROM DanhSachMaSP
                     JOIN TonKho ON TonKho.MaSP_ID = DanhSachMaSP.ID
                     WHERE TonKho.Lot LIKE '%' || @" + para + @" || '%'
-                    AND TonKho.KhoiLuongConLai = 0 And TonKho.HanNoi == 0
+                    AND TonKho.KhoiLuongConLai = 0 And TonKho.HanNoi == 0 AND TonKho.KhoiLuongDauVao = 0
                     ";
 
 
@@ -124,8 +124,16 @@ namespace QLDuLieuTonKho_BTP
 
         private void tbTenBin_TextChanged(object sender, EventArgs e)
         {
-
             string keyword = tbTenBin.Text;
+
+            if (keyword == "0")
+            {
+                Console.WriteLine();
+                nmKLBin.Value = 0;
+                return;
+            }
+
+
             string para = "TenBin";
 
             string query = "SELECT KhoiLuongBin FROM DanhSachBin WHERE TenBin = @" + para;
@@ -153,7 +161,6 @@ namespace QLDuLieuTonKho_BTP
 
             decimal kLDong = tongKL - klBin;
 
-            Console.WriteLine($"{tongKL} - {klBin} = kLDong");
             if (kLDong < 0) kLDong = 0;
             nmKLDong.Value = kLDong;
 
@@ -174,10 +181,16 @@ namespace QLDuLieuTonKho_BTP
                     DanhSachMaSP.KieuSP
                 FROM TonKho
                 INNER JOIN DanhSachMaSP ON TonKho.MaSP_ID = DanhSachMaSP.ID 
-                WHERE TonKho.KhoiLuongConLai = 0 And TonKho.HanNoi == 0
+                WHERE TonKho.KhoiLuongConLai = 0 And TonKho.HanNoi == 0 AND TonKho.KhoiLuongDauVao = 0
             ";
 
             DataTable dt = await Task.Run(() => DatabaseHelper.GetDataFromSQL(query));
+
+            if (dt.Rows.Count < 1)
+            {
+                MessageBox.Show("Không có dữ liệu", "THÔNG BÁO", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
 
             // Gửi dữ liệu ra ngoài qua event
             OnDataReady?.Invoke(dt);
@@ -193,15 +206,15 @@ namespace QLDuLieuTonKho_BTP
 
             string id = nmID.Value.ToString();
             decimal kLDong = nmKLDong.Value;
+            decimal klBin = nmKLBin.Value;
 
-            if (kLDong == 0)
+            if (kLDong == 0 || klBin == 0)
             {
                 MessageBox.Show("Kiểm tra lại dữ liệu.", "THÔNG BÁO", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
-
-            bool isSuccess = DatabaseHelper.UpdateKhoiLuongVaBin( id, kLDong, tbTenBin.Text, Convert.ToDecimal(nmKLBin.Value));
+            bool isSuccess = DatabaseHelper.UpdateKhoiLuongVaBin( id, kLDong, tbTenBin.Text, klBin);
 
 
             if (isSuccess)

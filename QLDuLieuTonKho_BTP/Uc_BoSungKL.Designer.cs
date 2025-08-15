@@ -32,6 +32,7 @@
             this.panel1 = new System.Windows.Forms.Panel();
             this.lblTitleForm = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.btnXemDS = new System.Windows.Forms.Button();
             this.btnXoa = new System.Windows.Forms.Button();
             this.tbnLuu = new System.Windows.Forms.Button();
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
@@ -51,7 +52,6 @@
             this.nmKLDong = new System.Windows.Forms.NumericUpDown();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.lblHuongDan = new System.Windows.Forms.Label();
-            this.btnXemDS = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.flowLayoutPanel1.SuspendLayout();
@@ -99,6 +99,17 @@
             this.groupBox1.TabIndex = 1;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Bảng Nhập Liệu";
+            // 
+            // btnXemDS
+            // 
+            this.btnXemDS.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnXemDS.Location = new System.Drawing.Point(206, 580);
+            this.btnXemDS.Name = "btnXemDS";
+            this.btnXemDS.Size = new System.Drawing.Size(115, 48);
+            this.btnXemDS.TabIndex = 10;
+            this.btnXemDS.Text = "Xem Danh Sách";
+            this.btnXemDS.UseVisualStyleBackColor = true;
+            this.btnXemDS.Click += new System.EventHandler(this.btnXemDS_Click);
             // 
             // btnXoa
             // 
@@ -333,33 +344,25 @@
             this.lblHuongDan.Font = new System.Drawing.Font("Tahoma", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblHuongDan.Location = new System.Drawing.Point(503, 696);
             this.lblHuongDan.Name = "lblHuongDan";
-            this.lblHuongDan.Size = new System.Drawing.Size(117, 18);
+            this.lblHuongDan.Padding = new System.Windows.Forms.Padding(0, 5, 0, 0);
+            this.lblHuongDan.Size = new System.Drawing.Size(117, 23);
             this.lblHuongDan.TabIndex = 2;
             this.lblHuongDan.Text = "Xem Hướng Dẫn";
+            this.lblHuongDan.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.lblHuongDan.Click += new System.EventHandler(this.lblHuongDan_Click);
-            // 
-            // btnXemDS
-            // 
-            this.btnXemDS.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnXemDS.Location = new System.Drawing.Point(206, 580);
-            this.btnXemDS.Name = "btnXemDS";
-            this.btnXemDS.Size = new System.Drawing.Size(115, 48);
-            this.btnXemDS.TabIndex = 10;
-            this.btnXemDS.Text = "Xem Danh Sách";
-            this.btnXemDS.UseVisualStyleBackColor = true;
-            this.btnXemDS.Click += new System.EventHandler(this.btnXemDS_Click);
             // 
             // Uc_BoSungKL
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 18F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoScroll = true;
             this.Controls.Add(this.lblHuongDan);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.panel1);
             this.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Margin = new System.Windows.Forms.Padding(5, 4, 5, 4);
             this.Name = "Uc_BoSungKL";
-            this.Size = new System.Drawing.Size(620, 755);
+            this.Size = new System.Drawing.Size(620, 730);
             this.panel1.ResumeLayout(false);
             this.groupBox1.ResumeLayout(false);
             this.flowLayoutPanel1.ResumeLayout(false);

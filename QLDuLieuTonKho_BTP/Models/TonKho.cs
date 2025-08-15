@@ -11,9 +11,9 @@ namespace QLDuLieuTonKho_BTP.Models
     {
         public string Lot { get; set; }
         public int MaSP_ID { get; set; }
-        public double KhoiLuongDauVao { get; set; }
-        public double KhoiLuongConLai { get; set; }
-        public double HanNoi { get; set; }
-        public double ChieuDai { get; set; }
+        public decimal KhoiLuongDauVao { get; set; }
+        public decimal KhoiLuongConLai { get; set; }
+        public int HanNoi { get; set; }
+        public decimal ChieuDai { get; set; }
     }
 }

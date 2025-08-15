@@ -50,8 +50,10 @@ namespace QLDuLieuTonKho_BTP
 
             // Cấu hình timer
             timer1.Interval = 300;
-        }
 
+            ngay.Value = DateTime.Parse(Helper.GetNgayHienTai());
+            ca.Text = Helper.GetShiftValue();
+        }
 
         public Uc_Ben() 
         {
@@ -70,9 +72,9 @@ namespace QLDuLieuTonKho_BTP
 
             string maBin = lot.Text;
             int maID = (int)idTenSP.Value;
-            float kl = (float)khoiLuong.Value;
+            decimal kl = (decimal)khoiLuong.Value;
             //float hn = (float)hanNoi.Value;
-            float cd = (float)chieuDai.Value;
+            decimal cd = (decimal)chieuDai.Value;
             string error = "";
             if (maBin == "")
             {
@@ -98,11 +100,11 @@ namespace QLDuLieuTonKho_BTP
                     KhoiLuongConLai = kl,
                     HanNoi = 0,
                     ChieuDai = cd
-                };
+                };                
 
                 DL_CD_Ben dL_CD_Ben = new DL_CD_Ben
                 {
-                    Ngay = ngay.Value.ToString("yyyy-MM-dd"),
+                    Ngay = Helper.GetNgayHienTai(),
                     Ca = ca.Text,
                     NguoiLam = nguoiLam.Text,
                     SoMay = may.Text,
@@ -141,12 +143,14 @@ namespace QLDuLieuTonKho_BTP
 
         private void ResetAllController()
         {
-            ngay.Value = DateTime.Now;
-            ca.SelectedIndex = -1;
+            ngay.Value = DateTime.Parse(Helper.GetNgayHienTai());
+            ca.Text = Helper.GetShiftValue();
             ghiChu.Text = "";
             nguoiLam.Text = "";
             stt.Value = 0;
-            dateReport.Value = DateTime.Now;
+            dateReport.Value = DateTime.Parse(Helper.GetNgayHienTai()); ;
+            khoiLuong.Value = 0;
+            chieuDai.Value = 0;
 
             ResetController_TimLot();
             ResetController_TimSP();
@@ -172,10 +176,9 @@ namespace QLDuLieuTonKho_BTP
 
         private void Ben_Load(object sender, EventArgs e)
         {
-            dateReport.Value = DateTime.Now;
+            dateReport.Value = DateTime.Parse(Helper.GetNgayHienTai());
         }
 
-        // Sự kiện khi người dùng thay đổi URL
         private void timer1_Tick(object sender, EventArgs e)
         {
             timer1.Stop(); // Ngừng timer để tránh gọi lại liên tục            
@@ -338,7 +341,7 @@ namespace QLDuLieuTonKho_BTP
 
             string query = @"
                     SELECT 
-                        DL_CD_Ben.ID,
+                        DL_CD_Ben.ID as STT,
                         DL_CD_Ben.Ngay,
                         TonKho.Lot as LOT,
                         DL_CD_Ben.NguoiLam,
@@ -359,6 +362,13 @@ namespace QLDuLieuTonKho_BTP
                 ";
 
             DataTable table = DatabaseHelper.GetDataByDate(dateRP, query);
+
+            if (table.Rows.Count < 1)
+            {
+                MessageBox.Show("Không có dữ liệu", "THÔNG BÁO", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
 
             if (!cbXuatExcel.Checked)
             {

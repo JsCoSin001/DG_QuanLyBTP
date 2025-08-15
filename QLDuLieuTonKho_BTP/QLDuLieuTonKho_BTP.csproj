@@ -157,11 +157,11 @@
     <Compile Include="Uc_BoSungKL.Designer.cs">
       <DependentUpon>Uc_BoSungKL.cs</DependentUpon>
     </Compile>
-    <Compile Include="Uc_GopBin.cs">
+    <Compile Include="Uc_HanNoi.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Uc_GopBin.Designer.cs">
-      <DependentUpon>Uc_GopBin.cs</DependentUpon>
+    <Compile Include="Uc_HanNoi.Designer.cs">
+      <DependentUpon>Uc_HanNoi.cs</DependentUpon>
     </Compile>
     <Compile Include="Uc_HuongDan.cs">
       <SubType>UserControl</SubType>
@@ -226,8 +226,8 @@
     <EmbeddedResource Include="Uc_BoSungKL.resx">
       <DependentUpon>Uc_BoSungKL.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Uc_GopBin.resx">
-      <DependentUpon>Uc_GopBin.cs</DependentUpon>
+    <EmbeddedResource Include="Uc_HanNoi.resx">
+      <DependentUpon>Uc_HanNoi.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Uc_HuongDan.resx">
       <DependentUpon>Uc_HuongDan.cs</DependentUpon>
