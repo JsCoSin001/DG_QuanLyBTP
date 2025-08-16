@@ -47,7 +47,6 @@ namespace QLDuLieuTonKho_BTP
             return "3";
         }
 
-
         public static string GetNgayHienTai()
         {
             DateTime now = DateTime.Now;
@@ -57,6 +56,7 @@ namespace QLDuLieuTonKho_BTP
 
             return ngayHienTai.ToString("yyyy-MM-dd");
         }
+       
         public static string GenerateRandomString(string congDoan, int length = 5)
         {
             const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
@@ -178,6 +178,7 @@ namespace QLDuLieuTonKho_BTP
 
         }
 
+        // Tạo mã LOT theo định dạng: may-maHT/sttCongDoan-sttBin-soBin
         public static string LOTGenerated(ComboBox may, NumericUpDown maHT, ComboBox sttCongDoan, NumericUpDown sttBin, NumericUpDown soBin)
         {
             string lot = "";            
@@ -210,7 +211,7 @@ namespace QLDuLieuTonKho_BTP
 
             return lot;
         }
-
+                
         public static void RunEvent(ComboBox may, NumericUpDown maHT, ComboBox sttCongDoan, NumericUpDown sttBin, NumericUpDown soBin, TextBox lotNumber, NumericUpDown idBen, NumericUpDown klTruocBoc)
         {
             DataTable resultTable = new DataTable();
@@ -218,7 +219,7 @@ namespace QLDuLieuTonKho_BTP
 
             Helper.FillKhoiLuongVaIDBen(resultTable, idBen, klTruocBoc);
         }
-
+                
         public static Uc_ShowData LoadUserControlsWithData<T>(Panel pnLeft,  Panel pnRight, out T leftControl,  Action<DataTable> onDataReadyCallback, params object[] constructorArgs) where T : UserControl, ICustomUserControl
         {
             leftControl = (T)Activator.CreateInstance(typeof(T), constructorArgs);
@@ -259,10 +260,7 @@ namespace QLDuLieuTonKho_BTP
             lbl.Disposed += (s, e) => hoverFont.Dispose();
         }
 
-        public interface ICustomUserControl
-        {
-            event Action<DataTable> OnDataReady;
-        }
+        public interface ICustomUserControl { event Action<DataTable> OnDataReady; }
 
         public static void UpdatePassApp(string tb)
         {
@@ -280,6 +278,7 @@ namespace QLDuLieuTonKho_BTP
             // Thoát ứng dụng hiện tại
             Environment.Exit(0);
         }
+
         public static bool kiemTraPhanQuyen(string tx)
         {
             string password = Properties.Settings.Default.PassApp;
@@ -293,6 +292,65 @@ namespace QLDuLieuTonKho_BTP
                 return false;
             }
         }
+
+
+
+        #region // In Tem với kích thước 80mm        
+        public static string CreateContentLabel(TemSP temSP)
+        {
+            var space = new Dictionary<string, string>
+            {
+                ["dong1"] = new string(' ',10),
+                ["dong2"] = new string(' ',10),
+                ["dong3"] = new string(' ',10),
+                ["dong4"] = new string(' ',10),
+            };
+
+            int tongKiTu = 48;
+
+            string content = "PHIẾU QUẢN LÝ SẢN PHẨM" + space["dong1"] + "BQ-ISO-09-08" + "\n\n";
+            content += new string('-', tongKiTu) + "\n";
+            content += "Ngày SX: " + temSP.NgaySX + space["dong2"] + "Ca: " + temSP.ca + "\n";
+            content +=  "Số lượng: " + temSP.SoLuong + "(m) "+ space["dong3"] + " - " + space["dong3"]+ temSP.KhoiLuong + "(Kg)" + "\n";
+            content += "Màu SP: " + temSP.MauSP + "\n";
+            content += "Mã SP: " + temSP.SoHanhTrinh + "\n";
+            content += "Quy cách: " + temSP.QuyCach + "\n";
+            content += "Đánh giá Chất lượng: " + temSP.DanhGiaChatLuong + "\n";
+            content += "CN vận hành: " + temSP.TenCongNhan + "\n";
+            content += "Nội dung lưu ý" +"\n";
+            content += temSP.GhiChu + "\n";
+            content += "QR Code: " + space["dong4"] + "KCS\n";
+
+            return content;
+        }
+
+        public static void PrintLabelWithQr(string comPort, int baud, TemSP temSP, string qrData)
+        {
+            using (var p = new EscPosPrinter(comPort, baud))
+            {
+                p.Initialize();
+                p.AlignLeft();
+
+                // 1) In phần text như bạn xây dựng
+                string content = CreateContentLabel(temSP);
+                // Khuyến nghị: bỏ dấu tiếng Việt nếu máy không hỗ trợ
+                p.Write(content);
+
+                // 2) Chèn vài dòng trống cho đẹp
+                p.Feed(1);
+
+                // 3) In QR bên dưới
+                p.AlignLeft(); // Qr code thường căn trái
+
+                p.PrintQR(qrData, size: 6);
+
+                p.Feed(3);
+                p.Cut();
+            }
+        }
+
+        #endregion
+
     }
 }
 

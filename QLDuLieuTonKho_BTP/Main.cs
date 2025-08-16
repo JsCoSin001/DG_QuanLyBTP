@@ -16,7 +16,7 @@ namespace QLDuLieuTonKho_BTP
     public partial class Main : Form
     {
         private string _url;
-        private string _sign = "Made by Linh - v01.2025 @";
+        private string _sign = "Made by Linh - v01.01.2025 @";
         private string _pdfInstruction = Path.Combine(Application.StartupPath, "Data");
         private string _pdfWelcome = Path.Combine(Application.StartupPath, "Data", "welcome.pdf");
 
