@@ -62,7 +62,6 @@ namespace QLDuLieuTonKho_BTP
 
         private void tbLuu_Click(object sender, EventArgs e)
         {
-
             string maBin = lot.Text;
             int maID = (int)idTenSP.Value;
             decimal klTB = (decimal)klTruocBoc.Value;

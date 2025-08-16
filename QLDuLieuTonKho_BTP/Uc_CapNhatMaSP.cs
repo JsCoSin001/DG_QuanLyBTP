@@ -42,6 +42,7 @@ namespace QLDuLieuTonKho_BTP
 
         private void btnLuuSP_Click(object sender, EventArgs e)
         {
+
             if (!Helper.kiemTraPhanQuyen(_quyen)) return;
 
             string ma = tbMa.Text.Trim().ToUpper();
@@ -87,6 +88,7 @@ namespace QLDuLieuTonKho_BTP
 
                 MessageBox.Show("Thao tác thành công.", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
+
         }
 
         private string getSQL()

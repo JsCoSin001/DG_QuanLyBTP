@@ -21,7 +21,7 @@ namespace QLDuLieuTonKho_BTP
             }
             else
             {
-                MessageBox.Show("Ứng dụng đang chạy!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show("ỨNG DỤNG ĐANG KHỞI ĐỘNG - XIN CHỜ!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
         }
     }
