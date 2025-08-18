@@ -16,15 +16,19 @@ namespace QLDuLieuTonKho_BTP
     public partial class Main : Form
     {
         private string _url;
-        private string _sign = "Made by Linh - v01.01.2025 @";
+        // Change the field initializers to avoid referencing another instance field.
+        // Initialize _sign in the constructor instead.
+
+        private string _ver = "01.01";
+        private string _sign;
         private string _pdfInstruction = Path.Combine(Application.StartupPath, "Data");
-        private string _pdfWelcome = Path.Combine(Application.StartupPath, "Data", "welcome.pdf");
 
         private Uc_ShowData ucShowData;
         public Main()
         {
             InitializeComponent();
-            ShowHomePage(_pdfWelcome);
+            _sign = "Made by Linh - v" + _ver + ".2025 @";
+            ShowHomePage();
         }
 
         private void Main_Load(object sender, EventArgs e)
@@ -233,15 +237,15 @@ namespace QLDuLieuTonKho_BTP
 
         private void pictureBox1_Click(object sender, EventArgs e)
         {
-            ShowHomePage(_pdfWelcome);
+            ShowHomePage();
         }
 
         private void label1_Click(object sender, EventArgs e)
         {
-            ShowHomePage(_pdfWelcome);
+            ShowHomePage();
         }
 
-        private void ShowHomePage(string filePath)
+        private void ShowHomePage()
         {
             // Xóa các control cũ trong panel
             pnLeft.Controls.Clear();
@@ -251,6 +255,7 @@ namespace QLDuLieuTonKho_BTP
             pnRight.Visible = false;
             pnLeft.Controls.Add(homePage);
             homePage.Dock = DockStyle.Fill;
+            homePage.lblVersion.Text = "Phiên bản: " + _ver;
         }
     }
 }

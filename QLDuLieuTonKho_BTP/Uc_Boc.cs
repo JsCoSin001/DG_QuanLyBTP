@@ -258,10 +258,20 @@ namespace QLDuLieuTonKho_BTP
                 return;
             }
             string para = "Lot";
+            //string query = @"
+            //    SELECT Lot, KhoiLuongConLai
+            //    FROM TonKho
+            //    WHERE Lot LIKE '%' || @" + para+ " || '%' AND KhoiLuongConLai <> 0 AND Lot NOT LIKE 'Z_%';";
+
             string query = @"
-                SELECT Lot, KhoiLuongConLai
-                FROM TonKho
-                WHERE Lot LIKE '%' || @" + para+ " || '%' AND KhoiLuongConLai <> 0 AND Lot NOT LIKE 'Z_%';";
+                SELECT b.ID, t.Lot, t.KhoiLuongConLai
+                FROM DL_CD_Ben b
+                JOIN TonKho t ON b.TonKho_ID = t.ID
+                WHERE t.Lot LIKE '%' || @" + para + @" || '%'
+                  AND t.KhoiLuongConLai <> 0
+                  AND t.Lot NOT LIKE 'Z_%';";
+
+
 
             DataTable tonKho = DatabaseHelper.GetData( keyword, query,para);
 
@@ -269,20 +279,20 @@ namespace QLDuLieuTonKho_BTP
 
             cbTimLot.SelectionChangeCommitted -= cbTimLot_SelectionChangeCommitted; // tránh trùng event
             // check data return
-            if (tonKho.Rows.Count != 0)
-            {
-                cbTimLot.DataSource = tonKho;
-                cbTimLot.DisplayMember = "Lot";
+            if (tonKho.Rows.Count == 0) return;
+            
+            cbTimLot.DataSource = tonKho;
+            cbTimLot.DisplayMember = "Lot";
 
-                string currentText = keyword;
+            string currentText = keyword;
 
-                cbTimLot.DroppedDown = true;
-                cbTimLot.Text = currentText;
-                cbTimLot.SelectionStart = cbTimLot.Text.Length;
-                cbTimLot.SelectionLength = 0;
+            cbTimLot.DroppedDown = true;
+            cbTimLot.Text = currentText;
+            cbTimLot.SelectionStart = cbTimLot.Text.Length;
+            cbTimLot.SelectionLength = 0;
 
-                cbTimLot.SelectionChangeCommitted += cbTimLot_SelectionChangeCommitted;
-            }            
+            cbTimLot.SelectionChangeCommitted += cbTimLot_SelectionChangeCommitted;
+                    
 
         }
 
@@ -308,28 +318,28 @@ namespace QLDuLieuTonKho_BTP
 
             string[] result = Helper.PhanTachLot(selectedLot);
 
-            //cbTimLot.SelectedIndex = -1;
             cbTimLot.Text = "";
 
-            if (result.Length < 5)
+            if (result.Length == 5)
             {
-                MessageBox.Show("Lot không hợp lệ, vui lòng kiểm tra lại!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                return;
+                try
+                {
+                    may.Text = result[0];
+                    maHT.Text = result[1];
+                    STTCD.Text = result[2];
+                    sttBin.Value = Convert.ToDecimal(result[3]);
+                    soBin.Value = Convert.ToDecimal(result[4]);
+                }
+                catch (Exception){}
+                
             }
-
-            may.Text = result[0];
-            maHT.Text = result[1];
-            STTCD.Text = result[2];
-            sttBin.Value = Convert.ToDecimal(result[3]);
-            soBin.Value = Convert.ToDecimal(result[4]);
+            
             lot.Text = selectedLot;
 
             klTruocBoc.Value = klcl;
-
+            idBen.Value = Convert.ToDecimal(row["ID"]);
 
             cbTimLot.Text = "";
-
-
         }
 
         private void LoadAutoCompleteTenSP(string keyword)
@@ -466,30 +476,30 @@ namespace QLDuLieuTonKho_BTP
 
         private void may_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (isProgrammaticChange) Helper.RunEvent(may, maHT, STTCD, sttBin, soBin, lot, idBen, klTruocBoc);
+            //if (isProgrammaticChange) Helper.RunEvent(may, maHT, STTCD, sttBin, soBin, lot, idBen, klTruocBoc);
         }
 
         private void STTCD_SelectedIndexChanged(object sender, EventArgs e)
         {
 
-            if (isProgrammaticChange) Helper.RunEvent(may, maHT, STTCD, sttBin, soBin, lot, idBen, klTruocBoc);
+            //if (isProgrammaticChange) Helper.RunEvent(may, maHT, STTCD, sttBin, soBin, lot, idBen, klTruocBoc);
         }
 
         private void maHT_ValueChanged(object sender, EventArgs e)
         {
 
-            if (isProgrammaticChange) Helper.RunEvent(may, maHT, STTCD, sttBin, soBin, lot, idBen, klTruocBoc);
+            //if (isProgrammaticChange) Helper.RunEvent(may, maHT, STTCD, sttBin, soBin, lot, idBen, klTruocBoc);
         }
 
         private void sttBin_ValueChanged(object sender, EventArgs e)
         {
-            if (isProgrammaticChange) Helper.RunEvent(may, maHT, STTCD, sttBin, soBin, lot, idBen, klTruocBoc);
+            //if (isProgrammaticChange) Helper.RunEvent(may, maHT, STTCD, sttBin, soBin, lot, idBen, klTruocBoc);
         }
 
         private void soBin_ValueChanged(object sender, EventArgs e)
         {
 
-            if (isProgrammaticChange) Helper.RunEvent(may, maHT, STTCD, sttBin, soBin, lot, idBen, klTruocBoc);
+            //if (isProgrammaticChange) Helper.RunEvent(may, maHT, STTCD, sttBin, soBin, lot, idBen, klTruocBoc);
         }
 
         private void button1_Click(object sender, EventArgs e)

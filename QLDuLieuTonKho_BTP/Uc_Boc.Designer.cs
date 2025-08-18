@@ -56,7 +56,6 @@
             this.sttBin = new System.Windows.Forms.NumericUpDown();
             this.label23 = new System.Windows.Forms.Label();
             this.STTCD = new System.Windows.Forms.ComboBox();
-            this.idBen = new System.Windows.Forms.NumericUpDown();
             this.lot = new System.Windows.Forms.TextBox();
             this.maHT = new System.Windows.Forms.NumericUpDown();
             this.congDoan = new System.Windows.Forms.ComboBox();
@@ -90,6 +89,7 @@
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.panel2 = new System.Windows.Forms.Panel();
             this.lblTitleForm = new System.Windows.Forms.Label();
+            this.idBen = new System.Windows.Forms.NumericUpDown();
             this.pnNhapDL.SuspendLayout();
             this.groupBox3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.stt)).BeginInit();
@@ -99,7 +99,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.soBin)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.sttBin)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.idBen)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.maHT)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.idTenSP)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.klPhe)).BeginInit();
@@ -107,6 +106,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.klConLai)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.klTruocBoc)).BeginInit();
             this.panel2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.idBen)).BeginInit();
             this.SuspendLayout();
             // 
             // pnNhapDL
@@ -461,20 +461,6 @@
             this.STTCD.Size = new System.Drawing.Size(49, 28);
             this.STTCD.TabIndex = 5;
             this.STTCD.SelectedIndexChanged += new System.EventHandler(this.STTCD_SelectedIndexChanged);
-            // 
-            // idBen
-            // 
-            this.idBen.Enabled = false;
-            this.idBen.Location = new System.Drawing.Point(25, 654);
-            this.idBen.Maximum = new decimal(new int[] {
-            1661992959,
-            1808227885,
-            5,
-            0});
-            this.idBen.Name = "idBen";
-            this.idBen.Size = new System.Drawing.Size(72, 22);
-            this.idBen.TabIndex = 14;
-            this.idBen.Visible = false;
             // 
             // lot
             // 
@@ -879,6 +865,19 @@
             this.lblTitleForm.Text = "label10";
             this.lblTitleForm.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
+            // idBen
+            // 
+            this.idBen.Enabled = false;
+            this.idBen.Location = new System.Drawing.Point(25, 654);
+            this.idBen.Maximum = new decimal(new int[] {
+            1661992959,
+            1808227885,
+            5,
+            0});
+            this.idBen.Name = "idBen";
+            this.idBen.Size = new System.Drawing.Size(72, 22);
+            this.idBen.TabIndex = 14;
+            // 
             // Uc_Boc
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -902,7 +901,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.soBin)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.sttBin)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.idBen)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.maHT)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.idTenSP)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.klPhe)).EndInit();
@@ -910,6 +908,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.klConLai)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.klTruocBoc)).EndInit();
             this.panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.idBen)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -940,7 +939,6 @@
         private System.Windows.Forms.NumericUpDown sttBin;
         private System.Windows.Forms.Label label23;
         private System.Windows.Forms.ComboBox STTCD;
-        private System.Windows.Forms.NumericUpDown idBen;
         private System.Windows.Forms.TextBox lot;
         private System.Windows.Forms.NumericUpDown maHT;
         private System.Windows.Forms.ComboBox congDoan;
@@ -975,6 +973,7 @@
         private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.Label lblTitleForm;
         private System.Windows.Forms.Label lbHuongDan;
+        private System.Windows.Forms.NumericUpDown idBen;
     }
 }
 

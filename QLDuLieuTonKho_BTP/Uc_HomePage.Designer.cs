@@ -33,8 +33,8 @@
             this.panel1 = new System.Windows.Forms.Panel();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.panel2 = new System.Windows.Forms.Panel();
+            this.lblVersion = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
             this.tableLayoutPanel1.SuspendLayout();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
@@ -79,13 +79,24 @@
             // 
             // panel2
             // 
-            this.panel2.Controls.Add(this.label2);
+            this.panel2.Controls.Add(this.lblVersion);
             this.panel2.Controls.Add(this.label1);
             this.panel2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel2.Location = new System.Drawing.Point(3, 385);
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(833, 249);
             this.panel2.TabIndex = 3;
+            // 
+            // lblVersion
+            // 
+            this.lblVersion.Dock = System.Windows.Forms.DockStyle.Top;
+            this.lblVersion.Font = new System.Drawing.Font("Tahoma", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblVersion.Location = new System.Drawing.Point(0, 84);
+            this.lblVersion.Name = "lblVersion";
+            this.lblVersion.Size = new System.Drawing.Size(833, 28);
+            this.lblVersion.TabIndex = 3;
+            this.lblVersion.Text = "Version 1.0.0";
+            this.lblVersion.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             // 
             // label1
             // 
@@ -97,17 +108,6 @@
             this.label1.TabIndex = 2;
             this.label1.Text = "WELCOME TO DONG GIANG FACTORY";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // label2
-            // 
-            this.label2.Dock = System.Windows.Forms.DockStyle.Top;
-            this.label2.Font = new System.Drawing.Font("Tahoma", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.Location = new System.Drawing.Point(0, 84);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(833, 28);
-            this.label2.TabIndex = 3;
-            this.label2.Text = "Version 1.0.0";
-            this.label2.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             // 
             // Uc_HomePage
             // 
@@ -129,7 +129,7 @@
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.Panel panel2;
-        private System.Windows.Forms.Label label2;
+        public System.Windows.Forms.Label lblVersion;
         private System.Windows.Forms.Label label1;
     }
 }
