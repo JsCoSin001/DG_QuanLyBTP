@@ -29,6 +29,7 @@ namespace QLDuLieuTonKho_BTP
         private string _callTimer;
 
         public event Action<DataTable> OnDataReady;
+        private static readonly string _quyenMaster = Properties.Settings.Default.UserPass;
 
         public Uc_Boc(string url, string[] dsMay, int sttCongDoan)
         {
@@ -128,6 +129,7 @@ namespace QLDuLieuTonKho_BTP
                     Ngay = Helper.GetNgayHienTai(), 
                     Ca = ca.Text,
                     KhoiLuongTruocBoc = klTB,
+                    KhoiLuongConLai = klCL,
                     KhoiLuongPhe = klPhe.Value,
                     NguoiLam = nguoiLam.Text,
                     SoMay = maySX.Text,
@@ -352,7 +354,6 @@ namespace QLDuLieuTonKho_BTP
                 tenSP.DroppedDown = false;
                 return;
             }
-
             
             string para = "search";
             string query = "SELECT ID, Ma, Ten FROM DanhSachMaSP WHERE  KieuSP = '" + TypeOfProduct + "' AND Ten LIKE '%' || @"+para+" || '%' ";
@@ -362,7 +363,7 @@ namespace QLDuLieuTonKho_BTP
             if (idCongDoan == 0)            
                 query += " AND (Ten LIKE 'CM%') ";            
             else            
-                query += " AND (Ten LIKE 'CE%' OR Ten LIKE 'CV%') ";
+                query += " AND (Ten LIKE 'CE%' OR Ten LIKE 'CV%' OR Ten LIKE 'AE%' OR Ten LIKE 'AV%') ";
             
             //query += " LIMIT 20";
 
@@ -421,7 +422,7 @@ namespace QLDuLieuTonKho_BTP
                     TonKho.ChieuDai,
                     TonKho_Ben.Lot AS lot,
                     DL_CD_Boc.cd_ben_id as idCDBen,
-                    TonKho_Ben.KhoiLuongConLai AS KhoiLuongConLai
+                    DL_CD_Boc.KhoiLuongConLai AS KhoiLuongConLai
                 FROM 
                     DL_CD_Boc
                 INNER JOIN 
@@ -474,34 +475,6 @@ namespace QLDuLieuTonKho_BTP
             isProgrammaticChange = true;
         }
 
-        private void may_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            //if (isProgrammaticChange) Helper.RunEvent(may, maHT, STTCD, sttBin, soBin, lot, idBen, klTruocBoc);
-        }
-
-        private void STTCD_SelectedIndexChanged(object sender, EventArgs e)
-        {
-
-            //if (isProgrammaticChange) Helper.RunEvent(may, maHT, STTCD, sttBin, soBin, lot, idBen, klTruocBoc);
-        }
-
-        private void maHT_ValueChanged(object sender, EventArgs e)
-        {
-
-            //if (isProgrammaticChange) Helper.RunEvent(may, maHT, STTCD, sttBin, soBin, lot, idBen, klTruocBoc);
-        }
-
-        private void sttBin_ValueChanged(object sender, EventArgs e)
-        {
-            //if (isProgrammaticChange) Helper.RunEvent(may, maHT, STTCD, sttBin, soBin, lot, idBen, klTruocBoc);
-        }
-
-        private void soBin_ValueChanged(object sender, EventArgs e)
-        {
-
-            //if (isProgrammaticChange) Helper.RunEvent(may, maHT, STTCD, sttBin, soBin, lot, idBen, klTruocBoc);
-        }
-
         private void button1_Click(object sender, EventArgs e)
         {
             ResetAllController();
@@ -521,7 +494,7 @@ namespace QLDuLieuTonKho_BTP
                     DL_CD_Boc.Ca,
                     DL_CD_Boc.SoMay,
                     DL_CD_Boc.KhoiLuongTruocBoc,
-                    TonKho_Ben.KhoiLuongConLai,
+                    DL_CD_Boc.KhoiLuongConLai,
                     TonKho.ChieuDai,
                     DL_CD_Boc.KhoiLuongPhe,
                     DL_CD_Boc.GhiChu
@@ -554,6 +527,11 @@ namespace QLDuLieuTonKho_BTP
                 return;
             }
 
+
+            cbXuatExcel.Checked = false;
+            if (!Helper.kiemTraPhanQuyen(_quyenMaster)) return;
+            cbXuatExcel.Checked = true;
+
             string tenCD = "";
 
             if (congDoan.SelectedIndex != -1)
@@ -580,6 +558,7 @@ namespace QLDuLieuTonKho_BTP
         }
 
         public Uc_ShowData UcShowDataInstance { get; set; }
+        
         private void lbHuongDan_Click(object sender, EventArgs e)
         {
             UcShowDataInstance.ShowHideController(false);

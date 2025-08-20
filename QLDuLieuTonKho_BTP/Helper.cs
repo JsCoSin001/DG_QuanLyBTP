@@ -133,52 +133,6 @@ namespace QLDuLieuTonKho_BTP
 
         }
 
-        public static DataTable GetKLTruocSX(ComboBox may, NumericUpDown maHT, ComboBox sttCongDoan, NumericUpDown sttBin, NumericUpDown soBin, TextBox lotNumber)
-        {
-            DataTable resultTable = new DataTable();
-            string lot = "";
-            lot = LOTGenerated( may,  maHT,  sttCongDoan,  sttBin,  soBin);
-
-            if (lot == "") return resultTable;
-
-            lotNumber.Text = lot;
-
-            string para = "Lot";
-            string query = @"
-                SELECT 
-                    DL_CD_Ben.ID  as id,
-                    TonKho.KhoiLuongConLai as KhoiLuongConLai
-                FROM 
-                    DL_CD_Ben
-                JOIN 
-                    TonKho ON DL_CD_Ben.TonKho_ID = TonKho.ID
-                WHERE 
-                    TonKho.Lot = @" + para + ";";
-
-            resultTable = DatabaseHelper.GetData(lot, query,para);
-
-            return resultTable;
-        }
-
-        public static void FillKhoiLuongVaIDBen(DataTable dt, NumericUpDown id, NumericUpDown kl)
-        {
-            
-            if (dt.Rows.Count > 0)
-            {
-                id.Value = Convert.ToInt32(dt.Rows[0]["ID"]);
-                if (dt.Rows[0]["KhoiLuongConLai"] != DBNull.Value)
-                    kl.Value = Convert.ToDecimal(dt.Rows[0]["KhoiLuongConLai"]);
-                else
-                    kl.Value = 0;
-            }
-            else
-            {
-                id.Value = 0; kl.Value = 0;
-            }
-
-        }
-
-        // Tạo mã LOT theo định dạng: may-maHT/sttCongDoan-sttBin-soBin
         public static string LOTGenerated(ComboBox may, NumericUpDown maHT, ComboBox sttCongDoan, NumericUpDown sttBin, NumericUpDown soBin)
         {
             string lot = "";            
@@ -211,15 +165,7 @@ namespace QLDuLieuTonKho_BTP
 
             return lot;
         }
-                
-        public static void RunEvent(ComboBox may, NumericUpDown maHT, ComboBox sttCongDoan, NumericUpDown sttBin, NumericUpDown soBin, TextBox lotNumber, NumericUpDown idBen, NumericUpDown klTruocBoc)
-        {
-            DataTable resultTable = new DataTable();
-            resultTable = Helper.GetKLTruocSX(may, maHT, sttCongDoan, sttBin, soBin, lotNumber);
-
-            Helper.FillKhoiLuongVaIDBen(resultTable, idBen, klTruocBoc);
-        }
-                
+                         
         public static Uc_ShowData LoadUserControlsWithData<T>(Panel pnLeft,  Panel pnRight, out T leftControl,  Action<DataTable> onDataReadyCallback, params object[] constructorArgs) where T : UserControl, ICustomUserControl
         {
             leftControl = (T)Activator.CreateInstance(typeof(T), constructorArgs);
@@ -288,14 +234,13 @@ namespace QLDuLieuTonKho_BTP
             }
             else
             {
-                MessageBox.Show("Bạn không có quyền truy cập chức năng này.", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("BẠN CẦN CẤP QUYỀN ĐỂ SỬ DỤNG CHỨC NĂNG NÀY!.", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return false;
             }
         }
 
 
-
-        #region // In Tem với kích thước 80mm        
+        #region // In Tem với kích thước 80mm - Thực tế 76mm      
         public static string CreateContentLabel(TemSP temSP)
         {
             var space = new Dictionary<string, string>
@@ -324,7 +269,7 @@ namespace QLDuLieuTonKho_BTP
             return content;
         }
 
-        public static void PrintLabelWithQr(string comPort, int baud, TemSP temSP, string qrData)
+        public static void PrintLabel(string comPort, int baud, TemSP temSP, string qrData)
         {
             using (var p = new EscPosPrinter(comPort, baud))
             {

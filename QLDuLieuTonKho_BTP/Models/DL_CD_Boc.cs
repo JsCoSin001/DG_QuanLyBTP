@@ -14,6 +14,7 @@ public class DL_CD_Boc
     [Required(ErrorMessage = "Ca không được để trống")]
     public string Ca { get; set; }
     public decimal KhoiLuongTruocBoc { get; set; }
+    public decimal KhoiLuongConLai { get; set; }
     public decimal KhoiLuongPhe { get; set; } = 0;
 
     [Required(ErrorMessage = "Người làm không được để trống")]

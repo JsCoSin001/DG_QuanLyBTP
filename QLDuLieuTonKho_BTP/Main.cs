@@ -19,7 +19,7 @@ namespace QLDuLieuTonKho_BTP
         // Change the field initializers to avoid referencing another instance field.
         // Initialize _sign in the constructor instead.
 
-        private string _ver = "01.01";
+        private string _ver = "01.03";
         private string _sign;
         private string _pdfInstruction = Path.Combine(Application.StartupPath, "Data");
 

@@ -20,6 +20,8 @@ namespace QLDuLieuTonKho_BTP
         public event Action<DataTable> OnDataReady;
         private string _url;
         private string _callTimer;
+
+        private static readonly string _quyenMaster = Properties.Settings.Default.UserPass;
         public Uc_HanNoi(string url)
         {
             InitializeComponent();
@@ -389,6 +391,12 @@ namespace QLDuLieuTonKho_BTP
                 OnDataReady?.Invoke(table);
                 return;
             }
+
+
+            cbXuatExcel.Checked = false;
+            if (!Helper.kiemTraPhanQuyen(_quyenMaster)) return;
+            cbXuatExcel.Checked = true;
+
 
             string defaultFileName = "DanhSachGopBin";
             await ExcelHelper.ExportWithLoading(table, defaultFileName);

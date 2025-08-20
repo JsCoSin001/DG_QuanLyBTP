@@ -15,6 +15,9 @@ namespace QLDuLieuTonKho_BTP
         public string URL;
         public string[] LOAISP = { "Bán Thành Phẩm", "Thành Phẩm", "Nguyên Liệu" };
         public string[] KIHIEU_LOAISP = { "BTP", "TP", "NVL" };
+
+        private static readonly string _quyenMaster = Properties.Settings.Default.UserPass;
+
         public event Action<DataTable> OnDataReady;
         // Change from 'const' to 'readonly' since the value is not a compile-time constant
         private static readonly string _quyen = Properties.Settings.Default.UserPass;
@@ -141,6 +144,9 @@ namespace QLDuLieuTonKho_BTP
                 
         private async void button1_Click(object sender, EventArgs e)
         {
+
+            if (!Helper.kiemTraPhanQuyen(_quyenMaster)) return;
+
             string sql = getSQL();
 
             var table = DatabaseHelper.GetDataFromSQL(sql);

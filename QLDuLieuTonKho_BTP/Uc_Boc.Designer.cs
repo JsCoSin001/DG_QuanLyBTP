@@ -56,6 +56,7 @@
             this.sttBin = new System.Windows.Forms.NumericUpDown();
             this.label23 = new System.Windows.Forms.Label();
             this.STTCD = new System.Windows.Forms.ComboBox();
+            this.idBen = new System.Windows.Forms.NumericUpDown();
             this.lot = new System.Windows.Forms.TextBox();
             this.maHT = new System.Windows.Forms.NumericUpDown();
             this.congDoan = new System.Windows.Forms.ComboBox();
@@ -89,7 +90,6 @@
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.panel2 = new System.Windows.Forms.Panel();
             this.lblTitleForm = new System.Windows.Forms.Label();
-            this.idBen = new System.Windows.Forms.NumericUpDown();
             this.pnNhapDL.SuspendLayout();
             this.groupBox3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.stt)).BeginInit();
@@ -99,6 +99,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.soBin)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.sttBin)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.idBen)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.maHT)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.idTenSP)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.klPhe)).BeginInit();
@@ -106,7 +107,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.klConLai)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.klTruocBoc)).BeginInit();
             this.panel2.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.idBen)).BeginInit();
             this.SuspendLayout();
             // 
             // pnNhapDL
@@ -414,7 +414,6 @@
             this.soBin.Name = "soBin";
             this.soBin.Size = new System.Drawing.Size(75, 27);
             this.soBin.TabIndex = 7;
-            this.soBin.ValueChanged += new System.EventHandler(this.soBin_ValueChanged);
             // 
             // sttBin
             // 
@@ -429,7 +428,6 @@
             this.sttBin.Name = "sttBin";
             this.sttBin.Size = new System.Drawing.Size(75, 27);
             this.sttBin.TabIndex = 6;
-            this.sttBin.ValueChanged += new System.EventHandler(this.sttBin_ValueChanged);
             // 
             // label23
             // 
@@ -460,7 +458,20 @@
             this.STTCD.Name = "STTCD";
             this.STTCD.Size = new System.Drawing.Size(49, 28);
             this.STTCD.TabIndex = 5;
-            this.STTCD.SelectedIndexChanged += new System.EventHandler(this.STTCD_SelectedIndexChanged);
+            // 
+            // idBen
+            // 
+            this.idBen.Enabled = false;
+            this.idBen.Location = new System.Drawing.Point(25, 654);
+            this.idBen.Maximum = new decimal(new int[] {
+            1661992959,
+            1808227885,
+            5,
+            0});
+            this.idBen.Name = "idBen";
+            this.idBen.Size = new System.Drawing.Size(72, 22);
+            this.idBen.TabIndex = 14;
+            this.idBen.Visible = false;
             // 
             // lot
             // 
@@ -484,7 +495,6 @@
             this.maHT.Name = "maHT";
             this.maHT.Size = new System.Drawing.Size(115, 27);
             this.maHT.TabIndex = 4;
-            this.maHT.ValueChanged += new System.EventHandler(this.maHT_ValueChanged);
             // 
             // congDoan
             // 
@@ -500,7 +510,6 @@
             this.congDoan.Name = "congDoan";
             this.congDoan.Size = new System.Drawing.Size(176, 28);
             this.congDoan.TabIndex = 11;
-            this.congDoan.SelectedIndexChanged += new System.EventHandler(this.STTCD_SelectedIndexChanged);
             // 
             // tenSP
             // 
@@ -646,7 +655,6 @@
             this.may.Name = "may";
             this.may.Size = new System.Drawing.Size(66, 28);
             this.may.TabIndex = 3;
-            this.may.SelectedIndexChanged += new System.EventHandler(this.may_SelectedIndexChanged);
             // 
             // ghiChu
             // 
@@ -865,19 +873,6 @@
             this.lblTitleForm.Text = "label10";
             this.lblTitleForm.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // idBen
-            // 
-            this.idBen.Enabled = false;
-            this.idBen.Location = new System.Drawing.Point(25, 654);
-            this.idBen.Maximum = new decimal(new int[] {
-            1661992959,
-            1808227885,
-            5,
-            0});
-            this.idBen.Name = "idBen";
-            this.idBen.Size = new System.Drawing.Size(72, 22);
-            this.idBen.TabIndex = 14;
-            // 
             // Uc_Boc
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -901,6 +896,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.soBin)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.sttBin)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.idBen)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.maHT)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.idTenSP)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.klPhe)).EndInit();
@@ -908,7 +904,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.klConLai)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.klTruocBoc)).EndInit();
             this.panel2.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.idBen)).EndInit();
             this.ResumeLayout(false);
 
         }

@@ -115,7 +115,7 @@
             this.btnBaoCao.Name = "btnBaoCao";
             this.btnBaoCao.Size = new System.Drawing.Size(196, 51);
             this.btnBaoCao.TabIndex = 7;
-            this.btnBaoCao.Text = "BÁO CÁO";
+            this.btnBaoCao.Text = "BÁO CÁO TỒN KHO";
             this.btnBaoCao.UseVisualStyleBackColor = true;
             this.btnBaoCao.Click += new System.EventHandler(this.btnBaoCao_Click);
             // 
@@ -146,7 +146,7 @@
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(196, 53);
             this.button1.TabIndex = 9;
-            this.button1.Text = "Cài Đặt Cấu Hình";
+            this.button1.Text = "CONFIG SETTINGS";
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click);
             // 

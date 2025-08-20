@@ -25,7 +25,10 @@ namespace QLDuLieuTonKho_BTP
         private string _titleForm;
 
         public event Action<DataTable> OnDataReady;
+
         public string TypeOfProduct { get; set; }
+
+        private static readonly string _quyenMaster = Properties.Settings.Default.UserPass;
 
         public Uc_ShowData UcShowDataInstance { get; set; }
 
@@ -158,7 +161,6 @@ namespace QLDuLieuTonKho_BTP
 
         private void ResetController_TimLot()
         {
-
             may.SelectedIndex = -1;
             STTCD.SelectedIndex = -1;
             sttBin.Value = 0;
@@ -202,7 +204,7 @@ namespace QLDuLieuTonKho_BTP
                "WHERE KieuSP = '" + TypeOfProduct + "' " +
                "AND Ten LIKE '%' || @" + para + " || '%' " +
                "AND Ten NOT LIKE '%/T' " +
-               "AND (Ten LIKE 'c %' OR Ten LIKE 'C %')";
+               "AND (Ten LIKE 'c %' OR Ten LIKE 'C %' OR Ten LIKE 'A %')";
 
             DataTable dslot = DatabaseHelper.GetData(keyword, query, para);
 
@@ -375,6 +377,10 @@ namespace QLDuLieuTonKho_BTP
                 OnDataReady?.Invoke(table);
                 return;
             }
+
+            cbXuatExcel.Checked = false;
+            if (!Helper.kiemTraPhanQuyen(_quyenMaster)) return;
+            cbXuatExcel.Checked = true;
 
             string fileName = $"BC Tháng {dateRP}";
             await ExcelHelper.ExportWithLoading(table, fileName);

@@ -15,6 +15,8 @@ namespace QLDuLieuTonKho_BTP
     public partial class Uc_BcTonKho : UserControl, ICustomUserControl
     {
         public event Action<DataTable> OnDataReady;
+
+        private static readonly string _quyenMaster = Properties.Settings.Default.UserPass;
         public Uc_BcTonKho(string url)
         {
             InitializeComponent();
@@ -54,6 +56,12 @@ namespace QLDuLieuTonKho_BTP
                 OnDataReady?.Invoke(table);
                 return;
             }
+
+
+            cbXuatExcelReport.Checked = false;
+            if (!Helper.kiemTraPhanQuyen(_quyenMaster)) return;
+            cbXuatExcelReport.Checked = true;
+
 
             string fileName = "BC Ton Kho";
             await ExcelHelper.ExportWithLoading(table, fileName);
