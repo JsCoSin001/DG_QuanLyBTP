@@ -76,7 +76,6 @@ namespace QLDuLieuTonKho_BTP
             string maBin = lot.Text;
             int maID = (int)idTenSP.Value;
             decimal kl = (decimal)khoiLuong.Value;
-            //float hn = (float)hanNoi.Value;
             decimal cd = (decimal)chieuDai.Value;
             string error = "";
             if (maBin == "")
@@ -114,19 +113,22 @@ namespace QLDuLieuTonKho_BTP
                     GhiChu = ghiChu.Text,
                 };
 
-                var validationResults = ValidateInput.ValidateModel(dL_CD_Ben);
-
-                if (validationResults.Count != 0)
-                {
-                    string errorMessage = string.Join("\n", validationResults.ConvertAll(r => r.ErrorMessage));
-                    MessageBox.Show("Lỗi nhập liệu:\n" + errorMessage, "THÔNG BÁO", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    return;
-                }
+                
 
                 int sttBen = (int)stt.Value;
 
                 if (sttBen == 0)
+                {
+                    var validationResults = ValidateInput.ValidateModel(dL_CD_Ben);
+
+                    if (validationResults.Count != 0)
+                    {
+                        string errorMessage = string.Join("\n", validationResults.ConvertAll(r => r.ErrorMessage));
+                        MessageBox.Show("Lỗi nhập liệu:\n" + errorMessage, "THÔNG BÁO", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return;
+                    }
                     result = DatabaseHelper.InsertSanPhamTonKhoDL<TonKho, DL_CD_Ben>(tonKho, dL_CD_Ben, "dL_CD_Ben");
+                }                   
                 else
                 {
                     dL_CD_Ben.GhiChu = dL_CD_Ben.GhiChu + "- Đã sửa";
@@ -286,12 +288,25 @@ namespace QLDuLieuTonKho_BTP
             DataRow dataRow = data.Rows[0];
 
             string maBin = dataRow["lot"].ToString();
+
             string[] result = Helper.PhanTachLot(maBin);
-            may.Text = result[0];
-            maHT.Text = result[1];
-            STTCD.Text = result[2];
-            sttBin.Value = Convert.ToDecimal(result[3]);
-            soBin.Value = Convert.ToDecimal(result[4]);
+
+            if (result.Length == 5)
+            {
+                try
+                {
+                    may.Text = result[0];
+                    maHT.Text = result[1];
+                    STTCD.Text = result[2];
+                    sttBin.Value = Convert.ToDecimal(result[3]);
+                    soBin.Value = Convert.ToDecimal(result[4]);
+                }
+                catch (Exception) { }
+
+            }
+
+            lot.Text = maBin;
+
 
             ngay.Text = dataRow["ngay"].ToString();
             ca.Text = dataRow["ca"].ToString();

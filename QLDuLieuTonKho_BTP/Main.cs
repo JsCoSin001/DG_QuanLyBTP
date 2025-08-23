@@ -16,10 +16,8 @@ namespace QLDuLieuTonKho_BTP
     public partial class Main : Form
     {
         private string _url;
-        // Change the field initializers to avoid referencing another instance field.
-        // Initialize _sign in the constructor instead.
 
-        private string _ver = "01.05";
+        private string _ver = "01.06";
         private string _sign;
         private string _pdfInstruction = Path.Combine(Application.StartupPath, "Data");
 
