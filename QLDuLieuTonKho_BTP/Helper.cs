@@ -159,9 +159,10 @@ namespace QLDuLieuTonKho_BTP
                 return lot;
 
             string sttBinT = sttBin.Value < 10 ? "0" + sttBin.Text : sttBin.Text;
+            string soBinT = soBin.Value < 10 ? "0" + soBin.Text : soBin.Text;
 
             // Tạo mã LOT: may-maHT-sttCongDoan-sttBin-soBin
-            lot = $"{may.Text}-{maHTValue}/{sttCongDoan.Text}-{sttBinT}-{soBin.Value}";
+            lot = $"{may.Text}-{maHTValue}/{sttCongDoan.Text}-{sttBinT}-{soBinT}";
 
             return lot;
         }

@@ -19,7 +19,7 @@ namespace QLDuLieuTonKho_BTP
         // Change the field initializers to avoid referencing another instance field.
         // Initialize _sign in the constructor instead.
 
-        private string _ver = "01.03";
+        private string _ver = "01.05";
         private string _sign;
         private string _pdfInstruction = Path.Combine(Application.StartupPath, "Data");
 
@@ -42,7 +42,7 @@ namespace QLDuLieuTonKho_BTP
 
             if (string.IsNullOrEmpty(_url))
             {
-                MessageBox.Show("Vui lòng chọn đường dẫn đến file database.", "THÔNG BÁO");
+                MessageBox.Show("Tìm Database.", "THÔNG BÁO");
                 _url = Helper.GetURLDatabase();
                 Application.Restart();
                 return;

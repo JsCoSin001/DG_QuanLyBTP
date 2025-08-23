@@ -371,7 +371,6 @@ namespace QLDuLieuTonKho_BTP
                 return;
             }
 
-
             if (!cbXuatExcel.Checked)
             {
                 OnDataReady?.Invoke(table);
@@ -396,5 +395,6 @@ namespace QLDuLieuTonKho_BTP
         {
             UcShowDataInstance.ShowHideController(false);
         }
+
     }
 }

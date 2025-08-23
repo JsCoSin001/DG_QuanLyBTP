@@ -31,13 +31,23 @@ namespace QLDuLieuTonKho_BTP
         public event Action<DataTable> OnDataReady;
         private static readonly string _quyenMaster = Properties.Settings.Default.UserPass;
 
+        private Dictionary<string, string> dsCongDoan = new Dictionary<string, string>()
+        {
+            {"mica", "Quấn Mica"},
+            {"mach", "Bọc Mạch"},
+            {"vo", "Bọc Vỏ"}
+        };
+        
         public Uc_Boc(string url, string[] dsMay, int sttCongDoan)
         {
             InitializeComponent();
 
             Helper.AddHoverEffect(lbHuongDan);
 
-            //_dsMay = dsMay;
+            congDoan.DataSource = new BindingSource(dsCongDoan, null);
+            congDoan.DisplayMember = "Value"; // Hiển thị text cho user
+            congDoan.ValueMember = "Key";
+
             congDoan.SelectedIndex = sttCongDoan;
 
             DatabaseHelper.SetDatabasePath(url);
@@ -102,7 +112,6 @@ namespace QLDuLieuTonKho_BTP
                 MessageBox.Show(error, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
-
 
             if (id_cd_ben == 0)
             {
@@ -260,10 +269,6 @@ namespace QLDuLieuTonKho_BTP
                 return;
             }
             string para = "Lot";
-            //string query = @"
-            //    SELECT Lot, KhoiLuongConLai
-            //    FROM TonKho
-            //    WHERE Lot LIKE '%' || @" + para+ " || '%' AND KhoiLuongConLai <> 0 AND Lot NOT LIKE 'Z_%';";
 
             string query = @"
                 SELECT b.ID, t.Lot, t.KhoiLuongConLai
@@ -438,8 +443,6 @@ namespace QLDuLieuTonKho_BTP
 
             DataTable data = DatabaseHelper.GetDL_CDBenByID(id_MaSP, query);
 
-
-
             // check data return
             if (data.Rows.Count == 0)
             {
@@ -484,32 +487,33 @@ namespace QLDuLieuTonKho_BTP
         {
             string dateRP = dateReport.Value.Date.ToString("yyyy-MM");
 
-            string query = @"
-                SELECT 
-                    DL_CD_Boc.ID as STT,
-                    DL_CD_Boc.Ngay,
-                    DL_CD_Boc.NguoiLam,
-                    DanhSachMaSP.Ten as TenSP,
-                    DL_CD_Boc.TenCongDoan as CongDoan,
-                    DL_CD_Boc.Ca,
-                    DL_CD_Boc.SoMay,
-                    DL_CD_Boc.KhoiLuongTruocBoc,
-                    DL_CD_Boc.KhoiLuongConLai,
-                    TonKho.ChieuDai,
-                    DL_CD_Boc.KhoiLuongPhe,
-                    DL_CD_Boc.GhiChu
-               FROM 
-                    DL_CD_Boc
-                INNER JOIN 
-                    TonKho ON DL_CD_Boc.TonKho_ID = TonKho.ID
-                INNER JOIN 
-                    DanhSachMaSP ON TonKho.MaSP_ID = DanhSachMaSP.ID
-                LEFT JOIN 
-                    DL_CD_Ben ON DL_CD_Boc.CD_Ben_ID = DL_CD_Ben.ID
-                LEFT JOIN 
-                    TonKho AS TonKho_Ben ON DL_CD_Ben.TonKho_ID = TonKho_Ben.ID
-                WHERE strftime('%Y-%m', DL_CD_Boc.Ngay) = @Ngay
-                ORDER BY DL_CD_Boc.ID DESC;
+            string query = $@"
+                SELECT
+                    b.ID AS STT,
+                    b.Ngay,
+                    tk_ben.Lot AS Lot_Ben,
+                    sp.Ten AS TenSP,
+                    b.NguoiLam,
+                    b.TenCongDoan AS CongDoan,
+                    b.Ca,
+                    b.SoMay,
+                    b.KhoiLuongTruocBoc,
+                    b.KhoiLuongConLai,
+                    tk_boc.ChieuDai,
+                    b.KhoiLuongPhe,
+                    b.GhiChu
+                FROM DL_CD_Boc AS b
+                INNER JOIN TonKho AS tk_boc
+                        ON b.TonKho_ID = tk_boc.ID
+                INNER JOIN DanhSachMaSP AS sp
+                        ON tk_boc.MaSP_ID = sp.ID
+                LEFT JOIN DL_CD_Ben AS ben
+                       ON b.CD_Ben_ID = ben.ID
+                LEFT JOIN TonKho AS tk_ben
+                       ON ben.TonKho_ID = tk_ben.ID
+                WHERE strftime('%Y-%m', b.Ngay) = @Ngay 
+                  AND b.TenCongDoan = '{congDoan.Text}'
+                ORDER BY b.ID DESC;
             ";
 
 

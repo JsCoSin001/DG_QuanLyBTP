@@ -300,18 +300,28 @@ namespace QLDuLieuTonKho_BTP
                 ChieuDai = 0
             };
 
-            DL_CD_Boc hanNoiNew = new DL_CD_Boc{
-                Ngay = DateTime.Now.ToString("yyyy-MM-dd"),
-                Ca = "Hàn nối",
+            DL_CD_Ben dL_CD_Ben = new DL_CD_Ben
+            {
+                Ngay = Helper.GetNgayHienTai(),
+                Ca = GetShiftValue(),
                 NguoiLam = "Hàn nối",
                 SoMay = "Hàn nối",
-                MaSP_ID = Convert.ToInt32(nmIDTenSP.Value),
-                KhoiLuongTruocBoc = nmKLSP.Value,
-                TenCongDoan = "Hàn nối",
-                DateInsert = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")                
+                GhiChu = "Hàn nối",
             };
 
-            bool isUpdateSuccess = DatabaseHelper.InsertVaUpdateTonKho_HanNoi(tonKhoNew, hanNoiNew, ids);
+            //DL_CD_Boc hanNoiNew = new DL_CD_Boc
+            //{
+            //    Ngay = DateTime.Now.ToString("yyyy-MM-dd"),
+            //    Ca = "Hàn nối",
+            //    NguoiLam = "Hàn nối",
+            //    SoMay = "Hàn nối",
+            //    MaSP_ID = Convert.ToInt32(nmIDTenSP.Value),
+            //    KhoiLuongTruocBoc = nmKLSP.Value,
+            //    TenCongDoan = "Hàn nối",
+            //    DateInsert = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")
+            //};
+
+            bool isUpdateSuccess = DatabaseHelper.InsertVaUpdateTonKho_HanNoi(tonKhoNew, dL_CD_Ben, ids);
 
             if (isUpdateSuccess)
             {
