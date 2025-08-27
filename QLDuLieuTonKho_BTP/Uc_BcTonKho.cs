@@ -28,7 +28,7 @@ namespace QLDuLieuTonKho_BTP
             string sql = @"
                 SELECT
                     TonKho.ID AS ID,
-                    TonKho.Lot,
+                    TonKho.Lot as Lot_TP,
                     DanhSachMaSP.Ma,
                     DanhSachMaSP.Ten,
                     TonKho.KhoiLuongDauVao AS DauVao,
@@ -39,8 +39,10 @@ namespace QLDuLieuTonKho_BTP
                     TonKho
                 JOIN
                     DanhSachMaSP ON TonKho.MaSP_ID = DanhSachMaSP.ID
-                 WHERE
-                        TonKho.KhoiLuongConLai > 0;
+                WHERE
+                    TonKho.KhoiLuongConLai > 0
+                ORDER BY
+                    TonKho.ID DESC;
                 ";
 
             DataTable table = DatabaseHelper.GetDataFromSQL(sql);

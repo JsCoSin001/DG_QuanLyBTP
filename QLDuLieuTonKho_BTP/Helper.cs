@@ -62,12 +62,9 @@ namespace QLDuLieuTonKho_BTP
             const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
             StringBuilder result = new StringBuilder(length);
 
-            for (int i = 0; i < length; i++)
-            {
-                result.Append(chars[_random.Next(chars.Length)]);
-            }
+            for (int i = 0; i < length; i++) result.Append(chars[_random.Next(chars.Length)]);
 
-            return "Z_" + DateTime.Now.ToString("yyyy-MM-dd") + "-" + congDoan + "-" + result;
+            return "Z_" + DateTime.Now.ToString("yyyy-MM-dd hh_mm") + "-" + congDoan + "-" + result;
         }
          
         public static string GetURLDatabase()

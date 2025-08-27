@@ -17,7 +17,7 @@ namespace QLDuLieuTonKho_BTP
     {
         private string _url;
 
-        private string _ver = "01.06";
+        private string _ver = "01.07";
         private string _sign;
         private string _pdfInstruction = Path.Combine(Application.StartupPath, "Data");
 
@@ -105,7 +105,7 @@ namespace QLDuLieuTonKho_BTP
                 "E11", "E12", "E13", "E14", "E15"
             };
 
-            int tenCongDoan = 1;
+            string tenCongDoan = "mach";
 
             ucShowData = Helper.LoadUserControlsWithData<Uc_Boc>(
                 pnLeft,
@@ -132,7 +132,7 @@ namespace QLDuLieuTonKho_BTP
                 "T3", "T4", "T5", "T6"
             };
 
-            int tenCongDoan = 0;
+            string tenCongDoan = "mica";
 
             ucShowData = Helper.LoadUserControlsWithData<Uc_Boc>(
                 pnLeft,
@@ -159,7 +159,7 @@ namespace QLDuLieuTonKho_BTP
                 "E11", "E12", "E13", "E14", "E15"
             };
 
-            int tenCongDoan = 2;
+            string tenCongDoan = "vo";
 
             ucShowData = Helper.LoadUserControlsWithData<Uc_Boc>(
                 pnLeft,

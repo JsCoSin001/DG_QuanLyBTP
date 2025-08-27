@@ -38,7 +38,7 @@ namespace QLDuLieuTonKho_BTP
             {"vo", "Bọc Vỏ"}
         };
         
-        public Uc_Boc(string url, string[] dsMay, int sttCongDoan)
+        public Uc_Boc(string url, string[] dsMay, string selectedCD)
         {
             InitializeComponent();
 
@@ -48,10 +48,12 @@ namespace QLDuLieuTonKho_BTP
             congDoan.DisplayMember = "Value"; // Hiển thị text cho user
             congDoan.ValueMember = "Key";
 
-            congDoan.SelectedIndex = sttCongDoan;
+            string tenCD = dsCongDoan[selectedCD];
+
+            congDoan.SelectedValue = selectedCD;
 
             DatabaseHelper.SetDatabasePath(url);
-            lblTitleForm.Text = ("BÁO cáo công đoạn " + congDoan.Items[sttCongDoan].ToString()).ToUpper();
+            lblTitleForm.Text = ("BÁO cáo công đoạn " + tenCD).ToUpper();
 
             // Cấu hình timer
             timer1.Interval = 300;
@@ -125,11 +127,11 @@ namespace QLDuLieuTonKho_BTP
                 // Biến chứa dữ liệu up mới vào tồn kho
                 TonKho tonKhoMoi = new TonKho
                 {
-                    Lot = Helper.GenerateRandomString("Boc"),
+                    Lot = Helper.GenerateRandomString(congDoan.SelectedValue.ToString()),
                     MaSP_ID = maID,
                     KhoiLuongDauVao = klTB,
                     KhoiLuongConLai = klTB,
-                    HanNoi = 0,
+                    //HanNoi = 0,
                     ChieuDai = cd
                 };
 
@@ -148,14 +150,6 @@ namespace QLDuLieuTonKho_BTP
                     CD_Ben_ID = (int)idBen.Value
                 };
 
-                //Biến chứa dữ liệu update tồn kho
-                TonKho tonKho_update = new TonKho
-                {
-                    Lot = maBin,
-                    KhoiLuongConLai = klCL
-                };
-
-
                 var validationResults = ValidateInput.ValidateModel(dL_CD_Boc);
 
                 if (validationResults.Count != 0)
@@ -170,6 +164,14 @@ namespace QLDuLieuTonKho_BTP
 
                 if (sttB == 0)
                 {
+
+                    //Biến chứa dữ liệu update tồn kho
+                    TonKho tonKho_update = new TonKho
+                    {
+                        Lot = maBin,
+                        KhoiLuongConLai = klCL
+                    };
+
                     // Thêm mới lot vào database công đoạn bọc
                     result = DatabaseHelper.InsertSanPhamTonKhoDL<TonKho, DL_CD_Boc>(tonKhoMoi, dL_CD_Boc, "DL_CD_Boc");
 
@@ -453,11 +455,22 @@ namespace QLDuLieuTonKho_BTP
 
             string maBin = dataRow["lot"].ToString();
             string[] result = Helper.PhanTachLot(maBin);
-            may.Text = result[0];
-            maHT.Text = result[1];
-            STTCD.Text = result[2];
-            sttBin.Value = Convert.ToDecimal(result[3]);
-            soBin.Value = Convert.ToDecimal(result[4]);
+
+
+            if (result.Length == 5)
+            {
+                try
+                {
+                    may.Text = result[0];
+                    maHT.Text = result[1];
+                    STTCD.Text = result[2];
+                    sttBin.Value = Convert.ToDecimal(result[3]);
+                    soBin.Value = Convert.ToDecimal(result[4]);
+                }
+                catch (Exception) { }
+
+            }
+
             lot.Text = maBin;
 
             ngay.Text = dataRow["ngay"].ToString();
