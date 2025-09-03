@@ -170,16 +170,26 @@ namespace QLDuLieuTonKho_BTP
                     // Gửi email nếu khối lượng phế lớn
                     if (Helper.needToSendEmail(dL_CD_Boc.KhoiLuongPhe, dL_CD_Boc.KhoiLuongTruocBoc))
                     {
+                        //var recipients = new List<string> {
+                        //        "cosin.js@gmail.com" ,
+                        //        "Trongsao2024@gmail.com",
+                        //        "quynhdg76@gmail.com",
+                        //        "thuantq@ngockhanh.vn",
+                        //        "thanhdu@donggiang.vn",
+                        //        "thangnguyencz@gmail.com",
+                        //        "thongtv@ngockhanh.vn",
+                        //        "sondv@donggiang.vn",
+                        //};
+
                         var recipients = new List<string> {
                                 "cosin.js@gmail.com" ,
-                                "Trongsao2024@gmail.com",
-                                "quynhdg76@gmail.com",
-                                "thuantq@ngockhanh.vn",
-                                "thanhdu@donggiang.vn",
-                                "thangnguyencz@gmail.com",
-                                "thongtv@ngockhanh.vn",
-                                "sondv@donggiang.vn",
+                                
                         };
+
+                        decimal tyLePhe = dL_CD_Boc.KhoiLuongTruocBoc == 0
+                                ? 0m
+                                : Math.Round(klP * 100m / dL_CD_Boc.KhoiLuongTruocBoc, 2, MidpointRounding.AwayFromZero);
+
 
                         string nd =
                         $@"
@@ -191,14 +201,13 @@ namespace QLDuLieuTonKho_BTP
                             <p><strong>- Mã SP:</strong> {maSP.Text}</p>
                             <p><strong>- Tên SP:</strong> {tenSP.Text}</p>
                             <p><strong>- Lot {tenCongDoan}:</strong> {tonKhoMoi.Lot}</p>
+                            <p><strong>- KL đầu vào:</strong> {dL_CD_Boc.KhoiLuongTruocBoc} kg</p>
                             <p><strong>- KL phế:</strong> {klP} kg</p>
+                            <p><strong>- Tỷ lệ phế:</strong> {tyLePhe.ToString("0.00")} %</p>
                             <p><strong>- Người làm:</strong> {nguoiLam.Text}</p>
                             <p><strong>- Ghi chú:</strong> {ghiChu.Text}</p>
                         </div>";
 
-
-                        //await SendEmailHelper.SendEmail(recipients, nd);
-                         // [CHANGE] GỬI EMAIL CHẠY NỀN (FIRE-AND-FORGET) + DÙNG BCC
                         _ = Task.Run(() => SendEmailHelper.SendEmail(recipients, nd, useBcc: true));
                     }
 
