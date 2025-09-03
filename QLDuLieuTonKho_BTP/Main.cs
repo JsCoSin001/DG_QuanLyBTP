@@ -16,8 +16,7 @@ namespace QLDuLieuTonKho_BTP
     public partial class Main : Form
     {
         private string _url;
-
-        private string _ver = "01.07";
+        private string _ver = "01.08";      // Thêm gửi email
         private string _sign;
         private string _pdfInstruction = Path.Combine(Application.StartupPath, "Data");
 

@@ -24,6 +24,7 @@ namespace QLDuLieuTonKho_BTP
     {
         private string _titleForm;
 
+
         public event Action<DataTable> OnDataReady;
 
         public string TypeOfProduct { get; set; }
@@ -111,9 +112,7 @@ namespace QLDuLieuTonKho_BTP
                     NguoiLam = nguoiLam.Text,
                     SoMay = may.Text,
                     GhiChu = ghiChu.Text,
-                };
-
-                
+                };                                
 
                 int sttBen = (int)stt.Value;
 

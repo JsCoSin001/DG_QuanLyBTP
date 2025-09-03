@@ -28,6 +28,8 @@ namespace QLDuLieuTonKho_BTP
         //private string[] _dsMay;
         private string _callTimer;
 
+        // Đơn vị kg
+        private decimal _litmitTrash = 5;
         public event Action<DataTable> OnDataReady;
         private static readonly string _quyenMaster = Properties.Settings.Default.UserPass;
 
@@ -73,124 +75,168 @@ namespace QLDuLieuTonKho_BTP
         public string TypeOfProduct { get; set; }
         public string TenCongDoan { get; set; }
 
-        private void tbLuu_Click(object sender, EventArgs e)
+        private async void tbLuu_Click(object sender, EventArgs e)
         {
-            string maBin = lot.Text;
-            int maID = (int)idTenSP.Value;
-            decimal klTB = (decimal)klTruocBoc.Value;
-            decimal klCL = (decimal)klConLai.Value;
-            decimal klP = (decimal)klPhe.Value;
-            decimal cd = (decimal)chieuDai.Value;
-            string tenCongDoan = congDoan.Text;
-            int id_cd_ben = (int)idBen.Value;
-
-            string error = "";
-
-            if (maBin == "" || tenCongDoan == "")
-            {
-                error = "Kiểm tra lại dữ liệu tại:\nMã Hành Trình \nSTT Công Đoạn \nSTT Bin \nSố Bin";
-
-                MessageBox.Show(error, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
-            }
-
-            if (maID == 0)
-            {
-                error = "Tên Sản Phẩm chưa được chọn ";
-                MessageBox.Show(error, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
-            }
-
-            if (klTB == 0)
-            {
-                error = "Lot không tồn tại hoặc đã hết";
-                MessageBox.Show(error, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
-            }
-
-            if (klTB < klCL  + klP)
-            {
-                error = "Kiểm tra lại Khối Lượng Phế hoặc Khối Lượng Còn Lại";
-                MessageBox.Show(error, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
-            }
-
-            if (id_cd_ben == 0)
-            {
-                error = "Dữ liệu bất thường. Hãy kiểm tra và nhập lại";
-                MessageBox.Show(error, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
-            }
-
             try
             {
-                // Biến chứa dữ liệu up mới vào tồn kho
-                TonKho tonKhoMoi = new TonKho
-                {
-                    Lot = Helper.GenerateRandomString(congDoan.SelectedValue.ToString()),
-                    MaSP_ID = maID,
-                    KhoiLuongDauVao = klTB,
-                    KhoiLuongConLai = klTB,
-                    //HanNoi = 0,
-                    ChieuDai = cd
-                };
+                tbLuu.Enabled = false;
+                string maBin = lot.Text;
+                int maID = (int)idTenSP.Value;
+                decimal klTB = (decimal)klTruocBoc.Value;
+                decimal klCL = (decimal)klConLai.Value;
+                decimal klP = (decimal)klPhe.Value;
+                decimal cd = (decimal)chieuDai.Value;
+                string tenCongDoan = congDoan.Text;
+                int id_cd_ben = (int)idBen.Value;
 
-                DL_CD_Boc dL_CD_Boc = new DL_CD_Boc
-                {
-                    Ngay = Helper.GetNgayHienTai(), 
-                    Ca = ca.Text,
-                    KhoiLuongTruocBoc = klTB,
-                    KhoiLuongConLai = klCL,
-                    KhoiLuongPhe = klPhe.Value,
-                    NguoiLam = nguoiLam.Text,
-                    SoMay = maySX.Text,
-                    TenCongDoan = tenCongDoan,
-                    GhiChu = ghiChu.Text,
-                    MaSP_ID = (int)idTenSP.Value,
-                    CD_Ben_ID = (int)idBen.Value
-                };
+                string error = "";
 
-                var validationResults = ValidateInput.ValidateModel(dL_CD_Boc);
-
-                if (validationResults.Count != 0)
+                if (maBin == "" || tenCongDoan == "")
                 {
-                    string errorMessage = string.Join("\n", validationResults.ConvertAll(r => r.ErrorMessage));
-                    MessageBox.Show("Lỗi nhập liệu:\n" + errorMessage, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    error = "Kiểm tra lại dữ liệu tại:\nMã Hành Trình \nSTT Công Đoạn \nSTT Bin \nSố Bin";
+
+                    MessageBox.Show(error, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }
 
-                int sttB = (int)stt.Value;
-                Boolean result = false;
-
-                if (sttB == 0)
+                if (maID == 0)
                 {
+                    error = "Tên Sản Phẩm chưa được chọn ";
+                    MessageBox.Show(error, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
 
-                    //Biến chứa dữ liệu update tồn kho
-                    TonKho tonKho_update = new TonKho
+                if (klTB == 0)
+                {
+                    error = "Lot không tồn tại hoặc đã hết";
+                    MessageBox.Show(error, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+
+                if (klTB < klCL + klP)
+                {
+                    error = "Kiểm tra lại Khối Lượng Phế hoặc Khối Lượng Còn Lại";
+                    MessageBox.Show(error, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+
+                if (id_cd_ben == 0)
+                {
+                    error = "Dữ liệu bất thường. Hãy kiểm tra và nhập lại";
+                    MessageBox.Show(error, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+
+                try
+                {
+                    // Biến chứa dữ liệu up mới vào tồn kho
+                    TonKho tonKhoMoi = new TonKho
                     {
-                        Lot = maBin,
-                        KhoiLuongConLai = klCL
+                        Lot = Helper.GenerateRandomString(congDoan.SelectedValue.ToString()),
+                        MaSP_ID = maID,
+                        KhoiLuongDauVao = klTB,
+                        KhoiLuongConLai = klTB,
+                        //HanNoi = 0,
+                        ChieuDai = cd
                     };
 
-                    // Thêm mới lot vào database công đoạn bọc
-                    result = DatabaseHelper.InsertSanPhamTonKhoDL<TonKho, DL_CD_Boc>(tonKhoMoi, dL_CD_Boc, "DL_CD_Boc");
+                    DL_CD_Boc dL_CD_Boc = new DL_CD_Boc
+                    {
+                        Ngay = Helper.GetNgayHienTai(),
+                        Ca = ca.Text,
+                        KhoiLuongTruocBoc = klTB,
+                        KhoiLuongConLai = klCL,
+                        KhoiLuongPhe = klPhe.Value,
+                        NguoiLam = nguoiLam.Text,
+                        SoMay = maySX.Text,
+                        TenCongDoan = tenCongDoan,
+                        GhiChu = ghiChu.Text,
+                        MaSP_ID = (int)idTenSP.Value,
+                        CD_Ben_ID = (int)idBen.Value
+                    };
 
-                    // Update số lượng tồn kho
-                    if (result) result = DatabaseHelper.UpdateTonKho_SLConLaiThucTe(tonKho_update);
+                    var validationResults = ValidateInput.ValidateModel(dL_CD_Boc);
+
+                    if (validationResults.Count != 0)
+                    {
+                        string errorMessage = string.Join("\n", validationResults.ConvertAll(r => r.ErrorMessage));
+                        MessageBox.Show("Lỗi nhập liệu:\n" + errorMessage, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return;
+                    }
+
+                    int sttB = (int)stt.Value;
+                    Boolean result = false;
+
+                    // Gửi email nếu khối lượng phế lớn
+                    if (Helper.needToSendEmail(dL_CD_Boc.KhoiLuongPhe, dL_CD_Boc.KhoiLuongTruocBoc))
+                    {
+                        var recipients = new List<string> {
+                                "cosin.js@gmail.com" ,
+                                "Trongsao2024@gmail.com",
+                                "quynhdg76@gmail.com",
+                                "thuantq@ngockhanh.vn",
+                                "thanhdu@donggiang.vn",
+                                "thangnguyencz@gmail.com",
+                                "thongtv@ngockhanh.vn",
+                                "sondv@donggiang.vn",
+                        };
+
+                        string nd =
+                        $@"
+                        <div style=""font-family:Segoe UI,Arial,sans-serif;font-size:14px;line-height:1.6;color:#111;"">
+                            <p>[Email tự động - Không trả lời email này]</p>
+                            <p><strong>- Ngày:</strong> {DateTime.Now:dd/MM/yyyy HH:mm}</p>
+                            <p><strong>- Công đoạn:</strong> {tenCongDoan}</p>
+                            <p><strong>- Lot bện:</strong> {maBin}</p>
+                            <p><strong>- Mã SP:</strong> {maSP.Text}</p>
+                            <p><strong>- Tên SP:</strong> {tenSP.Text}</p>
+                            <p><strong>- Lot {tenCongDoan}:</strong> {tonKhoMoi.Lot}</p>
+                            <p><strong>- KL phế:</strong> {klP} kg</p>
+                            <p><strong>- Người làm:</strong> {nguoiLam.Text}</p>
+                            <p><strong>- Ghi chú:</strong> {ghiChu.Text}</p>
+                        </div>";
+
+
+                        //await SendEmailHelper.SendEmail(recipients, nd);
+                         // [CHANGE] GỬI EMAIL CHẠY NỀN (FIRE-AND-FORGET) + DÙNG BCC
+                        _ = Task.Run(() => SendEmailHelper.SendEmail(recipients, nd, useBcc: true));
+                    }
+
+
+                    if (sttB == 0)
+                    {
+
+                        //Biến chứa dữ liệu update tồn kho
+                        TonKho tonKho_update = new TonKho
+                        {
+                            Lot = maBin,
+                            KhoiLuongConLai = klCL
+                        };
+
+                        // Thêm mới lot vào database công đoạn bọc
+                        result = DatabaseHelper.InsertSanPhamTonKhoDL<TonKho, DL_CD_Boc>(tonKhoMoi, dL_CD_Boc, "DL_CD_Boc");
+
+                        // Update số lượng tồn kho
+                        if (result) result = DatabaseHelper.UpdateTonKho_SLConLaiThucTe(tonKho_update);
+                    }
+                    else
+                    {
+                        dL_CD_Boc.GhiChu = dL_CD_Boc.GhiChu + "- Đã sửa";
+                        result = DatabaseHelper.UpdateDL_CDBoc(sttB, tonKhoMoi, dL_CD_Boc);
+                    }
+
+                    ResetAllController();
+                    if (result) MessageBox.Show("THAO TÁC THÀNH CÔNG", "THÔNG BÁO", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+
                 }
-                else
+                catch (Exception ex)
                 {
-                    dL_CD_Boc.GhiChu = dL_CD_Boc.GhiChu + "- Đã sửa";
-                    result = DatabaseHelper.UpdateDL_CDBoc(sttB, tonKhoMoi, dL_CD_Boc);
+                    MessageBox.Show("Lỗi: " + ex.Message, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
-
-                ResetAllController();
-                if (result) MessageBox.Show("THAO TÁC THÀNH CÔNG", "THÔNG BÁO", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-
             }
-            catch (Exception ex)
+            finally
             {
-                MessageBox.Show("Lỗi: " + ex.Message, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                tbLuu.Enabled = true;
             }
         }
 

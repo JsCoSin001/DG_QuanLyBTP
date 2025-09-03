@@ -11,11 +11,15 @@ using System.Data.Entity;
 using System.Data.SQLite;
 using System.Drawing;
 using System.Linq;
+using System.Net;
+using System.Net.Mail;
 using System.Net.NetworkInformation;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.ProgressBar;
 using ComboBox = System.Windows.Forms.ComboBox;
 using TextBox = System.Windows.Forms.TextBox;
 
@@ -56,7 +60,7 @@ namespace QLDuLieuTonKho_BTP
 
             return ngayHienTai.ToString("yyyy-MM-dd");
         }
-       
+
         public static string GenerateRandomString(string congDoan, int length = 5)
         {
             const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
@@ -66,7 +70,7 @@ namespace QLDuLieuTonKho_BTP
 
             return "Z_" + DateTime.Now.ToString("yyyy-MM-dd hh_mm") + "-" + congDoan + "-" + result;
         }
-         
+
         public static string GetURLDatabase()
         {
             string result = "";
@@ -132,7 +136,7 @@ namespace QLDuLieuTonKho_BTP
 
         public static string LOTGenerated(ComboBox may, NumericUpDown maHT, ComboBox sttCongDoan, NumericUpDown sttBin, NumericUpDown soBin)
         {
-            string lot = "";            
+            string lot = "";
 
             // Kiểm tra maHT có đủ 6 chữ số
             int maHTValue = (int)maHT.Value;
@@ -163,8 +167,8 @@ namespace QLDuLieuTonKho_BTP
 
             return lot;
         }
-                         
-        public static Uc_ShowData LoadUserControlsWithData<T>(Panel pnLeft,  Panel pnRight, out T leftControl,  Action<DataTable> onDataReadyCallback, params object[] constructorArgs) where T : UserControl, ICustomUserControl
+
+        public static Uc_ShowData LoadUserControlsWithData<T>(Panel pnLeft, Panel pnRight, out T leftControl, Action<DataTable> onDataReadyCallback, params object[] constructorArgs) where T : UserControl, ICustomUserControl
         {
             leftControl = (T)Activator.CreateInstance(typeof(T), constructorArgs);
             var rightControl = new Uc_ShowData();
@@ -209,12 +213,12 @@ namespace QLDuLieuTonKho_BTP
         public static void UpdatePassApp(string tb)
         {
             string[] parts = tb.Split('|');
-            
+
             if (parts.Count() == 2 && parts[0] == "Change")
                 Properties.Settings.Default.PassApp = parts[1].Trim();
             else
                 Properties.Settings.Default.UserPass = tb;
-                
+
             Properties.Settings.Default.Save();
             // Khởi động lại ứng dụng
             Application.Restart();
@@ -237,16 +241,45 @@ namespace QLDuLieuTonKho_BTP
             }
         }
 
+        /* Tỷ lệ phế liệu đồng cả tổ bọc mục tiêu <= 0.7 % : type= "dong",
+        Tỷ lệ phế liệu cả tổ bọc nhựa mục tiêu  <= 1.5 % : type = "nhua".
+        Tính chung cả đồng và nhựa tạm tính 1.1 % : type = "tong"
+        */
+        public static bool needToSendEmail(decimal klPhe, decimal klDauVao,string type="dong")
+        {
+            if (klDauVao <= 0) return false;
 
-        #region // In Tem với kích thước 80mm - Thực tế 76mm      
+            bool result = false;
+            decimal tyLePhe = klPhe/klDauVao;
+
+            switch (type)
+            {
+                case "dong":
+                    if (tyLePhe > 0.007m)
+                        result = true;
+                    break;
+                case "nhua":
+                    if (tyLePhe > 0.015m)
+                        result = true;
+                    break;
+                default:
+                    if (tyLePhe > 0.011m)
+                        result = true;
+                    break;
+            }
+
+            return result;
+        }
+
+        #region In Tem với kích thước 80mm - Thực tế 76mm      
         public static string CreateContentLabel(TemSP temSP)
         {
             var space = new Dictionary<string, string>
             {
-                ["dong1"] = new string(' ',10),
-                ["dong2"] = new string(' ',10),
-                ["dong3"] = new string(' ',10),
-                ["dong4"] = new string(' ',10),
+                ["dong1"] = new string(' ', 10),
+                ["dong2"] = new string(' ', 10),
+                ["dong3"] = new string(' ', 10),
+                ["dong4"] = new string(' ', 10),
             };
 
             int tongKiTu = 48;
@@ -254,13 +287,13 @@ namespace QLDuLieuTonKho_BTP
             string content = "PHIẾU QUẢN LÝ SẢN PHẨM" + space["dong1"] + "BQ-ISO-09-08" + "\n\n";
             content += new string('-', tongKiTu) + "\n";
             content += "Ngày SX: " + temSP.NgaySX + space["dong2"] + "Ca: " + temSP.ca + "\n";
-            content +=  "Số lượng: " + temSP.SoLuong + "(m) "+ space["dong3"] + " - " + space["dong3"]+ temSP.KhoiLuong + "(Kg)" + "\n";
+            content += "Số lượng: " + temSP.SoLuong + "(m) " + space["dong3"] + " - " + space["dong3"] + temSP.KhoiLuong + "(Kg)" + "\n";
             content += "Màu SP: " + temSP.MauSP + "\n";
             content += "Mã SP: " + temSP.SoHanhTrinh + "\n";
             content += "Quy cách: " + temSP.QuyCach + "\n";
             content += "Đánh giá Chất lượng: " + temSP.DanhGiaChatLuong + "\n";
             content += "CN vận hành: " + temSP.TenCongNhan + "\n";
-            content += "Nội dung lưu ý" +"\n";
+            content += "Nội dung lưu ý" + "\n";
             content += temSP.GhiChu + "\n";
             content += "QR Code: " + space["dong4"] + "KCS\n";
 
@@ -291,7 +324,6 @@ namespace QLDuLieuTonKho_BTP
                 p.Cut();
             }
         }
-
         #endregion
 
     }

@@ -137,7 +137,9 @@
   <ItemGroup>
     <Compile Include="Data\EscPosPrinter.cs" />
     <Compile Include="Data\QrHelper.cs" />
+    <Compile Include="Data\SendEmailHelper.cs" />
     <Compile Include="Models\TemSP.cs" />
+    <Compile Include="SmtpSecrets.cs" />
     <Compile Include="Uc_HomePage.cs">
       <SubType>UserControl</SubType>
     </Compile>
