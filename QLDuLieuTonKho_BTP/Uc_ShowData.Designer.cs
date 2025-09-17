@@ -56,6 +56,7 @@
             this.grDataViewer.Dock = System.Windows.Forms.DockStyle.Fill;
             this.grDataViewer.Location = new System.Drawing.Point(10, 25);
             this.grDataViewer.Name = "grDataViewer";
+            this.grDataViewer.ReadOnly = true;
             this.grDataViewer.Size = new System.Drawing.Size(372, 597);
             this.grDataViewer.TabIndex = 0;
             // 

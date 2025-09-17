@@ -265,6 +265,7 @@ namespace QLDuLieuTonKho_BTP
 
         private void btnGop_Click(object sender, EventArgs e)
         {
+            // Lấy danh sách ID từ DataGridView
             var ids = dgDsLot.Rows
                .Cast<DataGridViewRow>()
                .Where(r => !r.IsNewRow && r.Cells["ID"].Value != null)
@@ -283,9 +284,15 @@ namespace QLDuLieuTonKho_BTP
                 return;
             }
 
-            if(nmKLSP.Value == 0)
+            if (nmKLSP.Value == 0)
             {
                 MessageBox.Show("Khối lượng sản phẩm không hợp lệ.", "THÔNG BÁO", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            if (tbNguoiLam.Text == "")
+            {
+                MessageBox.Show("Người làm không được trống.", "THÔNG BÁO", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
@@ -297,31 +304,19 @@ namespace QLDuLieuTonKho_BTP
                 KhoiLuongConLai = nmKLSP.Value,
                 KhoiLuongDauVao = nmKLSP.Value,
                 HanNoi = 0,
-                ChieuDai = 0
+                ChieuDai = nbChieuDai.Value,
             };
 
             DL_CD_Ben dL_CD_Ben = new DL_CD_Ben
             {
                 Ngay = Helper.GetNgayHienTai(),
                 Ca = GetShiftValue(),
-                NguoiLam = "Hàn nối",
+                NguoiLam = tbNguoiLam.Text,
                 SoMay = "Hàn nối",
                 GhiChu = "Hàn nối",
             };
 
-            //DL_CD_Boc hanNoiNew = new DL_CD_Boc
-            //{
-            //    Ngay = DateTime.Now.ToString("yyyy-MM-dd"),
-            //    Ca = "Hàn nối",
-            //    NguoiLam = "Hàn nối",
-            //    SoMay = "Hàn nối",
-            //    MaSP_ID = Convert.ToInt32(nmIDTenSP.Value),
-            //    KhoiLuongTruocBoc = nmKLSP.Value,
-            //    TenCongDoan = "Hàn nối",
-            //    DateInsert = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")
-            //};
-
-            bool isUpdateSuccess = DatabaseHelper.InsertVaUpdateTonKho_HanNoi(tonKhoNew, dL_CD_Ben, ids);
+            bool isUpdateSuccess = DatabaseHelper.InsertVaUpdateTonKho_GopLot(tonKhoNew, dL_CD_Ben, ids);
 
             if (isUpdateSuccess)
             {

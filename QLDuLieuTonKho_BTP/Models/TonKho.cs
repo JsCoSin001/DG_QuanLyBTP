@@ -9,6 +9,8 @@ namespace QLDuLieuTonKho_BTP.Models
 {
     public class TonKho
     {
+        [AutoIncrement]
+        public int ID { get; set; }
         public string Lot { get; set; }
         public int MaSP_ID { get; set; }
         public decimal KhoiLuongDauVao { get; set; }

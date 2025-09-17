@@ -16,7 +16,7 @@ namespace QLDuLieuTonKho_BTP
     public partial class Main : Form
     {
         private string _url;
-        private string _ver = "01.08";      // Thêm gửi email
+        private string _ver = "2.02";
         private string _sign;
         private string _pdfInstruction = Path.Combine(Application.StartupPath, "Data");
 
@@ -24,7 +24,7 @@ namespace QLDuLieuTonKho_BTP
         public Main()
         {
             InitializeComponent();
-            _sign = "Made by Linh - v" + _ver + ".2025 @";
+            _sign = "Made by Linh - v" + _ver + ".2025@";
             ShowHomePage();
         }
 
@@ -133,17 +133,17 @@ namespace QLDuLieuTonKho_BTP
 
             string tenCongDoan = "mica";
 
-            ucShowData = Helper.LoadUserControlsWithData<Uc_Boc>(
+            ucShowData = Helper.LoadUserControlsWithData<Uc_Mica>(
                 pnLeft,
                 pnRight,
-                out var ucBoc,
+                out var uc_Mica,
                 dt => ucShowData.SetData(dt),
                 _url, dsMay, tenCongDoan
             );
-            ucBoc.LoadDanhSachMay(dsMay);
-            ucBoc.TypeOfProduct = "BTP";
+            uc_Mica.LoadDanhSachMay(dsMay);
+            uc_Mica.TypeOfProduct = "BTP";
 
-            ucBoc.UcShowDataInstance = ucShowData;
+            uc_Mica.UcShowDataInstance = ucShowData;
             string filePath = Path.Combine(_pdfInstruction, "02 HD_BOC.pdf");
             ucShowData.LoadPdf(filePath);
 

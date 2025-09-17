@@ -125,7 +125,7 @@ namespace QLDuLieuTonKho_BTP.Data
             }
         }
 
-        public static bool InsertVaUpdateTonKho_HanNoi(TonKho tonKhoNew, DL_CD_Ben hanNoiNew, IEnumerable<long> ids)
+        public static bool InsertVaUpdateTonKho_GopLot(TonKho tonKhoNew, DL_CD_Ben hanNoiNew, IEnumerable<long> ids)
         {
             if (tonKhoNew == null) throw new ArgumentNullException(nameof(tonKhoNew));
             if (hanNoiNew == null) throw new ArgumentNullException(nameof(hanNoiNew));
@@ -159,7 +159,7 @@ namespace QLDuLieuTonKho_BTP.Data
                             cmd.ExecuteNonQuery();
                             newTonKhoId = conn.LastInsertRowId;
 
-                            // 2) Insert DL_CD_Boc
+                            // 2) Insert DL_CD_Ben
                             using (var cmd2 = new SQLiteCommand(@"
                                 INSERT INTO DL_CD_Ben
                                   (Ngay, Ca,TonKho_ID, NguoiLam, SoMay, GhiChu)
@@ -336,6 +336,114 @@ namespace QLDuLieuTonKho_BTP.Data
             return result;
         }
 
+        
+
+
+        public static bool UpdateKhoiLuongConLai<TTonKho, TDLCongDoan>(
+        TTonKho tonKho,
+        TDLCongDoan dlModel,
+        string dlTable,
+        IEnumerable<TonKho> tonKhoUpdates = null)
+        where TTonKho : class
+        where TDLCongDoan : class
+        {
+            if (tonKho == null) throw new ArgumentNullException(nameof(tonKho));
+            if (dlModel == null) throw new ArgumentNullException(nameof(dlModel));
+            if (string.IsNullOrWhiteSpace(dlTable)) throw new ArgumentNullException(nameof(dlTable));
+
+            using (var connection = new SQLiteConnection(connStr))
+            {
+                connection.Open();
+
+                using (var tran = connection.BeginTransaction())
+                {
+                    try
+                    {
+                        // 1) Insert TonKho
+                        InsertModelToDatabase(tonKho, "TonKho", connection, tran);
+
+                        // Lấy ID vừa insert
+                        int tonKho_ID = (int)(long)new SQLiteCommand("SELECT last_insert_rowid()", connection, tran)
+                            .ExecuteScalar();
+
+                        // 2) Gán TonKho_ID vào model DL (ưu tiên reflection an toàn)
+                        var prop = typeof(TDLCongDoan).GetProperty("TonKho_ID");
+                        if (prop != null && prop.CanWrite)
+                        {
+                            prop.SetValue(dlModel, tonKho_ID);
+                        }
+                        else
+                        {
+                            // fallback dynamic nếu class là Expando/dynamic
+                            try
+                            {
+                                dynamic d = dlModel;
+                                d.TonKho_ID = tonKho_ID;
+                            }
+                            catch (Microsoft.CSharp.RuntimeBinder.RuntimeBinderException)
+                            {
+                                throw new InvalidOperationException(
+                                    $"Model {typeof(TDLCongDoan).Name} không có thuộc tính TonKho_ID để gán khoá ngoại.");
+                            }
+                        }
+
+                        // 3) Insert bản ghi DL vào bảng được chỉ định
+                        InsertModelToDatabase(dlModel, dlTable, connection, tran);
+
+                        // 4) (Tuỳ chọn) Cập nhật KhoiLuongConLai cho danh sách TonKho khác
+                        if (tonKhoUpdates != null)
+                        {
+                            using (var cmd = new SQLiteCommand(
+                                "UPDATE TonKho SET KhoiLuongConLai = @KhoiLuongConLai, HanNoi = @HanNoi WHERE ID = @ID;", connection, tran))
+                            {
+                                var pValue = cmd.Parameters.Add("@KhoiLuongConLai", DbType.Decimal);
+                                var pId = cmd.Parameters.Add("@ID", DbType.Int32);
+                                var pHanNoi = cmd.Parameters.Add("@HanNoi", DbType.Int32);
+
+                                foreach (var item in tonKhoUpdates)
+                                {
+                                    if (item == null) continue;
+
+                                    pValue.Value = item.KhoiLuongConLai;
+                                    pId.Value = item.ID;
+                                    pHanNoi.Value = tonKho_ID; // giá trị lấy từ insert ở bước đầu
+
+                                    cmd.ExecuteNonQuery();
+                                }
+                            }
+                        }
+
+                        // 5) Commit tất cả
+                        tran.Commit();
+                        return true;
+                    }
+                    catch (SQLiteException ex)
+                    {
+                        tran.Rollback();
+                        if (ex.ResultCode == SQLiteErrorCode.Constraint && ex.Message.Contains("UNIQUE"))
+                        {
+                            MessageBox.Show("LOT vừa nhập đã tồn tại",
+                                            "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        }
+                        else
+                        {
+                            MessageBox.Show("Có lỗi khi lưu dữ liệu. Chi tiết: " + ex.Message,
+                                            "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        }
+                        return false;
+                    }
+                    catch (Exception ex)
+                    {
+                        tran.Rollback();
+                        MessageBox.Show("Có lỗi khi lưu dữ liệu. Chi tiết: " + ex.Message,
+                                        "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return false;
+                    }
+                }
+            }
+        }
+
+
         // Cập nhật một bảng với câu lệnh SQL và tham số
         public static bool UpdateATable(string sql, Dictionary<string, object> parameters)
         {
@@ -415,6 +523,122 @@ namespace QLDuLieuTonKho_BTP.Data
                 }
             }
         }
+
+        public static bool Update_Mica(
+            long sttB,
+            TonKho tonKhoMoi,
+            DL_CD_Boc dL_CD_Boc,
+            List<TonKho> tonKho_update)
+        {
+            try
+            {
+                using (var conn = new SQLiteConnection(connStr))
+                {
+                    conn.Open();
+                    using (var tran = conn.BeginTransaction())
+                    {
+                        // 1) Update TonKho(ID=sttB)
+                        using (var cmd1 = conn.CreateCommand())
+                        {
+                            cmd1.Transaction = tran;
+                            cmd1.CommandText = @"
+                        UPDATE TonKho
+                        SET KhoiLuongConLai = COALESCE(@klcl, KhoiLuongConLai),
+                            HanNoi          = @hanNoi,
+                            MaSP_ID         = COALESCE(@masp, MaSP_ID),
+                            ChieuDai        = COALESCE(@cd, ChieuDai),
+                            KhoiLuongDauVao = COALESCE(@kldv, KhoiLuongDauVao),
+                            Lot             = COALESCE(@lot, Lot)
+                        WHERE ID=@id;";
+                            cmd1.Parameters.AddWithValue("@klcl", tonKhoMoi.KhoiLuongConLai);
+                            cmd1.Parameters.AddWithValue("@hanNoi", 0);
+                            cmd1.Parameters.AddWithValue("@masp", tonKhoMoi.MaSP_ID);
+                            cmd1.Parameters.AddWithValue("@cd", tonKhoMoi.ChieuDai);
+                            cmd1.Parameters.AddWithValue("@kldv", tonKhoMoi.KhoiLuongDauVao);
+                            cmd1.Parameters.AddWithValue("@lot", tonKhoMoi.Lot);
+                            cmd1.Parameters.AddWithValue("@id", sttB);
+                            cmd1.ExecuteNonQuery();
+                        }
+
+                        // 2) Update DL_CD_Boc(TonKho_ID=sttB)
+                        using (var cmd2 = conn.CreateCommand())
+                        {
+                            cmd2.Transaction = tran;
+                            cmd2.CommandText = @"
+                        UPDATE DL_CD_Boc
+                        SET Ngay              = COALESCE(@Ngay, Ngay),
+                            Ca                = COALESCE(@Ca, Ca),
+                            KhoiLuongPhe      = COALESCE(@KLP, KhoiLuongPhe),
+                            NguoiLam          = COALESCE(@NL, NguoiLam),
+                            SoMay             = COALESCE(@SM, SoMay),
+                            GhiChu            = COALESCE(@GC, GhiChu),
+                            MaSP_ID           = COALESCE(@MaSP, MaSP_ID),
+                            CD_Ben_ID         = COALESCE(@CDB, CD_Ben_ID),
+                            KhoiLuongTruocBoc = COALESCE(@KLTB, KhoiLuongTruocBoc),
+                            KhoiLuongConLai   = COALESCE(@KLCLB, KhoiLuongConLai),
+                            TenCongDoan       = COALESCE(@TCD, TenCongDoan)
+                        WHERE TonKho_ID=@tkid;";
+                            cmd2.Parameters.AddWithValue("@Ngay", dL_CD_Boc.Ngay);
+                            cmd2.Parameters.AddWithValue("@Ca", dL_CD_Boc.Ca);
+                            cmd2.Parameters.AddWithValue("@KLP", dL_CD_Boc.KhoiLuongPhe);
+                            cmd2.Parameters.AddWithValue("@NL", dL_CD_Boc.NguoiLam);
+                            cmd2.Parameters.AddWithValue("@SM", dL_CD_Boc.SoMay);
+                            cmd2.Parameters.AddWithValue("@GC", dL_CD_Boc.GhiChu);
+                            cmd2.Parameters.AddWithValue("@MaSP", dL_CD_Boc.MaSP_ID);
+                            cmd2.Parameters.AddWithValue("@CDB", dL_CD_Boc.CD_Ben_ID);
+                            cmd2.Parameters.AddWithValue("@KLTB", dL_CD_Boc.KhoiLuongTruocBoc);
+                            cmd2.Parameters.AddWithValue("@KLCLB", dL_CD_Boc.KhoiLuongConLai);
+                            cmd2.Parameters.AddWithValue("@TCD", dL_CD_Boc.TenCongDoan);
+                            cmd2.Parameters.AddWithValue("@tkid", sttB);
+                            cmd2.ExecuteNonQuery();
+                        }
+
+                        // 3) Reset HanNoi cũ
+                        using (var cmd3 = conn.CreateCommand())
+                        {
+                            cmd3.Transaction = tran;
+                            cmd3.CommandText = "UPDATE TonKho SET HanNoi=NULL WHERE HanNoi=@sttB;";
+                            cmd3.Parameters.AddWithValue("@sttB", sttB);
+                            cmd3.ExecuteNonQuery();
+                        }
+
+                        // 4) Update danh sách TonKho_update
+                        if (tonKho_update != null && tonKho_update.Count > 0)
+                        {
+                            using (var cmd4 = conn.CreateCommand())
+                            {
+                                cmd4.Transaction = tran;
+                                cmd4.CommandText = @"
+                                    UPDATE TonKho
+                                    SET KhoiLuongConLai=@kl, HanNoi=@h
+                                    WHERE ID=@id;";
+                                var pKl = cmd4.Parameters.Add("@kl", DbType.Double);
+                                var pH = cmd4.Parameters.Add("@h", DbType.Int64);
+                                var pId = cmd4.Parameters.Add("@id", DbType.Int64);
+
+                                foreach (var item in tonKho_update)
+                                {
+                                    pKl.Value = item.KhoiLuongConLai;
+                                    pH.Value = sttB;
+                                    pId.Value = item.ID;
+                                    cmd4.ExecuteNonQuery();
+                                }
+                            }
+                        }
+
+                        tran.Commit();
+                    }
+                }
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+
+
 
         // =================================================================
 

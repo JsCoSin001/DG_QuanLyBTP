@@ -50,6 +50,20 @@ namespace QLDuLieuTonKho_BTP
 
             return "3";
         }
+              
+        public static List<string> GetDSNguoiNhan()
+        {
+            string query = "SELECT Ten FROM DanhSachNhanTBLoi WHERE Active = 1";
+            DataTable dt = DatabaseHelper.GetData(null, query, null);
+
+            List<string> recipients = new List<string>();
+            foreach (DataRow row in dt.Rows)
+            {
+                recipients.Add(row["Ten"].ToString());
+            }
+
+            return recipients;
+        }
 
         public static string GetNgayHienTai()
         {
@@ -245,12 +259,9 @@ namespace QLDuLieuTonKho_BTP
         Tỷ lệ phế liệu cả tổ bọc nhựa mục tiêu  <= 1.5 % : type = "nhua".
         Tính chung cả đồng và nhựa tạm tính 1.1 % : type = "tong"
         */
-        public static bool needToSendEmail(decimal klPhe, decimal klDauVao,string type="dong")
+        public static bool needToSendEmail(decimal tyLePhe, string type="dong")
         {
-            if (klDauVao <= 0) return false;
-
             bool result = false;
-            decimal tyLePhe = klPhe/klDauVao;
 
             switch (type)
             {
@@ -259,7 +270,7 @@ namespace QLDuLieuTonKho_BTP
                         result = true;
                     break;
                 case "nhua":
-                    if (tyLePhe > 0.015m)
+                    if (tyLePhe > 0.025m)
                         result = true;
                     break;
                 default:
@@ -271,7 +282,7 @@ namespace QLDuLieuTonKho_BTP
             return result;
         }
 
-        #region In Tem với kích thước 80mm - Thực tế 76mm      
+        #region C1 In Tem với kích thước 80mm - Thực tế 76mm      
         public static string CreateContentLabel(TemSP temSP)
         {
             var space = new Dictionary<string, string>

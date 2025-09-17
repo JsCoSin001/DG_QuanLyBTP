@@ -29,7 +29,6 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            this.label1 = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
             this.label2 = new System.Windows.Forms.Label();
@@ -60,7 +59,6 @@
             this.flowLayoutPanel6 = new System.Windows.Forms.FlowLayoutPanel();
             this.label6 = new System.Windows.Forms.Label();
             this.lblTenSP = new System.Windows.Forms.Label();
-            this.pnPhanCach = new System.Windows.Forms.Panel();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.flowLayoutPanel5 = new System.Windows.Forms.FlowLayoutPanel();
             this.btnGop = new System.Windows.Forms.Button();
@@ -71,6 +69,12 @@
             this.dgDsLot = new System.Windows.Forms.DataGridView();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.lblHuongDan = new System.Windows.Forms.Label();
+            this.label1 = new System.Windows.Forms.Label();
+            this.flowLayoutPanel8 = new System.Windows.Forms.FlowLayoutPanel();
+            this.label9 = new System.Windows.Forms.Label();
+            this.tbNguoiLam = new System.Windows.Forms.TextBox();
+            this.label10 = new System.Windows.Forms.Label();
+            this.nbChieuDai = new System.Windows.Forms.NumericUpDown();
             this.groupBox1.SuspendLayout();
             this.flowLayoutPanel1.SuspendLayout();
             this.flowLayoutPanel2.SuspendLayout();
@@ -87,19 +91,9 @@
             this.groupBox2.SuspendLayout();
             this.flowLayoutPanel5.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgDsLot)).BeginInit();
+            this.flowLayoutPanel8.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.nbChieuDai)).BeginInit();
             this.SuspendLayout();
-            // 
-            // label1
-            // 
-            this.label1.Dock = System.Windows.Forms.DockStyle.Top;
-            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(0, 0);
-            this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(689, 34);
-            this.label1.TabIndex = 0;
-            this.label1.Text = "BÁO CÁO HÀN NỐI";
-            this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // groupBox1
             // 
@@ -108,8 +102,8 @@
             this.groupBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.groupBox1.Location = new System.Drawing.Point(0, 34);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Padding = new System.Windows.Forms.Padding(5, 10, 3, 10);
-            this.groupBox1.Size = new System.Drawing.Size(689, 329);
+            this.groupBox1.Padding = new System.Windows.Forms.Padding(5, 10, 3, 3);
+            this.groupBox1.Size = new System.Drawing.Size(689, 370);
             this.groupBox1.TabIndex = 1;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Bảng nhập liệu";
@@ -119,6 +113,7 @@
             this.flowLayoutPanel1.Controls.Add(this.label2);
             this.flowLayoutPanel1.Controls.Add(this.flowLayoutPanel2);
             this.flowLayoutPanel1.Controls.Add(this.flowLayoutPanel7);
+            this.flowLayoutPanel1.Controls.Add(this.flowLayoutPanel8);
             this.flowLayoutPanel1.Controls.Add(this.flowLayoutPanel4);
             this.flowLayoutPanel1.Controls.Add(this.flowLayoutPanel3);
             this.flowLayoutPanel1.Controls.Add(this.flowLayoutPanel6);
@@ -126,7 +121,7 @@
             this.flowLayoutPanel1.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
             this.flowLayoutPanel1.Location = new System.Drawing.Point(5, 27);
             this.flowLayoutPanel1.Name = "flowLayoutPanel1";
-            this.flowLayoutPanel1.Size = new System.Drawing.Size(681, 295);
+            this.flowLayoutPanel1.Size = new System.Drawing.Size(681, 329);
             this.flowLayoutPanel1.TabIndex = 0;
             // 
             // label2
@@ -341,7 +336,7 @@
             this.flowLayoutPanel4.Controls.Add(this.cbTenSP);
             this.flowLayoutPanel4.Controls.Add(this.label11);
             this.flowLayoutPanel4.Controls.Add(this.nmKLSP);
-            this.flowLayoutPanel4.Location = new System.Drawing.Point(3, 125);
+            this.flowLayoutPanel4.Location = new System.Drawing.Point(3, 166);
             this.flowLayoutPanel4.Name = "flowLayoutPanel4";
             this.flowLayoutPanel4.Size = new System.Drawing.Size(668, 49);
             this.flowLayoutPanel4.TabIndex = 27;
@@ -405,7 +400,7 @@
             this.flowLayoutPanel3.Controls.Add(this.cbLot);
             this.flowLayoutPanel3.Controls.Add(this.label5);
             this.flowLayoutPanel3.Controls.Add(this.nmKl);
-            this.flowLayoutPanel3.Location = new System.Drawing.Point(3, 180);
+            this.flowLayoutPanel3.Location = new System.Drawing.Point(3, 221);
             this.flowLayoutPanel3.Name = "flowLayoutPanel3";
             this.flowLayoutPanel3.Size = new System.Drawing.Size(668, 51);
             this.flowLayoutPanel3.TabIndex = 6;
@@ -428,7 +423,7 @@
             this.cbLot.Location = new System.Drawing.Point(115, 10);
             this.cbLot.Margin = new System.Windows.Forms.Padding(3, 10, 3, 7);
             this.cbLot.Name = "cbLot";
-            this.cbLot.Size = new System.Drawing.Size(331, 28);
+            this.cbLot.Size = new System.Drawing.Size(327, 28);
             this.cbLot.TabIndex = 9;
             this.cbLot.TextUpdate += new System.EventHandler(this.cbLot_TextUpdate);
             // 
@@ -436,7 +431,7 @@
             // 
             this.label5.AutoSize = true;
             this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label5.Location = new System.Drawing.Point(452, 15);
+            this.label5.Location = new System.Drawing.Point(448, 15);
             this.label5.Margin = new System.Windows.Forms.Padding(3, 15, 3, 7);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(78, 18);
@@ -448,7 +443,7 @@
             this.nmKl.DecimalPlaces = 1;
             this.nmKl.Enabled = false;
             this.nmKl.Font = new System.Drawing.Font("Microsoft Sans Serif", 12.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.nmKl.Location = new System.Drawing.Point(536, 10);
+            this.nmKl.Location = new System.Drawing.Point(532, 10);
             this.nmKl.Margin = new System.Windows.Forms.Padding(3, 10, 3, 7);
             this.nmKl.Maximum = new decimal(new int[] {
             -159383553,
@@ -456,14 +451,14 @@
             5421,
             0});
             this.nmKl.Name = "nmKl";
-            this.nmKl.Size = new System.Drawing.Size(120, 27);
+            this.nmKl.Size = new System.Drawing.Size(124, 27);
             this.nmKl.TabIndex = 10;
             // 
             // flowLayoutPanel6
             // 
             this.flowLayoutPanel6.Controls.Add(this.label6);
             this.flowLayoutPanel6.Controls.Add(this.lblTenSP);
-            this.flowLayoutPanel6.Location = new System.Drawing.Point(3, 237);
+            this.flowLayoutPanel6.Location = new System.Drawing.Point(3, 278);
             this.flowLayoutPanel6.Name = "flowLayoutPanel6";
             this.flowLayoutPanel6.Size = new System.Drawing.Size(668, 37);
             this.flowLayoutPanel6.TabIndex = 27;
@@ -489,14 +484,6 @@
             this.lblTenSP.TabIndex = 24;
             this.lblTenSP.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
-            // pnPhanCach
-            // 
-            this.pnPhanCach.Dock = System.Windows.Forms.DockStyle.Top;
-            this.pnPhanCach.Location = new System.Drawing.Point(0, 363);
-            this.pnPhanCach.Name = "pnPhanCach";
-            this.pnPhanCach.Size = new System.Drawing.Size(689, 14);
-            this.pnPhanCach.TabIndex = 3;
-            // 
             // groupBox2
             // 
             this.groupBox2.Controls.Add(this.flowLayoutPanel5);
@@ -504,7 +491,7 @@
             this.groupBox2.Controls.Add(this.dgDsLot);
             this.groupBox2.Dock = System.Windows.Forms.DockStyle.Top;
             this.groupBox2.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.groupBox2.Location = new System.Drawing.Point(0, 377);
+            this.groupBox2.Location = new System.Drawing.Point(0, 404);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Padding = new System.Windows.Forms.Padding(10);
             this.groupBox2.Size = new System.Drawing.Size(689, 515);
@@ -604,7 +591,7 @@
             this.lblHuongDan.AutoSize = true;
             this.lblHuongDan.Dock = System.Windows.Forms.DockStyle.Right;
             this.lblHuongDan.Font = new System.Drawing.Font("Tahoma", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblHuongDan.Location = new System.Drawing.Point(572, 892);
+            this.lblHuongDan.Location = new System.Drawing.Point(572, 919);
             this.lblHuongDan.Name = "lblHuongDan";
             this.lblHuongDan.Padding = new System.Windows.Forms.Padding(0, 10, 0, 0);
             this.lblHuongDan.Size = new System.Drawing.Size(117, 28);
@@ -613,6 +600,69 @@
             this.lblHuongDan.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.lblHuongDan.Click += new System.EventHandler(this.lblHuongDan_Click);
             // 
+            // label1
+            // 
+            this.label1.Dock = System.Windows.Forms.DockStyle.Top;
+            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.Location = new System.Drawing.Point(0, 0);
+            this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(689, 34);
+            this.label1.TabIndex = 0;
+            this.label1.Text = "BÁO CÁO HÀN NỐI";
+            this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // flowLayoutPanel8
+            // 
+            this.flowLayoutPanel8.Controls.Add(this.label9);
+            this.flowLayoutPanel8.Controls.Add(this.tbNguoiLam);
+            this.flowLayoutPanel8.Controls.Add(this.label10);
+            this.flowLayoutPanel8.Controls.Add(this.nbChieuDai);
+            this.flowLayoutPanel8.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.flowLayoutPanel8.Location = new System.Drawing.Point(3, 125);
+            this.flowLayoutPanel8.Name = "flowLayoutPanel8";
+            this.flowLayoutPanel8.Size = new System.Drawing.Size(668, 35);
+            this.flowLayoutPanel8.TabIndex = 36;
+            // 
+            // label9
+            // 
+            this.label9.Location = new System.Drawing.Point(3, 0);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(102, 35);
+            this.label9.TabIndex = 0;
+            this.label9.Text = "Người làm";
+            this.label9.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // tbNguoiLam
+            // 
+            this.tbNguoiLam.Font = new System.Drawing.Font("Microsoft Sans Serif", 12.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.tbNguoiLam.Location = new System.Drawing.Point(111, 3);
+            this.tbNguoiLam.Name = "tbNguoiLam";
+            this.tbNguoiLam.Size = new System.Drawing.Size(327, 27);
+            this.tbNguoiLam.TabIndex = 1;
+            // 
+            // label10
+            // 
+            this.label10.Location = new System.Drawing.Point(444, 0);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(78, 35);
+            this.label10.TabIndex = 2;
+            this.label10.Text = "Chiều dài";
+            this.label10.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // nbChieuDai
+            // 
+            this.nbChieuDai.Font = new System.Drawing.Font("Microsoft Sans Serif", 12.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.nbChieuDai.Location = new System.Drawing.Point(528, 3);
+            this.nbChieuDai.Maximum = new decimal(new int[] {
+            1661992959,
+            1808227885,
+            5,
+            0});
+            this.nbChieuDai.Name = "nbChieuDai";
+            this.nbChieuDai.Size = new System.Drawing.Size(124, 27);
+            this.nbChieuDai.TabIndex = 6;
+            // 
             // Uc_HanNoi
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 18F);
@@ -620,7 +670,6 @@
             this.AutoScroll = true;
             this.Controls.Add(this.lblHuongDan);
             this.Controls.Add(this.groupBox2);
-            this.Controls.Add(this.pnPhanCach);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.label1);
             this.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -649,14 +698,15 @@
             this.flowLayoutPanel5.ResumeLayout(false);
             this.flowLayoutPanel5.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgDsLot)).EndInit();
+            this.flowLayoutPanel8.ResumeLayout(false);
+            this.flowLayoutPanel8.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.nbChieuDai)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
         }
 
         #endregion
-
-        private System.Windows.Forms.Label label1;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel1;
         private System.Windows.Forms.Label label2;
@@ -682,7 +732,6 @@
         private System.Windows.Forms.Button btnGop;
         private System.Windows.Forms.Button btnCancel;
         private System.Windows.Forms.DataGridView dgDsLot;
-        private System.Windows.Forms.Panel pnPhanCach;
         private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel5;
         private System.Windows.Forms.Label lblTenSP;
         private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel4;
@@ -698,5 +747,11 @@
         private System.Windows.Forms.Button btnDsGopBin;
         private System.Windows.Forms.CheckBox cbXuatExcel;
         private System.Windows.Forms.Label lblHuongDan;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel8;
+        private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.TextBox tbNguoiLam;
+        private System.Windows.Forms.Label label10;
+        private System.Windows.Forms.NumericUpDown nbChieuDai;
     }
 }
