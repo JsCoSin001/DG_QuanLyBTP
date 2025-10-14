@@ -272,6 +272,12 @@ namespace QLDuLieuTonKho_BTP
                .Select(r => Convert.ToInt64(r.Cells["ID"].Value))
                .ToList();
 
+            var tongKL = dgDsLot.Rows
+                .Cast<DataGridViewRow>()
+                .Where(r => !r.IsNewRow && r.Cells["kl"].Value != null)
+                .Sum(r => Convert.ToDecimal(r.Cells["kl"].Value));
+
+
             if (lblLot.Text == "")
             {
                 MessageBox.Show("LOT chưa hợp lệ.", "THÔNG BÁO", MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -314,6 +320,7 @@ namespace QLDuLieuTonKho_BTP
                 NguoiLam = tbNguoiLam.Text,
                 SoMay = "Hàn nối",
                 GhiChu = "Hàn nối",
+                KLHanNoi = tongKL,
             };
 
             bool isUpdateSuccess = DatabaseHelper.InsertVaUpdateTonKho_GopLot(tonKhoNew, dL_CD_Ben, ids);
@@ -331,6 +338,8 @@ namespace QLDuLieuTonKho_BTP
 
         private void ResetAllController()
         {
+            tbNguoiLam.Text = "";
+            nbChieuDai.Value = 0;
             may.SelectedIndex = -1;
             maHT.Value = 0;
             STTCD.SelectedIndex = -1;
@@ -362,10 +371,8 @@ namespace QLDuLieuTonKho_BTP
                 spp.Ten                     AS TenSP_HienTai,   
                 child.ID                    AS ID_HanNoi,
                 child.Lot 					AS Lot_HanNoi, 
-                sp.Ten                      AS Ten_HanNoi,     
-                child.KhoiLuongDauVao 		AS KL_HanNoi,
-                child.ChieuDai,
-                boc.Ngay                    AS NgayHanNoi
+                sp.Ten                      AS Ten_HanNoi,   
+                child.ChieuDai
             FROM TonKho AS child
             JOIN TonKho AS parent
                 ON parent.ID = child.HanNoi
@@ -380,7 +387,7 @@ namespace QLDuLieuTonKho_BTP
             ) AS boc
                 ON boc.TonKho_ID = child.ID
             WHERE child.HanNoi <> 0
-            ORDER BY parent.ID, child.ID;
+            ORDER BY parent.ID  DESC, child.ID;
             ";
 
             DataTable table = DatabaseHelper.GetDataFromSQL(query);

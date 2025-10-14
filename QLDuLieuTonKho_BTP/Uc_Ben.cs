@@ -23,6 +23,7 @@ namespace QLDuLieuTonKho_BTP
     public partial class Uc_Ben : UserControl, ICustomUserControl
     {
         private string _titleForm;
+        private string _dsMaSPQuery;
 
 
         public event Action<DataTable> OnDataReady;
@@ -57,6 +58,8 @@ namespace QLDuLieuTonKho_BTP
 
             ngay.Value = DateTime.Parse(Helper.GetNgayHienTai());
             ca.Text = Helper.GetShiftValue();
+
+            _dsMaSPQuery = DatabaseHelper.GetKieuDL_ByTenCD("BenRut");
         }
 
         public Uc_Ben() 
@@ -126,9 +129,10 @@ namespace QLDuLieuTonKho_BTP
                         MessageBox.Show("Lỗi nhập liệu:\n" + errorMessage, "THÔNG BÁO", MessageBoxButtons.OK, MessageBoxIcon.Error);
                         return;
                     }
-                    result = DatabaseHelper.InsertSanPhamTonKhoDL<TonKho, DL_CD_Ben>(tonKho, dL_CD_Ben, "dL_CD_Ben");
+                    result = DatabaseHelper.InsertSanPhamTonKhoDL<TonKho, DL_CD_Ben>(tonKho, dL_CD_Ben, "dL_CD_Ben") > 0;
                 }                   
                 else
+
                 {
                     dL_CD_Ben.GhiChu = dL_CD_Ben.GhiChu + "- Đã sửa";
                     result = DatabaseHelper.UpdateDL_CDBen(sttBen, tonKho, dL_CD_Ben);
@@ -200,12 +204,10 @@ namespace QLDuLieuTonKho_BTP
             }
             string para = "search";
 
-
             string query = "SELECT ID, Ma, Ten FROM DanhSachMaSP " +
                "WHERE KieuSP = '" + TypeOfProduct + "' " +
                "AND Ten LIKE '%' || @" + para + " || '%' " +
-               "AND Ten NOT LIKE '%/T' " +
-               "AND (Ten LIKE 'c %' OR Ten LIKE 'C %' OR Ten LIKE 'A %')";
+               _dsMaSPQuery;
 
             DataTable dslot = DatabaseHelper.GetData(keyword, query, para);
 
@@ -366,7 +368,8 @@ namespace QLDuLieuTonKho_BTP
                         DanhSachMaSP.Ten,
                         TonKho.KhoiLuongDauVao,
                         TonKho.KhoiLuongConLai,
-                        TonKho.HanNoi,
+                        DL_CD_Ben.KLHanNoi,
+                        DL_CD_Ben.KLBanTran,
                         TonKho.ChieuDai,
                         DL_CD_Ben.SoMay,
                         DL_CD_Ben.GhiChu

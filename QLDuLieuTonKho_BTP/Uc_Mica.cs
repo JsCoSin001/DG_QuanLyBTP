@@ -66,7 +66,7 @@ namespace QLDuLieuTonKho_BTP
 
             dgDsLot.Columns.Add("ID", "ID");
             dgDsLot.Columns.Add("lot", "Lô");
-            dgDsLot.Columns.Add("conLai", "Còn Lại");
+            dgDsLot.Columns.Add("conLai", "Kl còn lại");
             dgDsLot.Columns.Add("ten", "Tên sản phẩm");
             dgDsLot.Columns.Add("kl", "Khối lượng");
 
@@ -113,7 +113,7 @@ namespace QLDuLieuTonKho_BTP
                 decimal klTB = 0;
                 decimal klconlai = 0;
 
-
+                bool flg = false;
 
                 if (dgDsLot.Rows.Count == 0)
                 {
@@ -131,13 +131,34 @@ namespace QLDuLieuTonKho_BTP
 
                         tk.ID = int.Parse(row.Cells[1].Value.ToString());
                         tk.KhoiLuongConLai = Convert.ToDecimal(row.Cells[3].Value);
+                        tk.KhoiLuongDauVao = Convert.ToDecimal(row.Cells[5].Value);
+                        tk.Lot = (string)row.Cells[2].Value;
 
                         tonKho_update.Add(tk);
 
                         klTB += Convert.ToDecimal(row.Cells[5].Value);
                         klconlai += Convert.ToDecimal(row.Cells[3].Value);
+
+                        if (tk.KhoiLuongConLai == 0) flg = true;
                     }
                 }
+
+                if (flg == true)
+                {
+                    DialogResult confirmZero = MessageBox.Show(
+                         "Khối lượng còn lại được đặt bằng 0. Nếu ĐÚNG ấn \"Yes\", nếu không ấn \"No\"",          // Nội dung thông báo
+                         "Xác nhận",                             // Tiêu đề
+                         MessageBoxButtons.YesNo,                // Hiển thị nút Yes/No
+                         MessageBoxIcon.Question                 // Icon dạng câu hỏi
+                     );
+
+                    if (confirmZero == DialogResult.No)
+                    {
+                        return;
+                    }
+                }
+
+
 
                 klTB = klTB - klconlai;
 
@@ -230,7 +251,7 @@ namespace QLDuLieuTonKho_BTP
                         }
                         else
                         {
-                            MessageBox.Show("Danh sách người nhận Email rỗng.", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                            Console.WriteLine("Danh sách người nhận Email rỗng");
                         }
 
                     }
@@ -239,14 +260,11 @@ namespace QLDuLieuTonKho_BTP
                     if (sttB == 0)
                     {
                         // Thêm mới lot vào database công đoạn bọc
-                        result = DatabaseHelper.UpdateKhoiLuongConLai<TonKho, DL_CD_Boc>(tonKhoMoi, dL_CD_Boc, "DL_CD_Boc", tonKho_update);
+                        result = DatabaseHelper.UpdateKhoiLuongConLai<TonKho, DL_CD_Boc>(tonKhoMoi, dL_CD_Boc, "DL_CD_Boc", tonKho_update,"mica");
 
                     }
                     else
                     {
-                        MessageBox.Show("Thao tác thất bại. Liên hệ Mr.Linh để sửa dữ liệu nếu cần", "THÔNG BÁO", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                        return;
-
                         dL_CD_Boc.GhiChu = dL_CD_Boc.GhiChu + "- Đã sửa";
                         result = DatabaseHelper.Update_Mica(sttB, tonKhoMoi, dL_CD_Boc, tonKho_update);
                     }
@@ -496,29 +514,50 @@ namespace QLDuLieuTonKho_BTP
             int id_MaSP = (int)stt.Value;
 
             string query = @"            
-                SELECT
-                    b.*, 
-                    p.ID              AS ID_HienTai,
-                    p.Lot             AS Lot_HienTai,
-                    p.KhoiLuongDauVao AS KL_HienTai,
-                    p.ChieuDai           ,
-                    spp.Ten           AS TenSP_HienTai,
-                    spp.Ma           AS Ma_HienTai,
-	
-                    c.ID              AS ID_HanNoi,
-                    c.Lot             AS Lot_NVL,
-                    c.KhoiLuongConLai,
-                    sp.Ten            AS Ten_NVL
-                FROM TonKho AS c
-                JOIN TonKho AS p
-                    ON p.ID = c.HanNoi
-                LEFT JOIN DanhSachMaSP AS sp
-                    ON sp.ID = c.MaSP_ID
-                LEFT JOIN DanhSachMaSP AS spp
-                    ON spp.ID = p.MaSP_ID
-                LEFT JOIN DL_CD_Boc AS b
-                    ON b.TonKho_ID = p.ID
-                WHERE p.ID = @ID";
+                SELECT 
+                    mi.ID                AS M_ID,
+                    mi.Lot               AS M_Lot,
+                    mi.KLSau             AS M_KLSau,
+                    sp.Ten               AS SP_Ten,
+                    mi.KLTruoc           AS M_KLTruoc,
+
+                    -- Dữ liệu từ DL_CD_Boc
+                    dl.ID                AS DL_ID,
+                    dl.Ngay              AS DL_Ngay,
+                    dl.Ca                AS DL_Ca,
+                    dl.KhoiLuongPhe      AS DL_KhoiLuongPhe,
+                    dl.NguoiLam          AS DL_NguoiLam,
+                    dl.SoMay             AS DL_SoMay,
+                    dl.GhiChu            AS DL_GhiChu,
+                    dl.DateInsert        AS DL_DateInsert,
+                    dl.MaSP_ID           AS DL_MaSP_ID,
+                    dl.CD_Ben_ID         AS DL_CD_Ben_ID,
+                    dl.TonKho_ID         AS DL_TonKho_ID,
+                    dl.KhoiLuongTruocBoc AS DL_KhoiLuongTruocBoc,
+                    dl.KhoiLuongConLai   AS DL_KhoiLuongConLai,
+                    dl.TenCongDoan       AS DL_TenCongDoan,
+
+                    -- Dữ liệu từ TonKho
+                    tk.ID                AS TK_ID,
+                    tk.Lot               AS TK_Lot,
+                    tk.MaSP_ID           AS TK_MaSP_ID,
+                    tk.KhoiLuongDauVao   AS TK_KhoiLuongDauVao,
+                    tk.KhoiLuongConLai   AS TK_KhoiLuongConLai,
+                    tk.HanNoi            AS TK_HanNoi,
+                    tk.ChieuDai          AS TK_ChieuDai,
+                    tk.Mica              AS TK_Mica,
+                    tk.ID_Cuoi           AS TK_ID_Cuoi,
+
+                    -- Dữ liệu từ Mica
+                    mi.DL_CD_Boc_ID      AS M_DL_CD_Boc_ID,
+	                sp.Ten             AS Ten_HienTai
+
+                FROM DL_CD_Boc AS dl
+                LEFT JOIN TonKho AS tk ON dl.TonKho_ID = tk.ID
+                LEFT JOIN Mica AS mi ON mi.DL_CD_Boc_ID = dl.ID
+                LEFT JOIN DanhSachMaSP AS sp ON dl.MaSP_ID = sp.ID
+                WHERE dl.ID = @ID;
+                ";
 
 
             DataTable data = DatabaseHelper.GetDL_CDBenByID(id_MaSP, query);
@@ -534,38 +573,40 @@ namespace QLDuLieuTonKho_BTP
             // Giả sử dgDsLot đã có sẵn cột (ít nhất 6 cột vì bạn định đổ từ cột số 2)
             dgDsLot.Rows.Clear();
 
-            // Duyệt từng dòng của DataTable
-            foreach (DataRow row in data.Rows)
+            int rowCount = Math.Min(5, data.Rows.Count);
+            for (int i = 0; i < rowCount; i++)
             {
-                int index = dgDsLot.Rows.Add(); // thêm một dòng mới vào DataGridView
-                DataGridViewRow dgRow = dgDsLot.Rows[index];
+                DataRow row = data.Rows[i];
 
-                // Gán dữ liệu 4 cột cuối vào DataGridView, bắt đầu từ cột thứ 2
-                for (int i = 0; i < 4; i++)
-                {
-                    dgRow.Cells[i + 1].Value = row[totalCols - 4 + i];
-                }
+                // Thêm dòng trống mới
+                int newRowIndex = dgDsLot.Rows.Add();
+                DataGridViewRow newRow = dgDsLot.Rows[newRowIndex];
+
+                // Gán dữ liệu bắt đầu từ cột thứ 2 (index = 1)
+                newRow.Cells[1].Value = row["M_ID"];
+                newRow.Cells[2].Value = row["M_Lot"];
+                newRow.Cells[3].Value = row["M_KLSau"];
+                newRow.Cells[4].Value = row["SP_Ten"];
+                newRow.Cells[5].Value = row["M_KLTruoc"];
             }
-
-
-
 
             DataRow dataRow = data.Rows[0];
 
-            ngay.Text = dataRow["ngay"].ToString();
-            ca.Text = dataRow["ca"].ToString();
-            maySX.Text = dataRow["soMay"].ToString();
-            maSP.Text = dataRow["Ma_HienTai"].ToString();
-            idTenSP.Value = Convert.ToDecimal(dataRow["MaSP_id"]);
-            tenSP.Text = dataRow["TenSP_HienTai"].ToString();
-            congDoan.Text = dataRow["TenCongDoan"].ToString();
-            klPhe.Value = Convert.ToDecimal(dataRow["KhoiLuongPhe"]);
-            chieuDai.Value = Convert.ToDecimal(dataRow["ChieuDai"]);
-            nguoiLam.Text = dataRow["NguoiLam"].ToString();
-            ghiChu.Text = dataRow["ghiChu"].ToString();
-            tbKhoiLuongTruocBoc.Text = dataRow["KhoiLuongTruocBoc"].ToString();
+            ngay.Text = dataRow["DL_Ngay"].ToString();
+            ca.Text = dataRow["DL_Ca"].ToString();
+            maySX.Text = dataRow["DL_SoMay"].ToString();
+            maSP.Text = dataRow["DL_MaSP_ID"].ToString();
+            idTenSP.Value = Convert.ToDecimal(dataRow["DL_MaSP_ID"]);
+            tenSP.Text = dataRow["Ten_HienTai"].ToString();
 
-            isProgrammaticChange = true;
+            congDoan.Text = dataRow["DL_TenCongDoan"].ToString();
+            klPhe.Value = Convert.ToDecimal(dataRow["DL_KhoiLuongPhe"]);
+            chieuDai.Value = Convert.ToDecimal(dataRow["TK_ChieuDai"]);
+            nguoiLam.Text = dataRow["DL_NguoiLam"].ToString();
+            ghiChu.Text = dataRow["DL_GhiChu"].ToString();
+            tbKhoiLuongTruocBoc.Text = dataRow["TK_KhoiLuongDauVao"].ToString();
+
+            //isProgrammaticChange = true;
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -580,25 +621,28 @@ namespace QLDuLieuTonKho_BTP
 
             string query = @"
                 SELECT
-                    c.ID          AS ID_NVL,
+                    boc.ID          AS STT,
+
+                    boc.NguoiLam,
+                    boc.SoMay,
+                    spp.Ten       AS TenSP_HienTai,
+                    p.KhoiLuongDauVao AS KL_HienTai,
+
                     c.Lot         AS Lot_NVL,
                     sp.Ten        AS Ten_NVL,
-                    p.ID          AS ID_HienTai,
-                    p.KhoiLuongDauVao AS KL_HienTai,
-                    spp.Ten       AS TenSP_HienTai,
+                    c.ID          AS ID_NVL,
                     p.Lot         AS Lot_HienTai
                 FROM TonKho AS c
                 JOIN TonKho AS p
-                    ON p.ID = c.HanNoi
+                    ON p.ID = c.Mica
                 LEFT JOIN DanhSachMaSP AS sp
                     ON sp.ID = c.MaSP_ID
                 LEFT JOIN DanhSachMaSP AS spp
                     ON spp.ID = p.MaSP_ID
                 JOIN DL_CD_Boc AS boc
                     ON boc.tonkho_id = p.ID
-                WHERE c.HanNoi <> 0 and  strftime('%Y-%m', boc.Ngay) = @Ngay
+                WHERE c.Mica <> 0 and  strftime('%Y-%m', boc.Ngay) = @Ngay
                 ORDER BY p.ID DESC, c.ID;
-
                 ";
 
 

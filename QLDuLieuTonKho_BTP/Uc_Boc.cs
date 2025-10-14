@@ -91,6 +91,8 @@ namespace QLDuLieuTonKho_BTP
 
                 string error = "";
 
+                #region Kiểm tra dữ liệu
+
                 if (maBin == "" || tenCongDoan == "")
                 {
                     error = "Kiểm tra lại dữ liệu tại:\nMã Hành Trình \nSTT Công Đoạn \nSTT Bin \nSố Bin";
@@ -127,6 +129,8 @@ namespace QLDuLieuTonKho_BTP
                     return;
                 }
 
+                #endregion
+
                 try
                 {
                     // Biến chứa dữ liệu up mới vào tồn kho
@@ -162,6 +166,21 @@ namespace QLDuLieuTonKho_BTP
                         string errorMessage = string.Join("\n", validationResults.ConvertAll(r => r.ErrorMessage));
                         MessageBox.Show("Lỗi nhập liệu:\n" + errorMessage, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
                         return;
+                    }
+
+                    if (klConLai.Value == 0)
+                    {
+                        DialogResult confirmZero = MessageBox.Show(
+                             "Khối lượng còn lại được đặt bằng 0. Nếu ĐÚNG ấn \"Yes\", nếu không ấn \"No\"",          // Nội dung thông báo
+                             "Xác nhận",                             // Tiêu đề
+                             MessageBoxButtons.YesNo,                // Hiển thị nút Yes/No
+                             MessageBoxIcon.Question                 // Icon dạng câu hỏi
+                         );
+
+                        if (confirmZero == DialogResult.No)
+                        {
+                            return;
+                        }
                     }
 
                     int sttB = (int)stt.Value;
@@ -206,7 +225,6 @@ namespace QLDuLieuTonKho_BTP
 
                     }
 
-
                     if (sttB == 0)
                     {
                         //Biến chứa dữ liệu update tồn kho
@@ -217,10 +235,10 @@ namespace QLDuLieuTonKho_BTP
                         };
 
                         // Thêm mới lot vào database công đoạn bọc
-                        result = DatabaseHelper.InsertSanPhamTonKhoDL<TonKho, DL_CD_Boc>(tonKhoMoi, dL_CD_Boc, "DL_CD_Boc");
+                        long id_cd = DatabaseHelper.InsertSanPhamTonKhoDL<TonKho, DL_CD_Boc>(tonKhoMoi, dL_CD_Boc, "DL_CD_Boc");
 
                         // Update số lượng tồn kho
-                        if (result) result = DatabaseHelper.UpdateTonKho_SLConLaiThucTe(tonKho_update);
+                        if (id_cd != 0) result = DatabaseHelper.UpdateTonKho_SLConLaiThucTe(tonKho_update, id_cd);
                     }
                     else
                     {

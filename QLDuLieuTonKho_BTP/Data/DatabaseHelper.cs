@@ -1,10 +1,12 @@
-﻿using QLDuLieuTonKho_BTP.Models;
+﻿using DocumentFormat.OpenXml.Office2010.Excel;
+using QLDuLieuTonKho_BTP.Models;
 using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using System.Data.SQLite;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace QLDuLieuTonKho_BTP.Data
@@ -57,10 +59,12 @@ namespace QLDuLieuTonKho_BTP.Data
         }
 
         // Thực hiện chèn dữ liệu vào bảng DL_CongDoan và bảng TonKho
-        public static Boolean InsertSanPhamTonKhoDL<TTonKho, TDLCongDoan>(TTonKho tonKho, TDLCongDoan dlModel, string table)
+        public static long InsertSanPhamTonKhoDL<TTonKho, TDLCongDoan>(TTonKho tonKho, TDLCongDoan dlModel, string table)
         where TTonKho : class
         where TDLCongDoan : class
         {
+
+            long id_cd = 0;
             using (var connection = new SQLiteConnection(connStr))
             {
                 connection.Open();
@@ -68,17 +72,17 @@ namespace QLDuLieuTonKho_BTP.Data
                 {
                     try
                     {
-                        InsertModelToDatabase(tonKho, "TonKho", connection, tran);
-                        int tonKho_ID = (int)(long)new SQLiteCommand("SELECT last_insert_rowid()", connection, tran).ExecuteScalar();
+                        int tonKho_ID =  InsertModelToDatabase(tonKho, "TonKho", connection, tran);
+                        //int tonKho_ID = (int)(long)new SQLiteCommand("SELECT last_insert_rowid()", connection, tran).ExecuteScalar();
 
                         // Gán thuộc tính TonKho_ID bằng reflection hoặc dynamic
                         dynamic dynamicModel = dlModel;
                         dynamicModel.TonKho_ID = tonKho_ID;
 
-                        InsertModelToDatabase(dynamicModel, table, connection, tran);
+                        id_cd = InsertModelToDatabase(dynamicModel, table, connection, tran);
 
                         tran.Commit();
-                        return true;
+                        return id_cd;
                     }
                     catch (SQLiteException ex)
                     {
@@ -93,7 +97,8 @@ namespace QLDuLieuTonKho_BTP.Data
                             MessageBox.Show("Có lỗi khi lưu dữ liệu. Chi tiết: " + ex.Message,
                                             "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
                         }
-                        return false;
+
+                        return id_cd;
                     }
                 }
             }
@@ -101,7 +106,7 @@ namespace QLDuLieuTonKho_BTP.Data
         }
 
         // Thêm dữ liệu vào bảng với tên bảng và mô hình đã cho
-        public static void InsertModelToDatabase<T>(T model, string tableName, SQLiteConnection connection, SQLiteTransaction transaction)
+        public static int InsertModelToDatabase<T>(T model, string tableName, SQLiteConnection connection, SQLiteTransaction transaction)
         {
             var properties = typeof(T).GetProperties()
                 .Where(p => p.CanRead)
@@ -122,6 +127,11 @@ namespace QLDuLieuTonKho_BTP.Data
                 }
 
                 command.ExecuteNonQuery();
+            }
+
+            using (var cmd = new SQLiteCommand("SELECT last_insert_rowid();", connection, transaction))
+            {
+                return Convert.ToInt32(cmd.ExecuteScalar());
             }
         }
 
@@ -162,9 +172,9 @@ namespace QLDuLieuTonKho_BTP.Data
                             // 2) Insert DL_CD_Ben
                             using (var cmd2 = new SQLiteCommand(@"
                                 INSERT INTO DL_CD_Ben
-                                  (Ngay, Ca,TonKho_ID, NguoiLam, SoMay, GhiChu)
+                                  (Ngay, Ca,TonKho_ID, NguoiLam, SoMay, GhiChu, KLHanNoi)
                                 VALUES
-                                  (@Ngay, @Ca,@TonKho_ID, @NguoiLam, @SoMay, @GhiChu);
+                                  (@Ngay, @Ca,@TonKho_ID, @NguoiLam, @SoMay, @GhiChu,@KLHanNoi);
                             ", conn, tran))
                             {
                                 cmd2.Parameters.Add("@Ngay", DbType.String).Value = hanNoiNew.Ngay;
@@ -173,6 +183,7 @@ namespace QLDuLieuTonKho_BTP.Data
                                 cmd2.Parameters.Add("@NguoiLam", DbType.String).Value = hanNoiNew.NguoiLam;
                                 cmd2.Parameters.Add("@SoMay", DbType.String).Value = hanNoiNew.SoMay;
                                 cmd2.Parameters.Add("@GhiChu", DbType.String).Value = hanNoiNew.GhiChu;
+                                cmd2.Parameters.Add("@KLHanNoi", DbType.Double).Value = hanNoiNew.KLHanNoi;
                                 cmd2.ExecuteNonQuery();
                             }
                         }
@@ -220,9 +231,18 @@ namespace QLDuLieuTonKho_BTP.Data
                         // Lấy TonKho_ID từ bảng DL_CD_Boc
                         int tonKhoID = GetTonKhoIDFromID(conn, bocID,"boc");
 
-                        // Cập nhật bảng TonKho
+                        // Cập nhật bảng TonKho - cho sp bọc
                         result = UpdateModelInDatabase(tonKho, "TonKho", "ID", tonKhoID, conn, tran);
                         dl.TonKho_ID = tonKhoID;
+
+                        // Cập nhật bảng tồn kho - cho NL công đoạn bọc
+                        TonKho tonKhoMoi = new TonKho
+                        {
+                            KhoiLuongConLai = dl.KhoiLuongConLai,
+                        };
+
+                        updateTonKho(tonKhoMoi, bocID, conn, tran);
+
 
                         // Cập nhật bảng DL_CD_Boc
                         if (result) result = UpdateModelInDatabase(dl, "DL_CD_Boc", "ID", bocID, conn, tran);
@@ -307,22 +327,54 @@ namespace QLDuLieuTonKho_BTP.Data
             }            
         }
 
+        private static void updateTonKho(TonKho tk, int key, SQLiteConnection connection, SQLiteTransaction transaction)
+        {
+            // Câu lệnh kiểm tra xem có bản ghi nào có ID_Cuoi = key không
+            string checkQuery = "SELECT COUNT(1) FROM TonKho WHERE ID_Cuoi = @Key";
+            using (SQLiteCommand checkCmd = new SQLiteCommand(checkQuery, connection, transaction))
+            {
+                checkCmd.Parameters.AddWithValue("@Key", key);
+                long count = (long)checkCmd.ExecuteScalar();
+
+                // Nếu không có bản ghi nào thì thoát
+                if (count == 0)
+                    return;
+            }
+
+            // Nếu có, thực hiện cập nhật
+            string updateQuery = @"
+                UPDATE TonKho 
+                SET KhoiLuongConLai = @KhoiLuongConLai
+                WHERE ID_Cuoi = @Key";
+
+            using (SQLiteCommand updateCmd = new SQLiteCommand(updateQuery, connection, transaction))
+            {
+                updateCmd.Parameters.AddWithValue("@KhoiLuongConLai", tk.KhoiLuongConLai);
+                updateCmd.Parameters.AddWithValue("@Key", key);
+
+                updateCmd.ExecuteNonQuery();
+            }
+        }
+
+
         // Cập nhật số lượng còn lại thực tế trong bảng TonKho
-        public static Boolean UpdateTonKho_SLConLaiThucTe(TonKho tk)
+        public static Boolean UpdateTonKho_SLConLaiThucTe(TonKho tk, long id_cd)
         {
             Boolean result = true;
             using (SQLiteConnection conn = new SQLiteConnection(connStr))
             {
                 string query = @"
-                UPDATE TonKho 
-                SET KhoiLuongConLai = @KhoiLuongMoi 
-                WHERE Lot = @Lot";
+                    UPDATE TonKho 
+                    SET KhoiLuongConLai = @KhoiLuongMoi,
+                        ID_Cuoi = @ID_Cuoi
+                    WHERE Lot = @Lot";
 
                 conn.Open();
 
                 using (SQLiteCommand cmd = new SQLiteCommand(query, conn))
                 {
                     cmd.Parameters.AddWithValue("@KhoiLuongMoi", tk.KhoiLuongConLai);
+                    cmd.Parameters.AddWithValue("@ID_Cuoi", id_cd);
                     cmd.Parameters.AddWithValue("@Lot", tk.Lot);
 
                     int rowsAffected = cmd.ExecuteNonQuery();
@@ -336,14 +388,9 @@ namespace QLDuLieuTonKho_BTP.Data
             return result;
         }
 
-        
 
-
-        public static bool UpdateKhoiLuongConLai<TTonKho, TDLCongDoan>(
-        TTonKho tonKho,
-        TDLCongDoan dlModel,
-        string dlTable,
-        IEnumerable<TonKho> tonKhoUpdates = null)
+        // Mica
+        public static bool UpdateKhoiLuongConLai<TTonKho, TDLCongDoan>( TTonKho tonKho, TDLCongDoan dlModel, string dlTable, IEnumerable<TonKho> tonKhoUpdates = null, string cot = "HanNoi")
         where TTonKho : class
         where TDLCongDoan : class
         {
@@ -360,11 +407,7 @@ namespace QLDuLieuTonKho_BTP.Data
                     try
                     {
                         // 1) Insert TonKho
-                        InsertModelToDatabase(tonKho, "TonKho", connection, tran);
-
-                        // Lấy ID vừa insert
-                        int tonKho_ID = (int)(long)new SQLiteCommand("SELECT last_insert_rowid()", connection, tran)
-                            .ExecuteScalar();
+                        int tonKho_ID =  InsertModelToDatabase(tonKho, "TonKho", connection, tran);
 
                         // 2) Gán TonKho_ID vào model DL (ưu tiên reflection an toàn)
                         var prop = typeof(TDLCongDoan).GetProperty("TonKho_ID");
@@ -388,15 +431,24 @@ namespace QLDuLieuTonKho_BTP.Data
                         }
 
                         // 3) Insert bản ghi DL vào bảng được chỉ định
-                        InsertModelToDatabase(dlModel, dlTable, connection, tran);
+                        int id_cd = InsertModelToDatabase(dlModel, dlTable, connection, tran);
 
-                        // 4) (Tuỳ chọn) Cập nhật KhoiLuongConLai cho danh sách TonKho khác
+
+
+                        // 3.1) insert id của công đoạn bọc vào table tonkho
+                        //UpdateTonKhoField(tonKho_ID, "ID_Cuoi", id_cd, connection, tran);
+
+                        // 3.2) insert mica
+                        InsertMica(tonKhoUpdates, id_cd, connection, tran);
+
+                        // 4) Cập nhật KhoiLuongConLai cho danh sách TonKho của NVL
                         if (tonKhoUpdates != null)
                         {
                             using (var cmd = new SQLiteCommand(
-                                "UPDATE TonKho SET KhoiLuongConLai = @KhoiLuongConLai, HanNoi = @HanNoi WHERE ID = @ID;", connection, tran))
+                                "UPDATE TonKho SET ID_Cuoi = @ID_Cuoi, KhoiLuongConLai = @KhoiLuongConLai, " + cot +" = @HanNoi WHERE ID = @ID;", connection, tran))
                             {
                                 var pValue = cmd.Parameters.Add("@KhoiLuongConLai", DbType.Decimal);
+                                var id_cuoi = cmd.Parameters.Add("@ID_Cuoi", DbType.Decimal);
                                 var pId = cmd.Parameters.Add("@ID", DbType.Int32);
                                 var pHanNoi = cmd.Parameters.Add("@HanNoi", DbType.Int32);
 
@@ -405,6 +457,7 @@ namespace QLDuLieuTonKho_BTP.Data
                                     if (item == null) continue;
 
                                     pValue.Value = item.KhoiLuongConLai;
+                                    id_cuoi.Value = id_cd;
                                     pId.Value = item.ID;
                                     pHanNoi.Value = tonKho_ID; // giá trị lấy từ insert ở bước đầu
 
@@ -442,6 +495,37 @@ namespace QLDuLieuTonKho_BTP.Data
                 }
             }
         }
+
+
+        public static void InsertMica( IEnumerable<TonKho> tonKhoUpdates,int id, SQLiteConnection connection, SQLiteTransaction transaction)
+        {
+            string query = @"
+            INSERT INTO Mica (DL_CD_Boc_ID, KLTruoc, KLSau,Lot)
+            VALUES (@DL_CD_Boc_ID, @KLTruoc, @KLSau, @lot);
+        ";
+
+            using (var command = new SQLiteCommand(query, connection, transaction))
+            {
+                // Khai báo sẵn parameters (tái sử dụng cho hiệu năng)
+                var pDlCdBocId = command.Parameters.Add("@DL_CD_Boc_ID", System.Data.DbType.Int32);
+                var pKlTruoc = command.Parameters.Add("@KLTruoc", System.Data.DbType.Double);
+                var pKlSau = command.Parameters.Add("@KLSau", System.Data.DbType.Double);
+                var lot = command.Parameters.Add("@lot", System.Data.DbType.String);
+
+
+                foreach (var item in tonKhoUpdates)
+                {
+
+                    pDlCdBocId.Value = id;
+                    pKlTruoc.Value = item.KhoiLuongDauVao;
+                    pKlSau.Value = item.KhoiLuongConLai;
+                    lot.Value = item.Lot;
+
+                    command.ExecuteNonQuery();
+                }
+            }
+        }
+
 
 
         // Cập nhật một bảng với câu lệnh SQL và tham số
@@ -528,7 +612,7 @@ namespace QLDuLieuTonKho_BTP.Data
             long sttB,
             TonKho tonKhoMoi,
             DL_CD_Boc dL_CD_Boc,
-            List<TonKho> tonKho_update)
+            List<TonKho> tonKho_update)   
         {
             try
             {
@@ -542,21 +626,24 @@ namespace QLDuLieuTonKho_BTP.Data
                         {
                             cmd1.Transaction = tran;
                             cmd1.CommandText = @"
-                        UPDATE TonKho
-                        SET KhoiLuongConLai = COALESCE(@klcl, KhoiLuongConLai),
-                            HanNoi          = @hanNoi,
-                            MaSP_ID         = COALESCE(@masp, MaSP_ID),
-                            ChieuDai        = COALESCE(@cd, ChieuDai),
-                            KhoiLuongDauVao = COALESCE(@kldv, KhoiLuongDauVao),
-                            Lot             = COALESCE(@lot, Lot)
-                        WHERE ID=@id;";
+                                UPDATE TonKho
+                                SET KhoiLuongConLai = COALESCE(@klcl, KhoiLuongConLai),
+                                    HanNoi          = @hanNoi,
+                                    MaSP_ID         = COALESCE(@masp, MaSP_ID),
+                                    ChieuDai        = COALESCE(@cd, ChieuDai),
+                                    KhoiLuongDauVao = COALESCE(@kldv, KhoiLuongDauVao),
+                                    Lot             = COALESCE(@lot, Lot)
+                                WHERE ID = (
+                                    SELECT TonKho_ID FROM DL_CD_Boc WHERE ID = @dl_id
+                                );";
+
                             cmd1.Parameters.AddWithValue("@klcl", tonKhoMoi.KhoiLuongConLai);
                             cmd1.Parameters.AddWithValue("@hanNoi", 0);
                             cmd1.Parameters.AddWithValue("@masp", tonKhoMoi.MaSP_ID);
                             cmd1.Parameters.AddWithValue("@cd", tonKhoMoi.ChieuDai);
                             cmd1.Parameters.AddWithValue("@kldv", tonKhoMoi.KhoiLuongDauVao);
                             cmd1.Parameters.AddWithValue("@lot", tonKhoMoi.Lot);
-                            cmd1.Parameters.AddWithValue("@id", sttB);
+                            cmd1.Parameters.AddWithValue("@dl_id", sttB);
                             cmd1.ExecuteNonQuery();
                         }
 
@@ -577,7 +664,7 @@ namespace QLDuLieuTonKho_BTP.Data
                             KhoiLuongTruocBoc = COALESCE(@KLTB, KhoiLuongTruocBoc),
                             KhoiLuongConLai   = COALESCE(@KLCLB, KhoiLuongConLai),
                             TenCongDoan       = COALESCE(@TCD, TenCongDoan)
-                        WHERE TonKho_ID=@tkid;";
+                        WHERE id=@tkid;";
                             cmd2.Parameters.AddWithValue("@Ngay", dL_CD_Boc.Ngay);
                             cmd2.Parameters.AddWithValue("@Ca", dL_CD_Boc.Ca);
                             cmd2.Parameters.AddWithValue("@KLP", dL_CD_Boc.KhoiLuongPhe);
@@ -594,13 +681,30 @@ namespace QLDuLieuTonKho_BTP.Data
                         }
 
                         // 3) Reset HanNoi cũ
-                        using (var cmd3 = conn.CreateCommand())
+                        foreach (var mica in tonKho_update)
                         {
-                            cmd3.Transaction = tran;
-                            cmd3.CommandText = "UPDATE TonKho SET HanNoi=NULL WHERE HanNoi=@sttB;";
-                            cmd3.Parameters.AddWithValue("@sttB", sttB);
-                            cmd3.ExecuteNonQuery();
+                            using (var cmd = conn.CreateCommand())
+                            {
+                                cmd.Transaction = tran;
+                                cmd.CommandText = @"
+                                    UPDATE Mica
+                                    SET 
+                                        KLTruoc      = COALESCE(@KLTruoc, KLTruoc),
+                                        KLSau        = COALESCE(@KLSau, KLSau),
+                                        Lot          = COALESCE(@Lot, Lot)
+                                    WHERE 
+                                        ID = @ID;
+                                ";
+
+                                cmd.Parameters.AddWithValue("@KLTruoc", mica.KhoiLuongDauVao);
+                                cmd.Parameters.AddWithValue("@KLSau", mica.KhoiLuongConLai);
+                                cmd.Parameters.AddWithValue("@Lot", mica.Lot);
+                                cmd.Parameters.AddWithValue("@ID", mica.ID);
+
+                                cmd.ExecuteNonQuery();
+                            }
                         }
+
 
                         // 4) Update danh sách TonKho_update
                         if (tonKho_update != null && tonKho_update.Count > 0)
@@ -610,17 +714,15 @@ namespace QLDuLieuTonKho_BTP.Data
                                 cmd4.Transaction = tran;
                                 cmd4.CommandText = @"
                                     UPDATE TonKho
-                                    SET KhoiLuongConLai=@kl, HanNoi=@h
-                                    WHERE ID=@id;";
+                                    SET KhoiLuongConLai=@kl
+                                    WHERE ID_Cuoi=@ID_Cuoi;";
                                 var pKl = cmd4.Parameters.Add("@kl", DbType.Double);
-                                var pH = cmd4.Parameters.Add("@h", DbType.Int64);
-                                var pId = cmd4.Parameters.Add("@id", DbType.Int64);
+                                var pId = cmd4.Parameters.Add("@ID_Cuoi", DbType.Int64);
 
                                 foreach (var item in tonKho_update)
                                 {
                                     pKl.Value = item.KhoiLuongConLai;
-                                    pH.Value = sttB;
-                                    pId.Value = item.ID;
+                                    pId.Value = sttB;
                                     cmd4.ExecuteNonQuery();
                                 }
                             }
@@ -637,6 +739,86 @@ namespace QLDuLieuTonKho_BTP.Data
             }
         }
 
+
+        public static bool UpdateKLBanTranAndKhoiLuongConLaiByLot(string lot, decimal klBanTran, decimal khoiLuongConLai)
+        {
+            if (string.IsNullOrWhiteSpace(lot))
+                throw new ArgumentException("Lot không được rỗng.", nameof(lot));
+
+            using (var conn = new SQLiteConnection(connStr))
+            {
+                conn.Open();
+                using (var tran = conn.BeginTransaction())
+                {
+                    // Bật FK để đảm bảo toàn vẹn (nếu DB chưa bật mặc định)
+                    using (var pragma = new SQLiteCommand("PRAGMA foreign_keys = ON;", conn, tran))
+                    {
+                        pragma.ExecuteNonQuery();
+                    }
+
+                    // 1) Lấy TonKho.ID theo Lot (Lot là UNIQUE COLLATE NOCASE)
+                    long tonKhoId;
+                    using (var getTonKhoId = new SQLiteCommand(
+                        @"SELECT ID FROM TonKho WHERE Lot = @lot COLLATE NOCASE LIMIT 1;", conn, tran))
+                    {
+                        getTonKhoId.Parameters.AddWithValue("@lot", lot);
+                        var obj = getTonKhoId.ExecuteScalar();
+                        if (obj == null || obj == DBNull.Value)
+                        {
+                            tran.Rollback();
+                            throw new InvalidOperationException($"Không tìm thấy Lot '{lot}' trong TonKho.");
+                        }
+                        tonKhoId = Convert.ToInt64(obj);
+                    }
+
+                    // 2) Update KLBanTran trên bản ghi DL_CD_Ben mới nhất của TonKho_ID đó
+                    int affectedDl;
+                    using (var updDl = new SQLiteCommand(@"
+                    UPDATE DL_CD_Ben
+                       SET KLBanTran = @klBanTran
+                     WHERE ID = (
+                         SELECT ID FROM DL_CD_Ben
+                          WHERE TonKho_ID = @tonKhoId
+                       ORDER BY ID DESC
+                          LIMIT 1
+                     );", conn, tran))
+                    {
+                        updDl.Parameters.AddWithValue("@klBanTran", klBanTran);
+                        updDl.Parameters.AddWithValue("@tonKhoId", tonKhoId);
+                        affectedDl = updDl.ExecuteNonQuery();
+                    }
+
+                    if (affectedDl == 0)
+                    {
+                        tran.Rollback();
+                        throw new InvalidOperationException(
+                            $"Không tìm thấy bản ghi DL_CD_Ben nào cho Lot '{lot}' (TonKho_ID={tonKhoId}).");
+                    }
+
+                    // 3) Update KhoiLuongConLai trong TonKho
+                    int affectedTk;
+                    using (var updTk = new SQLiteCommand(@"
+                    UPDATE TonKho
+                       SET KhoiLuongConLai = @khoiLuongConLai
+                     WHERE ID = @tonKhoId;", conn, tran))
+                    {
+                        updTk.Parameters.AddWithValue("@khoiLuongConLai", khoiLuongConLai);
+                        updTk.Parameters.AddWithValue("@tonKhoId", tonKhoId);
+                        affectedTk = updTk.ExecuteNonQuery();
+                    }
+
+                    if (affectedTk == 0)
+                    {
+                        tran.Rollback();
+                        throw new InvalidOperationException(
+                            $"Cập nhật TonKho thất bại cho Lot '{lot}' (ID={tonKhoId}).");
+                    }
+
+                    tran.Commit();
+                    return true;
+                }
+            }
+        }
 
 
 
@@ -697,6 +879,18 @@ namespace QLDuLieuTonKho_BTP.Data
                     }
                 }
             }
+        }
+
+
+        public static string GetKieuDL_ByTenCD(string tenCD)
+        {
+            string query = "SELECT KieuDL FROM TableConfig WHERE TenCD = @TenCD";
+            DataTable dt = GetData(tenCD, query, "TenCD");
+
+            if (dt.Rows.Count > 0)
+                return dt.Rows[0]["KieuDL"].ToString();
+            else
+                return null;
         }
 
         // Lấy dữ liệu từ bảng DL_CD_Boc theo ID
@@ -797,6 +991,11 @@ namespace QLDuLieuTonKho_BTP.Data
         // =================================================================
         
 
+    }
+
+    public class data
+    {
+       
     }
 
 

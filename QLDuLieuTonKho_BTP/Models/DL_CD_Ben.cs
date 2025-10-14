@@ -25,5 +25,7 @@ namespace QLDuLieuTonKho_BTP.Models
         public string SoMay { get; set; }
         public string GhiChu { get; set; }
         public string DateInsert { get; set; } = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+
+        public decimal KLHanNoi { get; set; } = 0;
     }
 }

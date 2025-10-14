@@ -46,6 +46,11 @@
             this.label8 = new System.Windows.Forms.Label();
             this.lblLot = new System.Windows.Forms.Label();
             this.nmIDTenSP = new System.Windows.Forms.NumericUpDown();
+            this.flowLayoutPanel8 = new System.Windows.Forms.FlowLayoutPanel();
+            this.label9 = new System.Windows.Forms.Label();
+            this.tbNguoiLam = new System.Windows.Forms.TextBox();
+            this.label10 = new System.Windows.Forms.Label();
+            this.nbChieuDai = new System.Windows.Forms.NumericUpDown();
             this.flowLayoutPanel4 = new System.Windows.Forms.FlowLayoutPanel();
             this.label7 = new System.Windows.Forms.Label();
             this.cbTenSP = new System.Windows.Forms.ComboBox();
@@ -70,11 +75,6 @@
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.lblHuongDan = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
-            this.flowLayoutPanel8 = new System.Windows.Forms.FlowLayoutPanel();
-            this.label9 = new System.Windows.Forms.Label();
-            this.tbNguoiLam = new System.Windows.Forms.TextBox();
-            this.label10 = new System.Windows.Forms.Label();
-            this.nbChieuDai = new System.Windows.Forms.NumericUpDown();
             this.groupBox1.SuspendLayout();
             this.flowLayoutPanel1.SuspendLayout();
             this.flowLayoutPanel2.SuspendLayout();
@@ -83,6 +83,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.soBin)).BeginInit();
             this.flowLayoutPanel7.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nmIDTenSP)).BeginInit();
+            this.flowLayoutPanel8.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.nbChieuDai)).BeginInit();
             this.flowLayoutPanel4.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nmKLSP)).BeginInit();
             this.flowLayoutPanel3.SuspendLayout();
@@ -91,8 +93,6 @@
             this.groupBox2.SuspendLayout();
             this.flowLayoutPanel5.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgDsLot)).BeginInit();
-            this.flowLayoutPanel8.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.nbChieuDai)).BeginInit();
             this.SuspendLayout();
             // 
             // groupBox1
@@ -330,6 +330,57 @@
             this.nmIDTenSP.Size = new System.Drawing.Size(102, 26);
             this.nmIDTenSP.TabIndex = 6;
             // 
+            // flowLayoutPanel8
+            // 
+            this.flowLayoutPanel8.Controls.Add(this.label9);
+            this.flowLayoutPanel8.Controls.Add(this.tbNguoiLam);
+            this.flowLayoutPanel8.Controls.Add(this.label10);
+            this.flowLayoutPanel8.Controls.Add(this.nbChieuDai);
+            this.flowLayoutPanel8.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.flowLayoutPanel8.Location = new System.Drawing.Point(3, 125);
+            this.flowLayoutPanel8.Name = "flowLayoutPanel8";
+            this.flowLayoutPanel8.Size = new System.Drawing.Size(668, 35);
+            this.flowLayoutPanel8.TabIndex = 36;
+            // 
+            // label9
+            // 
+            this.label9.Location = new System.Drawing.Point(3, 0);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(102, 35);
+            this.label9.TabIndex = 0;
+            this.label9.Text = "Người làm";
+            this.label9.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // tbNguoiLam
+            // 
+            this.tbNguoiLam.Font = new System.Drawing.Font("Microsoft Sans Serif", 12.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.tbNguoiLam.Location = new System.Drawing.Point(111, 3);
+            this.tbNguoiLam.Name = "tbNguoiLam";
+            this.tbNguoiLam.Size = new System.Drawing.Size(327, 27);
+            this.tbNguoiLam.TabIndex = 1;
+            // 
+            // label10
+            // 
+            this.label10.Location = new System.Drawing.Point(444, 0);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(78, 35);
+            this.label10.TabIndex = 2;
+            this.label10.Text = "Chiều dài";
+            this.label10.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
+            // nbChieuDai
+            // 
+            this.nbChieuDai.Font = new System.Drawing.Font("Microsoft Sans Serif", 12.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.nbChieuDai.Location = new System.Drawing.Point(528, 3);
+            this.nbChieuDai.Maximum = new decimal(new int[] {
+            1661992959,
+            1808227885,
+            5,
+            0});
+            this.nbChieuDai.Name = "nbChieuDai";
+            this.nbChieuDai.Size = new System.Drawing.Size(124, 27);
+            this.nbChieuDai.TabIndex = 6;
+            // 
             // flowLayoutPanel4
             // 
             this.flowLayoutPanel4.Controls.Add(this.label7);
@@ -545,7 +596,7 @@
             this.btnDsGopBin.Name = "btnDsGopBin";
             this.btnDsGopBin.Size = new System.Drawing.Size(115, 54);
             this.btnDsGopBin.TabIndex = 13;
-            this.btnDsGopBin.Text = "Ds Gộp bin";
+            this.btnDsGopBin.Text = "Ds Hàn Nối";
             this.btnDsGopBin.UseVisualStyleBackColor = true;
             this.btnDsGopBin.Click += new System.EventHandler(this.btnDsGopBin_Click);
             // 
@@ -579,6 +630,7 @@
             this.dgDsLot.Dock = System.Windows.Forms.DockStyle.Top;
             this.dgDsLot.Location = new System.Drawing.Point(10, 27);
             this.dgDsLot.Name = "dgDsLot";
+            this.dgDsLot.ReadOnly = true;
             this.dgDsLot.Size = new System.Drawing.Size(669, 366);
             this.dgDsLot.TabIndex = 6;
             // 
@@ -612,57 +664,6 @@
             this.label1.Text = "BÁO CÁO HÀN NỐI";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // flowLayoutPanel8
-            // 
-            this.flowLayoutPanel8.Controls.Add(this.label9);
-            this.flowLayoutPanel8.Controls.Add(this.tbNguoiLam);
-            this.flowLayoutPanel8.Controls.Add(this.label10);
-            this.flowLayoutPanel8.Controls.Add(this.nbChieuDai);
-            this.flowLayoutPanel8.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.flowLayoutPanel8.Location = new System.Drawing.Point(3, 125);
-            this.flowLayoutPanel8.Name = "flowLayoutPanel8";
-            this.flowLayoutPanel8.Size = new System.Drawing.Size(668, 35);
-            this.flowLayoutPanel8.TabIndex = 36;
-            // 
-            // label9
-            // 
-            this.label9.Location = new System.Drawing.Point(3, 0);
-            this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(102, 35);
-            this.label9.TabIndex = 0;
-            this.label9.Text = "Người làm";
-            this.label9.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // tbNguoiLam
-            // 
-            this.tbNguoiLam.Font = new System.Drawing.Font("Microsoft Sans Serif", 12.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.tbNguoiLam.Location = new System.Drawing.Point(111, 3);
-            this.tbNguoiLam.Name = "tbNguoiLam";
-            this.tbNguoiLam.Size = new System.Drawing.Size(327, 27);
-            this.tbNguoiLam.TabIndex = 1;
-            // 
-            // label10
-            // 
-            this.label10.Location = new System.Drawing.Point(444, 0);
-            this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(78, 35);
-            this.label10.TabIndex = 2;
-            this.label10.Text = "Chiều dài";
-            this.label10.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
-            // nbChieuDai
-            // 
-            this.nbChieuDai.Font = new System.Drawing.Font("Microsoft Sans Serif", 12.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.nbChieuDai.Location = new System.Drawing.Point(528, 3);
-            this.nbChieuDai.Maximum = new decimal(new int[] {
-            1661992959,
-            1808227885,
-            5,
-            0});
-            this.nbChieuDai.Name = "nbChieuDai";
-            this.nbChieuDai.Size = new System.Drawing.Size(124, 27);
-            this.nbChieuDai.TabIndex = 6;
-            // 
             // Uc_HanNoi
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 18F);
@@ -686,6 +687,9 @@
             ((System.ComponentModel.ISupportInitialize)(this.soBin)).EndInit();
             this.flowLayoutPanel7.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.nmIDTenSP)).EndInit();
+            this.flowLayoutPanel8.ResumeLayout(false);
+            this.flowLayoutPanel8.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.nbChieuDai)).EndInit();
             this.flowLayoutPanel4.ResumeLayout(false);
             this.flowLayoutPanel4.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nmKLSP)).EndInit();
@@ -698,9 +702,6 @@
             this.flowLayoutPanel5.ResumeLayout(false);
             this.flowLayoutPanel5.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgDsLot)).EndInit();
-            this.flowLayoutPanel8.ResumeLayout(false);
-            this.flowLayoutPanel8.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.nbChieuDai)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 

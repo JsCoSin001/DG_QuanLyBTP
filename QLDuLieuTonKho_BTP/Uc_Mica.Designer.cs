@@ -282,6 +282,7 @@
             this.tbKhoiLuongTruocBoc.Name = "tbKhoiLuongTruocBoc";
             this.tbKhoiLuongTruocBoc.Size = new System.Drawing.Size(100, 22);
             this.tbKhoiLuongTruocBoc.TabIndex = 25;
+            this.tbKhoiLuongTruocBoc.Visible = false;
             // 
             // dgDsLot
             // 

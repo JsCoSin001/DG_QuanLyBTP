@@ -140,6 +140,7 @@
     <Compile Include="Data\Sato_WS412TT-STD_QrPrinter.cs" />
     <Compile Include="Data\SendEmailHelper.cs" />
     <Compile Include="Models\TemSP.cs" />
+    <Compile Include="Models\TonKhoReal.cs" />
     <Compile Include="SmtpSecrets.cs" />
     <Compile Include="Uc_Mica.cs">
       <SubType>UserControl</SubType>
