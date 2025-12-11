@@ -471,7 +471,6 @@
             this.idBen.Name = "idBen";
             this.idBen.Size = new System.Drawing.Size(72, 22);
             this.idBen.TabIndex = 14;
-            this.idBen.Visible = false;
             // 
             // lot
             // 

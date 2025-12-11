@@ -2,6 +2,7 @@
 using DocumentFormat.OpenXml.Spreadsheet;
 using QLDuLieuTonKho_BTP.Data;
 using QLDuLieuTonKho_BTP.Models;
+using QLDuLieuTonKho_BTP.Printer;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -265,6 +266,14 @@ namespace QLDuLieuTonKho_BTP
 
         private void btnGop_Click(object sender, EventArgs e)
         {
+            ConfigDB configDB = DatabaseHelper.GetConfig();
+
+            if (!configDB.Active)
+            {
+                MessageBox.Show(configDB.Message, "THÔNG BÁO", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
             // Lấy danh sách ID từ DataGridView
             var ids = dgDsLot.Rows
                .Cast<DataGridViewRow>()
@@ -327,6 +336,23 @@ namespace QLDuLieuTonKho_BTP
 
             if (isUpdateSuccess)
             {
+                PrinterModel printer = new PrinterModel
+                {
+                    NgaySX = DateTime.Now.ToString("dd/MM/yyyy"),
+                    CaSX = Helper.GetShiftValue(),
+                    KhoiLuong = nmKLSP.Value.ToString(),
+                    ChieuDai = nbChieuDai.Value.ToString(),
+                    TenSP = cbTenSP.Text,
+                    MaBin = lblLot.Text,
+                    MaSP = cbTenSP.Text,
+                    DanhGia = "",
+                    TenCN = tbNguoiLam.Text,
+                    GhiChu = "Han noi",
+                };
+
+                //PrintHelper.PrintLabel(printer);
+
+
                 MessageBox.Show("Gộp bin thành công!","THÔNG BÁO",MessageBoxButtons.OK,MessageBoxIcon.Warning);
                 ResetAllController();
             }

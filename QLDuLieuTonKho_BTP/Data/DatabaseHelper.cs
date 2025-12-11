@@ -15,11 +15,13 @@ namespace QLDuLieuTonKho_BTP.Data
     public static class DatabaseHelper
     {
         private static string connStr;
+        private static string _path;
 
         //==========================================================
         // Thiết lập đường dẫn đến cơ sở dữ liệu SQLite
         public static void SetDatabasePath(string path)
         {
+            _path = path;
             connStr = $"Data Source={path};Version=3;";
         }
 
@@ -916,6 +918,64 @@ namespace QLDuLieuTonKho_BTP.Data
             return resultTable;
         }
 
+        public static DataTable GetDL_CDBenByTonKhoIDs(IEnumerable<TonKhoItem> tonKhoItems)
+        {
+            DataTable resultTable = new DataTable();
+
+            // Kiểm tra null hoặc rỗng
+            if (tonKhoItems == null || !tonKhoItems.Any())
+                return resultTable;
+
+            // Lấy danh sách ID duy nhất từ danh sách TonKhoItem
+            var ids = tonKhoItems.Select(t => t.ID).Distinct().ToList();
+            if (ids.Count == 0)
+                return resultTable; // không có ID -> trả bảng rỗng
+
+            // Tạo danh sách tham số động: @id0,@id1,...
+            string paramList = string.Join(",", ids.Select((v, i) => $"@id{i}"));
+
+            // Câu SQL dùng IN (tham số hoá)
+            string query = $@"
+                SELECT
+                    DCB.Ngay,
+                    DCB.Ca,
+                    DCB.NguoiLam,
+                    DCB.SoMay,
+                    TK.lot,
+                    DCB.GhiChu AS DCB_GhiChu,
+                    DSP.Ten AS TenSanPham,
+                    DCB.TonKho_ID
+                FROM DL_CD_Ben AS DCB
+                JOIN TonKho AS TK
+                    ON TK.ID = DCB.TonKho_ID
+                JOIN DanhSachMaSP AS DSP
+                    ON DSP.ID = TK.MaSP_ID
+                WHERE DCB.TonKho_ID IN ({paramList})";
+
+            using (SQLiteConnection conn = new SQLiteConnection(connStr))
+            {
+                conn.Open();
+
+                using (SQLiteCommand cmd = new SQLiteCommand(query, conn))
+                {
+                    // Gán giá trị cho từng tham số @id0, @id1, ...
+                    for (int i = 0; i < ids.Count; i++)
+                    {
+                        cmd.Parameters.AddWithValue($"@id{i}", ids[i]);
+                    }
+
+                    using (SQLiteDataAdapter adapter = new SQLiteDataAdapter(cmd))
+                    {
+                        adapter.Fill(resultTable);
+                    }
+                }
+            }
+
+            return resultTable;
+        }
+
+
+
         // Lấy tên sản phẩm và mã từ bảng DanhSachMaSP
         public static List<ProductModel> GetProductNamesAndPartNumber(string query, string keyword)
         {
@@ -989,14 +1049,68 @@ namespace QLDuLieuTonKho_BTP.Data
         }
 
         // =================================================================
-        
+
+
+
+
+        public static ConfigDB GetConfig()
+        {
+
+            using (var conn = new SQLiteConnection(connStr))
+            {
+                conn.Open();
+
+                string sql = "SELECT Active, Message FROM ConfigDB LIMIT 1";
+
+                using (var cmd = new SQLiteCommand(sql, conn))
+                using (var reader = cmd.ExecuteReader())
+                {
+                    if (reader.Read())
+                    {
+                        return new ConfigDB
+                        {
+                            Active = reader.IsDBNull(0) ? false : reader.GetBoolean(0),
+                            Message = reader.IsDBNull(1) ? null : reader.GetString(1)
+                        };
+                    }
+                }
+            }
+
+            return null; // Trường hợp bảng rỗng
+        }
+
+
+        public static void UpdateConfig(ConfigDB config)
+        {
+            string query = "UPDATE ConfigDB SET Active = @active, Message = @message WHERE ID = @id";
+            string mess = "CẬP NHẬT THÀNH CÔNG";
+            try
+            {
+                using (SQLiteConnection conn = new SQLiteConnection(connStr))
+                {
+                    conn.Open();
+
+                    using (SQLiteCommand cmd = new SQLiteCommand(query, conn))
+                    {
+                        cmd.Parameters.AddWithValue("@active", config.Active);
+                        cmd.Parameters.AddWithValue("@message", config.Message);
+                        cmd.Parameters.AddWithValue("@id", config.ID);
+
+                        cmd.ExecuteNonQuery();
+                    }
+
+                    conn.Close();
+                }
+
+            }
+            catch (Exception)
+            {
+                mess = "CẬP NHẬT THẤT BẠI";
+            }
+
+            MessageBox.Show(mess, "THÔNG BÁO", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+        }
 
     }
-
-    public class data
-    {
-       
-    }
-
-
 }

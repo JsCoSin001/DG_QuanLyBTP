@@ -1,4 +1,5 @@
 ﻿using QLDuLieuTonKho_BTP.Data;
+using QLDuLieuTonKho_BTP.Models;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -117,6 +118,15 @@ namespace QLDuLieuTonKho_BTP
 
         private void btnLuu_Click(object sender, EventArgs e)
         {
+            ConfigDB configDB = DatabaseHelper.GetConfig();
+
+            if (!configDB.Active)
+            {
+                MessageBox.Show(configDB.Message, "THÔNG BÁO", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+
             if (string.IsNullOrWhiteSpace(maBin.Text) || klBanTran.Value == 0)
             {
                 MessageBox.Show("Dữ liệu không đủ.", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);

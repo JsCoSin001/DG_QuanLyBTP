@@ -1,6 +1,7 @@
 ﻿using PdfiumViewer;
 using QLDuLieuTonKho_BTP.Data;
 using QLDuLieuTonKho_BTP.Models;
+using QLDuLieuTonKho_BTP.Printer;
 using QLDuLieuTonKho_BTP.Validate;
 using System;
 using System.Collections.Generic;
@@ -23,7 +24,7 @@ namespace QLDuLieuTonKho_BTP
     public partial class Uc_Ben : UserControl, ICustomUserControl
     {
         private string _titleForm;
-        private string _dsMaSPQuery;
+        //private string _dsMaSPQuery;
 
 
         public event Action<DataTable> OnDataReady;
@@ -59,7 +60,7 @@ namespace QLDuLieuTonKho_BTP
             ngay.Value = DateTime.Parse(Helper.GetNgayHienTai());
             ca.Text = Helper.GetShiftValue();
 
-            _dsMaSPQuery = DatabaseHelper.GetKieuDL_ByTenCD("BenRut");
+            //_dsMaSPQuery = DatabaseHelper.GetKieuDL_ByTenCD("BenRut");
         }
 
         public Uc_Ben() 
@@ -75,6 +76,13 @@ namespace QLDuLieuTonKho_BTP
 
         private void tbLuu_Click(object sender, EventArgs e)
         {
+            ConfigDB configDB = DatabaseHelper.GetConfig();
+
+            if (!configDB.Active) { 
+                MessageBox.Show(configDB.Message, "THÔNG BÁO", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
             Boolean result = false;
 
             string maBin = lot.Text;
@@ -132,13 +140,30 @@ namespace QLDuLieuTonKho_BTP
                     result = DatabaseHelper.InsertSanPhamTonKhoDL<TonKho, DL_CD_Ben>(tonKho, dL_CD_Ben, "dL_CD_Ben") > 0;
                 }                   
                 else
-
                 {
                     dL_CD_Ben.GhiChu = dL_CD_Ben.GhiChu + "- Đã sửa";
+                    dL_CD_Ben.Ngay = ngay.Value.ToString("yyyy-MM-dd");
                     result = DatabaseHelper.UpdateDL_CDBen(sttBen, tonKho, dL_CD_Ben);
                 }
 
                 if (!result) return;
+
+                // In tem
+                PrinterModel printer = new PrinterModel
+                {
+                    NgaySX = ngay.Value.ToString("dd/MM/yyyy"),
+                    CaSX = ca.Text,
+                    KhoiLuong = khoiLuong.Value.ToString(),
+                    ChieuDai = chieuDai.Value.ToString(),
+                    TenSP = tenSP.Text,
+                    MaBin = lot.Text,
+                    MaSP = maSP.Text,
+                    DanhGia = "",
+                    TenCN = nguoiLam.Text,
+                    GhiChu = ghiChu.Text.Trim()
+                };
+
+                //PrintHelper.PrintLabel(printer);
 
                 ResetAllController();
                 MessageBox.Show("THAO TÁC THÀNH CÔNG", "THÔNG BÁO", MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -206,8 +231,7 @@ namespace QLDuLieuTonKho_BTP
 
             string query = "SELECT ID, Ma, Ten FROM DanhSachMaSP " +
                "WHERE KieuSP = '" + TypeOfProduct + "' " +
-               "AND Ten LIKE '%' || @" + para + " || '%' " +
-               _dsMaSPQuery;
+               "AND Ten LIKE '%' || @" + para + " || '%' " + " AND TEN NOT LIKE '%/T' AND (Ma Like  'BTP.20102%' OR Ma Like  'BTP.20202%' OR Ma = 'BTP.20101050' OR Ma = 'BTP.20101041' )";
 
             DataTable dslot = DatabaseHelper.GetData(keyword, query, para);
 

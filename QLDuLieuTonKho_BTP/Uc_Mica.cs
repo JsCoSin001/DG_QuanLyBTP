@@ -1,5 +1,6 @@
 ﻿using QLDuLieuTonKho_BTP.Data;
 using QLDuLieuTonKho_BTP.Models;
+using QLDuLieuTonKho_BTP.Printer;
 using QLDuLieuTonKho_BTP.Validate;
 using System;
 using System.Collections.Generic;
@@ -97,6 +98,14 @@ namespace QLDuLieuTonKho_BTP
 
         private void tbLuu_Click(object sender, EventArgs e)
         {
+            ConfigDB configDB = DatabaseHelper.GetConfig();
+
+            if (!configDB.Active)
+            {
+                MessageBox.Show(configDB.Message, "THÔNG BÁO", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
             try
             {
                 tbLuu.Enabled = false;
@@ -114,6 +123,7 @@ namespace QLDuLieuTonKho_BTP
                 decimal klconlai = 0;
 
                 bool flg = false;
+                List<TonKhoItem> listID_KLConLai_0 = new List<TonKhoItem>();
 
                 if (dgDsLot.Rows.Count == 0)
                 {
@@ -124,7 +134,6 @@ namespace QLDuLieuTonKho_BTP
                 }
                 else
                 {
-
                     foreach (DataGridViewRow row in dgDsLot.Rows)
                     {
                         TonKho tk = new TonKho();
@@ -139,7 +148,19 @@ namespace QLDuLieuTonKho_BTP
                         klTB += Convert.ToDecimal(row.Cells[5].Value);
                         klconlai += Convert.ToDecimal(row.Cells[3].Value);
 
-                        if (tk.KhoiLuongConLai == 0) flg = true;
+                        if (tk.KhoiLuongConLai == 0)
+                        {
+                            flg = true;
+                        }
+                        else
+                        {
+                            listID_KLConLai_0.Add(new TonKhoItem
+                            {
+                                ID = tk.ID,
+                                KhoiLuongConLai = tk.KhoiLuongConLai,
+                                Lot = tk.Lot
+                            });
+                        }
                     }
                 }
 
@@ -157,8 +178,6 @@ namespace QLDuLieuTonKho_BTP
                         return;
                     }
                 }
-
-
 
                 klTB = klTB - klconlai;
 
@@ -266,7 +285,36 @@ namespace QLDuLieuTonKho_BTP
                     else
                     {
                         dL_CD_Boc.GhiChu = dL_CD_Boc.GhiChu + "- Đã sửa";
+                        dL_CD_Boc.Ngay = ngay.Value.ToString("yyyy-MM-dd");
                         result = DatabaseHelper.Update_Mica(sttB, tonKhoMoi, dL_CD_Boc, tonKho_update);
+                    }
+
+                    // In nhãn
+                    if (listID_KLConLai_0.Count != 0)
+                    {
+                        DataTable dt = DatabaseHelper.GetDL_CDBenByTonKhoIDs(listID_KLConLai_0);
+
+                        for (int i = 0; i < dt.Rows.Count && i < listID_KLConLai_0.Count; i++)
+                        {
+                            DataRow ben = dt.Rows[i];
+                            TonKhoItem tonKho = listID_KLConLai_0[i];
+
+                            PrinterModel printer = new PrinterModel
+                            {
+                                NgaySX = DateTime.Parse(ben["Ngay"].ToString()).ToString("dd/MM/yyyy"),
+                                CaSX = ben["Ca"].ToString(),
+                                ChieuDai = "", // bạn có thể thay giá trị thật nếu cần
+                                KhoiLuong = tonKho.KhoiLuongConLai.ToString("0.#"), // ✅ lấy từ listID_KLConLai_0
+                                TenSP = ben["TenSanPham"].ToString(),
+                                MaBin = tonKho.Lot, // ✅ lấy Lot từ TonKhoItem
+                                DanhGia = "",
+                                TenCN = ben["NguoiLam"].ToString(),
+                                GhiChu = ben["DCB_GhiChu"].ToString(),
+                            };
+
+                            //PrintHelper.PrintLabel(printer);
+                        }
+
                     }
 
                     ResetAllController();
@@ -627,7 +675,6 @@ namespace QLDuLieuTonKho_BTP
                     boc.SoMay,
                     spp.Ten       AS TenSP_HienTai,
                     p.KhoiLuongDauVao AS KL_HienTai,
-
                     c.Lot         AS Lot_NVL,
                     sp.Ten        AS Ten_NVL,
                     c.ID          AS ID_NVL,
@@ -731,5 +778,12 @@ namespace QLDuLieuTonKho_BTP
                 }
             }
         }
+    }
+
+    public class TonKhoItem
+    {
+        public int ID { get; set; }
+        public decimal KhoiLuongConLai { get; set; }
+        public string Lot { get; set; }
     }
 }

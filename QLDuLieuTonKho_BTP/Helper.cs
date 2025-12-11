@@ -1,27 +1,12 @@
-﻿using DocumentFormat.OpenXml.Wordprocessing;
-using PdfiumViewer;
-using QLDuLieuTonKho_BTP.Data;
-using QLDuLieuTonKho_BTP.Models;
+﻿using QLDuLieuTonKho_BTP.Data;
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.Data;
-using System.Data.Entity;
-using System.Data.SQLite;
 using System.Drawing;
 using System.Linq;
-using System.Net;
-using System.Net.Mail;
-using System.Net.NetworkInformation;
 using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement.ProgressBar;
 using ComboBox = System.Windows.Forms.ComboBox;
-using TextBox = System.Windows.Forms.TextBox;
 
 namespace QLDuLieuTonKho_BTP
 {
@@ -50,7 +35,7 @@ namespace QLDuLieuTonKho_BTP
 
             return "3";
         }
-              
+
         public static List<string> GetDSNguoiNhan()
         {
             string query = "SELECT Ten FROM DanhSachNhanTBLoi WHERE Active = 1";
@@ -259,7 +244,7 @@ namespace QLDuLieuTonKho_BTP
         Tỷ lệ phế liệu cả tổ bọc nhựa mục tiêu  <= 1.5 % : type = "nhua".
         Tính chung cả đồng và nhựa tạm tính 1.1 % : type = "tong"
         */
-        public static bool needToSendEmail(decimal tyLePhe, string type="dong")
+        public static bool needToSendEmail(decimal tyLePhe, string type = "dong")
         {
             bool result = false;
 
@@ -282,60 +267,14 @@ namespace QLDuLieuTonKho_BTP
             return result;
         }
 
-        #region C1 In Tem với kích thước 80mm - Thực tế 76mm      
-        public static string CreateContentLabel(TemSP temSP)
+        public static string TaoKhoangTrong(int tongKhoangTrong, string noiDung)
         {
-            var space = new Dictionary<string, string>
-            {
-                ["dong1"] = new string(' ', 10),
-                ["dong2"] = new string(' ', 10),
-                ["dong3"] = new string(' ', 10),
-                ["dong4"] = new string(' ', 10),
-            };
+            return new string(' ', tongKhoangTrong - noiDung.Length);
 
-            int tongKiTu = 48;
-
-            string content = "PHIẾU QUẢN LÝ SẢN PHẨM" + space["dong1"] + "BQ-ISO-09-08" + "\n\n";
-            content += new string('-', tongKiTu) + "\n";
-            content += "Ngày SX: " + temSP.NgaySX + space["dong2"] + "Ca: " + temSP.ca + "\n";
-            content += "Số lượng: " + temSP.SoLuong + "(m) " + space["dong3"] + " - " + space["dong3"] + temSP.KhoiLuong + "(Kg)" + "\n";
-            content += "Màu SP: " + temSP.MauSP + "\n";
-            content += "Mã SP: " + temSP.SoHanhTrinh + "\n";
-            content += "Quy cách: " + temSP.QuyCach + "\n";
-            content += "Đánh giá Chất lượng: " + temSP.DanhGiaChatLuong + "\n";
-            content += "CN vận hành: " + temSP.TenCongNhan + "\n";
-            content += "Nội dung lưu ý" + "\n";
-            content += temSP.GhiChu + "\n";
-            content += "QR Code: " + space["dong4"] + "KCS\n";
-
-            return content;
         }
 
-        public static void PrintLabel(string comPort, int baud, TemSP temSP, string qrData)
-        {
-            using (var p = new EscPosPrinter(comPort, baud))
-            {
-                p.Initialize();
-                p.AlignLeft();
 
-                // 1) In phần text như bạn xây dựng
-                string content = CreateContentLabel(temSP);
-                // Khuyến nghị: bỏ dấu tiếng Việt nếu máy không hỗ trợ
-                p.Write(content);
 
-                // 2) Chèn vài dòng trống cho đẹp
-                p.Feed(1);
-
-                // 3) In QR bên dưới
-                p.AlignLeft(); // Qr code thường căn trái
-
-                p.PrintQR(qrData, size: 6);
-
-                p.Feed(3);
-                p.Cut();
-            }
-        }
-        #endregion
 
     }
 }

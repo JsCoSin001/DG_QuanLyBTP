@@ -1,6 +1,8 @@
-﻿using DocumentFormat.OpenXml.Spreadsheet;
+﻿using DocumentFormat.OpenXml.Office2010.Excel;
+using DocumentFormat.OpenXml.Spreadsheet;
 using QLDuLieuTonKho_BTP.Data;
 using QLDuLieuTonKho_BTP.Models;
+using QLDuLieuTonKho_BTP.Printer;
 using QLDuLieuTonKho_BTP.Validate;
 using System;
 using System.Collections.Generic;
@@ -77,6 +79,14 @@ namespace QLDuLieuTonKho_BTP
 
         private void tbLuu_Click(object sender, EventArgs e)
         {
+            ConfigDB configDB = DatabaseHelper.GetConfig();
+
+            if (!configDB.Active)
+            {
+                MessageBox.Show(configDB.Message, "THÔNG BÁO", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
             try
             {
                 tbLuu.Enabled = false;
@@ -243,8 +253,50 @@ namespace QLDuLieuTonKho_BTP
                     else
                     {
                         dL_CD_Boc.GhiChu = dL_CD_Boc.GhiChu + "- Đã sửa";
+                        dL_CD_Boc.Ngay = ngay.Value.ToString("yyyy-MM-dd");
                         result = DatabaseHelper.UpdateDL_CDBoc(sttB, tonKhoMoi, dL_CD_Boc);
                     }
+
+                    // In tem
+                    if (klConLai.Value != 0)
+                    {
+                        string para = "ID";
+                        string query = @"
+                            SELECT
+                                DCB.Ngay,
+                                DCB.Ca,
+                                DCB.NguoiLam,
+                                DCB.SoMay,
+                                DCB.GhiChu AS DCB_GhiChu,
+                                DSP.Ten AS TenSanPham
+                            FROM DL_CD_Ben AS DCB
+                            JOIN TonKho AS TK
+                                ON TK.ID = DCB.TonKho_ID
+                            JOIN DanhSachMaSP AS DSP
+                                ON DSP.ID = TK.MaSP_ID
+                            WHERE DCB.ID = @" + para + @";
+                        ";
+
+                        DataRow ben =  DatabaseHelper.GetData(idBen.Value.ToString(), query, para).Rows[0];
+
+                        PrinterModel printer = new PrinterModel
+                        {
+                            NgaySX = DateTime.Parse(ben["Ngay"].ToString()).ToString("dd/MM/yyyy"),
+                            CaSX = ben["Ca"].ToString(),
+                            ChieuDai = "",
+                            KhoiLuong = klConLai.Value.ToString(),
+                            TenSP = ben["TenSanPham"].ToString(),
+                            MaBin = lot.Text,
+                            DanhGia = "",
+                            TenCN = ben["NguoiLam"].ToString(),
+                            GhiChu = ben["DCB_GhiChu"].ToString(),
+                        };
+
+
+                        //PrintHelper.PrintLabel(printer);
+                    }
+                        
+
 
                     ResetAllController();
                     if (result) MessageBox.Show("THAO TÁC THÀNH CÔNG", "THÔNG BÁO", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -434,11 +486,19 @@ namespace QLDuLieuTonKho_BTP
 
             int idCongDoan = congDoan.SelectedIndex;
 
-            if (idCongDoan == 0)            
-                query += " AND (Ten LIKE 'CM%') ";            
-            else            
-                query += " AND (Ten LIKE 'CE%' OR Ten LIKE 'CV%' OR Ten LIKE 'AE%' OR Ten LIKE 'AV%') ";
-            
+            switch (idCongDoan)
+            {
+                case 0: // mica
+                    query += " AND (Ten LIKE 'CM%') ";
+                    break;
+                case 1: // bọc mạch
+                    query += " AND (Ma LIKE 'BTP.20103%' OR Ma LIKE 'BTP.20203%') ";
+                    break;
+                default: // boc vỏ
+                    query += " AND (Ma LIKE 'TP.%') ";
+                    break;
+            }
+
             //query += " LIMIT 20";
 
             DataTable dslot = DatabaseHelper.GetData(keyword, query, para);

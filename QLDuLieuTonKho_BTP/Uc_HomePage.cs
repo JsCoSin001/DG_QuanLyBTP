@@ -1,4 +1,6 @@
-﻿using System;
+﻿using QLDuLieuTonKho_BTP.Data;
+using QLDuLieuTonKho_BTP.Models;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -15,11 +17,8 @@ namespace QLDuLieuTonKho_BTP
         public Uc_HomePage()
         {
             InitializeComponent();
-        }
-
-        private void label1_Click(object sender, EventArgs e)
-        {
 
         }
+
     }
 }

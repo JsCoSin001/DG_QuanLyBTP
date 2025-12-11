@@ -1,4 +1,6 @@
 ﻿using QLDuLieuTonKho_BTP.Data;
+using QLDuLieuTonKho_BTP.Models;
+using QLDuLieuTonKho_BTP.Printer;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -198,6 +200,14 @@ namespace QLDuLieuTonKho_BTP
 
         private void tbnLuu_Click(object sender, EventArgs e)
         {
+            ConfigDB configDB = DatabaseHelper.GetConfig();
+
+            if (!configDB.Active)
+            {
+                MessageBox.Show(configDB.Message, "THÔNG BÁO", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
             if (tbTenSP.Text == "")
             {
                 MessageBox.Show("Chưa thấy Tên Sản Phẩm, chọn lại số Lot.", "THÔNG BÁO", MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -219,6 +229,59 @@ namespace QLDuLieuTonKho_BTP
 
             if (isSuccess)
             {
+                string query = @"
+                    SELECT 
+                        b.ID AS Ben_ID,
+                        b.Ngay,
+                        b.Ca,
+                        b.TonKho_ID,
+                        b.NguoiLam,
+                        b.SoMay,
+                        b.KLBanTran,
+                        b.GhiChu,
+                        b.DateInsert,
+                        b.KLHanNoi,
+                        t.ID AS TonKho_ID,
+                        t.Lot,
+                        t.MaSP_ID,
+                        t.KhoiLuongDauVao,
+                        t.KhoiLuongConLai,
+                        t.HanNoi,
+                        t.ChieuDai,
+                        t.Mica,
+                        t.ID_Cuoi
+                    FROM DL_CD_Ben b
+                    INNER JOIN TonKho t ON b.TonKho_ID = t.ID
+                    WHERE t.ID = @ID;
+                ";
+
+                DataTable dt =  DatabaseHelper.GetDL_CDBenByID((int)nmID.Value, query);
+                DataRow row = dt.Rows[0];
+
+                if (dt.Rows.Count > 0)
+                {
+                    
+                    Console.WriteLine($"Lot: {row["Lot"]}, Ngày: {row["Ngay"]}, Ca: {row["Ca"]}");
+                }
+
+
+                PrinterModel printer = new PrinterModel
+                {
+                    NgaySX = DateTime.Parse(row["Ngay"].ToString()).ToString("dd/MM/yyyy"),
+                    CaSX = row["Ca"].ToString(),
+                    KhoiLuong = nmKLDong.Value.ToString(),
+                    ChieuDai = row["ChieuDai"].ToString(),
+                    TenSP = tbTenSP.Text,
+                    MaBin = row["lot"].ToString(),
+                    MaSP = tbTenSP.Text,
+                    DanhGia = "",
+                    TenCN = row["NguoiLam"].ToString(),
+                    GhiChu = row["GhiChu"].ToString(),
+                };
+
+                //PrintHelper.PrintLabel(printer);
+
+
                 MessageBox.Show("Thao tác thành công.", "THÔNG BÁO", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 ResetAllControler();
             }
